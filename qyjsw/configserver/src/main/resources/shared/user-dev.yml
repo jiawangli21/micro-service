@@ -1,14 +1,11 @@
 server:
   port: 8030
-
+  address: localhost
 spring:
   datasource:
     url: jdbc:mysql://192.168.18.128:3306/htqyjsw?serverTimezone=UTC&useSSL=true
     username: root
     password: 123456
-    #driver-class-name: com.mysql.cj.jdbc.Driver
-    #type: com.zaxxer.hikari.HikariDataSource
-
 
 eureka:
   client:
@@ -17,4 +14,4 @@ eureka:
 
 mybatis:
   mapper-locations: mapper/*.xml
-    #type-aliases-package: com.htqyjsw.entity
+  type-aliases-package: com.htqyjsw1.entity

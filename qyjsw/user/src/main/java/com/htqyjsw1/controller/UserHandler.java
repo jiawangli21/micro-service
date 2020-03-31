@@ -17,12 +17,15 @@ public class UserHandler {
     @Value("${server.port}")
     private String port;
 
+    @Value("${server.address}")
+    private String address;
+
     @Autowired
     private UserRepository userRepository;
 
     @GetMapping("/index")
     public String index() {
-        return this.port;
+        return this.address;
     }
 
     @GetMapping("/count")

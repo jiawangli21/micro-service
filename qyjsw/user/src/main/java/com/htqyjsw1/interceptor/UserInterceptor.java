@@ -1,4 +1,4 @@
-package com.htqyjsw1.service;
+package com.htqyjsw1.interceptor;
 
 import com.htqyjsw1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

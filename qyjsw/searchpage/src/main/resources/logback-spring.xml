@@ -15,7 +15,7 @@
         <File>log/${ip}-searchpage-realtime.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- daily rollover 保存历史记录到这个文件夹一日起为后缀 -->
-            <FileNamePattern>log/searchpage-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <FileNamePattern>log/user-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
             <!-- keep 30 days' worth of history -->
             <maxHistory>36500</maxHistory>
             <maxFileSize>3GB</maxFileSize>

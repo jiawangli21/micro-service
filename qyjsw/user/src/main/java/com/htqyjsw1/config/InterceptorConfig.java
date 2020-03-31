@@ -1,6 +1,6 @@
-package com.htqyjsw1.interceptor;
+package com.htqyjsw1.config;
 
-import com.htqyjsw1.service.UserInterceptor;
+import com.htqyjsw1.interceptor.UserInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
