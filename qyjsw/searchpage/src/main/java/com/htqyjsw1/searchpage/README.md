@@ -1,0 +1,31 @@
+﻿### 定位
+- 该微服务致力于支撑系统搜索页面的后台服务
+### 服务
+- 服务包括大数据分析展示/个性化推荐/新词发现等服务
+### 使用说明
+- 开启eurekaserver微服务后，运行SearchPageApplication.java文件即可
+### 代码目录结构说明
+- aspect模块：基于AOP编程的日志管理模块
+    - WebLogAspect.java：日志管理
+- config模块：配置模块
+    - CORSConfig.java：跨域配置
+    - RedisConfig.java：Redis配置
+- controller模块：web接口模块
+    - SearchPageController.java：web接口文件
+- dao模块：该模块用于操作数据库
+    - NewWordMapper.java：新词发现数据库操作接口
+    - NewWordMapper.xml：新词发现接口xml文件
+- domain模块：该模块用于存储和数据库交互的类
+    - NewWordDomain.java：新词发现数据库交互类
+- service模块：服务层模块
+    - impl模块：服务层接口实现类
+        - BigDataExhibitionServiceImpl.java：大数据展示服务层接口实现类
+        - NewWordImpl.java：大数据展示服务层接口实现类
+        - RecommendResultServiceImpl.java：大数据展示服务层接口实现类
+    - BigDataExhibitionService.java：大数据展示服务层接口
+    - NewWordService.java：新词发现服务层接口
+    - RecommendResultService.java：个性化推荐服务层接口
+- vo模块：该模块储存前端交互的类
+    - BigDataExhibitionVo.java：大数据展示前端交互类
+    - NewWordVo.java：新词发现前端交互类
+    - RecommendResultVo.java：个性化推荐前端交互类
