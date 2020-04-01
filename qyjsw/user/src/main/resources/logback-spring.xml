@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+
+    <!-- ConsoleAppender：把日志输出到控制台 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) --- [%15.15(%thread)] %cyan(%-40.40(%logger{40})) : %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- info 日志-->
+    <!-- RollingFileAppender：滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 -->
+    <appender name="info_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志文件路径和名称-->
+        <File>log/user_log/user-info.log</File>
+        <!--是否追加到文件末尾,默认为true-->
+        <append>true</append>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch><!-- 如果命中ERROR就禁止这条日志 -->
+            <onMismatch>ACCEPT</onMismatch><!-- 如果没有命中就使用这条规则 -->
+        </filter>
+           <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 日志文件的名字会根据fileNamePattern的值，每隔一段时间改变一次 -->
+            <!-- 文件名：logs/project_info.2017-12-05.0.log -->
+            <fileNamePattern>log/user-info.%d.%i.log</fileNamePattern>
+            <!-- 日志文件的保存期限为30天-->
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+            <maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+        <!--编码器-->
+        <encoder>
+            <!-- pattern节点，用来设置日志的输入格式 ps:日志文件中没有设置颜色,否则颜色部分会有ESC[0:39em等乱码-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level --- [%15.15(%thread)] %-40.40(%logger{40}) : %msg%n</pattern>
+            <!-- 记录日志的编码:此处设置字符集 - -->
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- error 日志-->
+     <appender name="error_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志文件路径和名称-->
+        <File>log/user_log/user_error.log</File>
+        <!--是否追加到文件末尾,默认为true-->
+        <append>true</append>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level><!-- 低于ERROR级别的日志（debug,info）将被拒绝，等于或者高于ERROR的级别将相应NEUTRAL -->
+        </filter>
+           <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+               <fileNamePattern>log/user_error.%d.%i.log</fileNamePattern>
+               <maxHistory>30</maxHistory>
+               <totalSizeCap>20GB</totalSizeCap>
+               <maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+        <!--编码器-->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level --- [%15.15(%thread)] %-40.40(%logger{40}) : %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 级别依次为【从高到低】：FATAL > ERROR > WARN > INFO > DEBUG > TRACE  -->
+
+    <logger name="com" level="INFO">
+        <!-- 指定使用哪个appender -->
+        <appender-ref ref="info_log" />
+        <appender-ref ref="error_log" />
+    </logger>
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+
+
+</configuration>

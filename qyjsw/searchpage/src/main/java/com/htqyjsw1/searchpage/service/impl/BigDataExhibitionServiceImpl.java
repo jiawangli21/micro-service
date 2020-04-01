@@ -11,6 +11,7 @@ import java.util.Map;
 
 @Service
 public class BigDataExhibitionServiceImpl implements BigDataExhibitionService {
+
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
