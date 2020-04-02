@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.htqyjsw1.repository.PageRepository">
+
+    <resultMap id="BaseResultMap" type="com.htqyjsw1.entity.TPage">
+        <id column="page_id" jdbcType="BIGINT" property="pageId" />
+        <result column="page_url" jdbcType="VARCHAR" property="pageUrl" />
+        <result column="page_desc" jdbcType="VARCHAR" property="pageDesc" />
+    </resultMap>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select * from t_page
+    </select>
+
+    <select id="selectByIds" resultMap="BaseResultMap">
+        select * from t_page where page_id in
+        <trim prefix="(" suffix=")">
+            <foreach collection="pageIdList" index="index" item="pageId" separator=",">
+                #{pageId}
+            </foreach>
+        </trim>
+    </select>
+
+    <insert id="insert" parameterType="com.htqyjsw1.entity.TPage">
+        insert into t_page
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pageUrl != null">
+                page_url,
+            </if>
+            <if test="pageDesc != null">
+                page_desc,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pageUrl != null">
+                #{pageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="pageDesc != null">
+                #{pageDesc,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.htqyjsw1.entity.TPage">
+        update t_page
+        <set>
+            <if test="pageUrl != null">
+                page_url = #{pageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="pageDesc != null">
+                page_desc = #{pageDesc,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where page_id = #{pageId,jdbcType=BIGINT}
+    </update>
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from t_page where page_id = #{pageId,jdbcType=BIGINT}
+      </delete>
+</mapper>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.htqyjsw1.repository.FunctionRepository">
+
+    <resultMap id="BaseResultMap" type="com.htqyjsw1.entity.TFunction" >
+        <id column="fun_id" property="funId" jdbcType="BIGINT" />
+        <result column="fun_subsystem_name" property="funSubsystemName" jdbcType="VARCHAR" />
+        <result column="fun_name" property="funName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select * from t_function
+    </select>
+
+
+    <select id="selectByIds" resultMap="BaseResultMap">
+        select * from t_function where fun_id in
+        <trim prefix="(" suffix=")">
+            <foreach collection="funIdList" index="index" item="funId" separator=",">
+                #{funId}
+            </foreach>
+        </trim>
+    </select>
+    <insert id="insert" parameterType="com.htqyjsw1.entity.TFunction" >
+        insert into t_function
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="funSubsystemName != null" >
+                fun_subsystem_name,
+            </if>
+            <if test="funName != null" >
+                fun_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="funSubsystemName != null" >
+                #{funSubsystemName,jdbcType=VARCHAR},
+            </if>
+            <if test="funName != null" >
+                #{funName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+     <delete id="delete" parameterType="java.lang.Long" >
+          delete from t_function where fun_id = #{funId,jdbcType=BIGINT}
+      </delete>
+    <update id="update" parameterType="com.htqyjsw1.entity.TFunction" >
+        update t_function
+        <set >
+            <if test="funSubsystemName != null" >
+                fun_subsystem_name = #{funSubsystemName,jdbcType=VARCHAR},
+            </if>
+            <if test="funName != null" >
+                fun_name = #{funName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where fun_id = #{funId,jdbcType=BIGINT}
+    </update>
+</mapper>

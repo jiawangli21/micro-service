@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.htqyjsw1.repository.RoleRepository">
+
+    <resultMap id="BaseResultMap" type="com.htqyjsw1.entity.TRole" >
+        <id column="role_id" property="roleId" jdbcType="BIGINT" />
+        <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    </resultMap>
+    <resultMap id="BaseRoleRightRel" type="com.htqyjsw1.entity.TRoleRightRel" >
+        <id column="rr_id" property="rrId" jdbcType="BIGINT" />
+        <result column="role_id" property="roleId" jdbcType="BIGINT" />
+        <result column="ele_id" property="eleId" jdbcType="BIGINT" />
+        <result column="ele_type" property="eleType" jdbcType="INTEGER" />
+        <result column="right_id" property="rightId" jdbcType="BIGINT" />
+    </resultMap>
+    <insert id="insert" parameterType="com.htqyjsw1.entity.TRole" >
+        insert into t_role (role_name) values  #{roleName,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertRoleRightRel">
+        insert into t_role_right_rel ( role_id, ele_id,ele_type, right_id)
+        <foreach collection="tRoleRightRels" item="emp" separator=",">
+            (#{#{roleId,jdbcType=BIGINT}, #{eleId,jdbcType=BIGINT},#{eleType,jdbcType=INTEGER}, #{rightId,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+
+    <delete id="deleteRole">
+        delete from t_role where role_id = #{roleId}
+    </delete>
+
+    <delete id="deleteRoleRightRel">
+        delete from t_role_right_rel where role_id = #{roleId}
+    </delete>
+
+    <update id="updateById"  >
+        update t_role set  role_name = #{roleName,jdbcType=VARCHAR} where role_name = #{roleName}
+    </update>
+
+
+    <select id="count" resultType="int" >
+        select count(*) from t_role
+    </select>
+
+    <select id="queryById" resultMap="BaseResultMap">
+        select * from t_role where role_id = #{roleId}
+    </select>
+
+    <select id="queryByName" resultMap="BaseResultMap">
+        select * from t_role where role_name like "%"#{roleName}"%"
+    </select>
+
+
+    <select id="queryRoleRightRel" resultMap="BaseRoleRightRel">
+        select * from t_role_right_rel where role_id = #{roleId}
+    </select>
+
+</mapper>

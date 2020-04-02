@@ -69,6 +69,10 @@
 		select count(*) from t_dept
 	</select>
 
+    <select id="findAll" resultMap="BaseResultMap">
+		select * from t_dept
+	</select>
+
     <select id="queryById" resultMap="BaseResultMap2">
         select * from t_dept where dept_id = #{deptId}
     </select>

@@ -102,4 +102,9 @@ public class DeptController {
         return "success";
     }
 
+    @GetMapping("/findAll")
+    public List<TDept> findAll(){
+        List<TDept> tDeptList = deptService.findAll();
+        return tDeptList;
+    }
 }

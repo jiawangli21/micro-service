@@ -90,4 +90,10 @@ public class DeptServiceImpl implements DeptService {
         }
 
     }
+
+    @Override
+    public List<TDept> findAll() {
+        List<TDept> tDeptList = deptRepository.findAll();
+        return tDeptList;
+    }
 }

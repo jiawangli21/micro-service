@@ -45,4 +45,10 @@ public interface DeptService {
      */
     public void deleteDept(Integer deptId);
 
+    /**
+     * @desc 查询所有部门信息
+      * @return List<TDept>
+     */
+    public List<TDept> findAll();
+
 }

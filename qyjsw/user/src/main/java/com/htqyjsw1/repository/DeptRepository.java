@@ -62,6 +62,9 @@ public interface DeptRepository {
      * @param deptId
      */
      public List<TDeptUserRel> queryDeptUserRel(Integer deptId);
-
-
+    /**
+     * @desc 查询所有部门信息
+     * @return List<TDept>
+     */
+     public List<TDept> findAll();
 }

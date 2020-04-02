@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.htqyjsw1.repository.MenuRepository">
+
+    <resultMap id="BaseResultMap" type="com.htqyjsw1.entity.TMenu" >
+        <id column="menu_id" property="menuId" jdbcType="BIGINT" />
+        <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+        <result column="menu_parent" property="menuParent" jdbcType="BIGINT" />
+    </resultMap>
+    <insert id="insert" parameterType="com.htqyjsw1.entity.TMenu" >
+        insert into t_menu
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="menuName != null" >
+                menu_name,
+            </if>
+            <if test="menuParent != null" >
+                menu_parent,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="menuName != null" >
+                #{menuName,jdbcType=VARCHAR},
+            </if>
+            <if test="menuParent != null" >
+                #{menuParent,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <select id="findAll" resultMap="BaseResultMap">
+        select * from t_menu
+    </select>
+
+    <select id="querySecondMenu" resultMap="BaseResultMap">
+        select * from t_menu where menu_parent = #{menuId}
+    </select>
+
+    <select id="selectByIds" resultMap="BaseResultMap">
+        select * from t_menu where menu_id in
+        <trim prefix="(" suffix=")">
+            <foreach collection="menuIdList" index="index" item="menuId" separator=",">
+                #{menuId}
+            </foreach>
+        </trim>
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from t_menu where menu_id = #{menuId}
+    </delete>
+
+    <delete id="deleteByParentId" parameterType="java.lang.Long">
+        delete from t_menu where menu_parent = #{menuId}
+    </delete>
+
+    <update id="update" parameterType="com.htqyjsw1.entity.TMenu" >
+        update t_menu
+        <set >
+            <if test="menuName != null">
+                menu_name = #{menuName,jdbcType=VARCHAR},
+            </if>
+            <if test="menuParent != null" >
+                menu_parent = #{menuParent,jdbcType=BIGINT},
+            </if>
+        </set>
+        where menu_id = #{menuId,jdbcType=BIGINT}
+    </update>
+
+</mapper>
