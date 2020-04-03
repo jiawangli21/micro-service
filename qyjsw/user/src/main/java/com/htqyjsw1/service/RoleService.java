@@ -1,8 +1,11 @@
 package com.htqyjsw1.service;
 
+import com.htqyjsw1.entity.TRole;
 import com.htqyjsw1.po.RolePO;
 import com.htqyjsw1.vo.RoleRelVO;
 import com.htqyjsw1.vo.RoleVO;
+
+import java.util.List;
 
 public interface RoleService {
 
@@ -19,7 +22,7 @@ public interface RoleService {
      * @param roleId
      * @return
      */
-    public void deleteRole(Integer roleId);
+    public void deleteRole(Long roleId);
 
 
     /**
@@ -34,6 +37,25 @@ public interface RoleService {
      * @param roleId
      * @return
      */
-    public RoleVO queryDetail(Integer roleId);
+    public RoleVO queryDetail(Long roleId);
+
+    /**
+     * @desc 根据用户id查询用户所拥有的角色信息，返回角色集合list
+     * @param userId
+     * @return
+     */
+    public List<TRole> queryRoleByUserId(Long userId);
+
+    /**
+     * @desc 查询所有角色信息
+     * @return
+     */
+    public List<TRole> findAll();
+
+    /**
+     * @desc 更新角色
+     * @param rolePO
+     */
+    public String updateRole(RolePO rolePO);
 
 }

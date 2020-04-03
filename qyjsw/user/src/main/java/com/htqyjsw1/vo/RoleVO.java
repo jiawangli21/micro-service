@@ -4,9 +4,10 @@ import com.htqyjsw1.entity.TFunction;
 import com.htqyjsw1.entity.TMenu;
 import com.htqyjsw1.entity.TPage;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class RoleVO {
+public class RoleVO  implements Serializable {
 
     private Long roleId;
 

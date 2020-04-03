@@ -1,6 +1,8 @@
 package com.htqyjsw1.vo;
 
-public class RoleRelVO {
+import java.io.Serializable;
+
+public class RoleRelVO  implements Serializable {
 
     private RightFunctionVO rightFunctionVO;
 

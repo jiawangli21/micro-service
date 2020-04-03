@@ -18,12 +18,22 @@
 		<result column="user_note" property="userNote" jdbcType="VARCHAR" />
 	</resultMap>
 
-	<insert id="insert" parameterType="com.htqyjsw1.entity.TUser">
-		insert into t_user values(#{user_acc},#{user_pwd},#{user_nickname},
-									#{user_age},#{user_gender},#{user_tel},#{user_email},#{user_add},
-									#{user_position},#{user_note})
-	</insert>
-	<insert id="insertSelective" parameterType="com.htqyjsw1.entity.TUser" >
+	<resultMap id="BaseResultMap2" type="com.htqyjsw1.vo.UserVO" >
+		<id column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="user_acc" property="userAcc" jdbcType="VARCHAR" />
+		<result column="user_pwd" property="userPwd" jdbcType="VARCHAR" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="user_nickname" property="userNickname" jdbcType="VARCHAR" />
+		<result column="user_age" property="userAge" jdbcType="INTEGER" />
+		<result column="user_gender" property="userGender" jdbcType="VARCHAR" />
+		<result column="user_tel" property="userTel" jdbcType="VARCHAR" />
+		<result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+		<result column="user_add" property="userAdd" jdbcType="VARCHAR" />
+		<result column="user_position" property="userPosition" jdbcType="VARCHAR" />
+		<result column="user_note" property="userNote" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<insert id="insert" parameterType="com.htqyjsw1.po.UserPO" useGeneratedKeys="true" keyProperty="userId">
 		insert into t_user
 		<trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="userAcc != null" >
@@ -96,6 +106,15 @@
 			</if>
 		</trim>
 	</insert>
+
+	<insert id="insertDeptUserRel">
+		insert into t_dept_user_rel(dept_id,user_id) values(#{deptId,jdbcType=BIGINT},#{userId,jdbcType=BIGINT})
+	</insert>
+
+	<insert id="insertUserRoleRel">
+		insert into t_user_role_rel(user_id,role_id) values(#{userId,jdbcType=BIGINT},#{roleId,jdbcType=BIGINT})
+	</insert>
+
     <select id="count" resultType="int">
 		select count(*) from t_user
 	</select>
@@ -108,7 +127,7 @@
 		select * from t_user limit #{start}, #{pageSize}
 	</select>
 
-	<select id="findById"  resultMap="BaseResultMap">
+	<select id="findById"  resultMap="BaseResultMap2">
 		select * from t_user where user_id = #{userId}
 	</select>
 
@@ -120,8 +139,11 @@
          select u.* from t_user u,t_dept_user_rel du where u.user_id = du.user_id and du.dept_id =  #{deptId}
     </select>
 
+	<select id="queryUserByRoleId" resultMap="BaseResultMap" >
+         select u.* from t_user u,t_user_role_rel ur where u.user_id = ur.user_id and ur.role_id = #{roleId}
+    </select>
 
-	<update id="updateById" parameterType="com.htqyjsw1.entity.TUser" >
+	<update id="update" parameterType="com.htqyjsw1.po.UserPO" >
 		update t_user
 		<set >
 			<if test="userAcc != null" >
@@ -158,7 +180,16 @@
 		where user_id = #{userId}
 	</update>
 
-	<delete id="deleteById" parameterType="java.lang.Integer">
+	<delete id="delete" parameterType="java.lang.Long">
 		delete from t_user where user_id = #{userId}
 	</delete>
+
+	<delete id="deleteDeptUserRel">
+		delete from t_dept_user_rel where user_id = #{userId}
+	</delete>
+
+	<delete id="deleteUserRoleRel">
+		delete from t_user_role_rel where user_id = #{userId}
+	</delete>
+
 </mapper>

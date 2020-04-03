@@ -67,4 +67,11 @@ public interface DeptRepository {
      * @return List<TDept>
      */
      public List<TDept> findAll();
+
+    /**
+     * @desc 根据用户id查询用户所属部门信息，返回部门集合
+     * @param userId
+     * @return List<TDept>
+     */
+     public  List<TDept> queryDeptByUserId(Long userId);
 }

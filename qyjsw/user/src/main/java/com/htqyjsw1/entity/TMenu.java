@@ -1,6 +1,8 @@
 package com.htqyjsw1.entity;
 
-public class TMenu {
+import java.io.Serializable;
+
+public class TMenu  implements Serializable {
 
     private Long menuId;
 

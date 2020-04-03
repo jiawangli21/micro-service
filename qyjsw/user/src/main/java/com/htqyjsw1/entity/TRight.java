@@ -1,6 +1,8 @@
 package com.htqyjsw1.entity;
 
-public class TRight {
+import java.io.Serializable;
+
+public class TRight  implements Serializable {
 
     private Long rightId;
 

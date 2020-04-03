@@ -1,6 +1,6 @@
 package com.htqyjsw1.service.impl;
 
-import com.htqyjsw1.controller.UserHandler;
+import com.htqyjsw1.controller.UserController;
 import com.htqyjsw1.entity.TMenu;
 import com.htqyjsw1.repository.MenuRepository;
 import com.htqyjsw1.service.MenuService;
@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class MenuServiceImpl implements MenuService {
 
-    private static Logger logger = LoggerFactory.getLogger(UserHandler.class);
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private MenuRepository menuRepository;

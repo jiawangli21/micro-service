@@ -3,9 +3,10 @@ package com.htqyjsw1.vo;
 import com.htqyjsw1.entity.TFunction;
 import com.htqyjsw1.entity.TRight;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class RightFunctionVO {
+public class RightFunctionVO  implements Serializable {
 
     private List<TRight> tRightList;
 

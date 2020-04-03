@@ -20,26 +20,28 @@ public class RoleController {
     private RoleService roleService;
 
     @PutMapping("/addRole")
-    public String addRole(RolePO role){
+    public String addRole(@RequestBody  RolePO role){
 
         String s = roleService.addRole(role);
         return s;
     }
 
     @DeleteMapping("/deleteRole")
-    public String deleteRole(Integer roleId){
+    public String deleteRole(Long roleId){
 
         roleService.deleteRole(roleId);
         return "success";
     }
 
     @PostMapping("/updateRole")
-    public String  updateRole(RolePO role){
-
-        return "success";
+    public String updateRole(@RequestBody RolePO role){
+        String result = roleService.updateRole(role);
+        return result;
     }
+
+
     @GetMapping("/queryDetail")
-    public RoleVO queryDetail(Integer roleId){
+    public RoleVO queryDetail(Long roleId){
 
         RoleVO roleVO = roleService.queryDetail(roleId);
         return roleVO;

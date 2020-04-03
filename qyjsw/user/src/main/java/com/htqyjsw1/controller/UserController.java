@@ -1,8 +1,11 @@
 package com.htqyjsw1.controller;
 
 import com.htqyjsw1.entity.TUser;
+import com.htqyjsw1.po.UserPO;
 import com.htqyjsw1.repository.UserRepository;
+import com.htqyjsw1.service.UserService;
 import com.htqyjsw1.vo.PageVO;
+import com.htqyjsw1.vo.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +20,9 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/user")
-public class UserHandler {
+public class UserController {
 
-    private static Logger logger = LoggerFactory.getLogger(UserHandler.class);
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Value("${server.port}")
     private String port;
@@ -30,50 +33,35 @@ public class UserHandler {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/index")
     public String index() {
         logger.info("当前正在访问的主机地址是："+address);
         return this.address;
     }
 
-    /**
-     * @desc 添加用户信息
-     * @param user
-     * @return
-     */
-    @PutMapping("/add")
-    public String addUser(TUser user){
-        int id = userRepository.insertSelective(user);
-        if(id < 0){
-            logger.info("添加用户信息失败"+ user);
-            return "false";
-        }else{
-            logger.info("添加用户信息成功，用户ID:"+id);
-            return "success";
-        }
+    @PutMapping("/addUser")
+    public String addUser(@RequestBody UserPO user){
+        String result = userService.addUser(user);
+        return result;
     }
 
-    /**
-     * @desc  删除用户信息
-     * @return
-     */
+
+    @PostMapping("/updateUser")
+    public String updateUser(@RequestBody UserPO user){
+        String result = userService.updateUser(user);
+        return result;
+    }
+
     @DeleteMapping("/delete")
-    public String deleteUser(Integer userId){
-        userRepository.deleteById(userId);
-
+    public String deleteUser(Long userId){
+        userService.deleteUser(userId);
         return "success";
     }
 
-    /**
-     * @desc  更新用户信息
-     * @param user
-     * @return
-     */
-    @PostMapping("/update")
-    public String updateUser(TUser user){
-        userRepository.updateById(user);
-        return "success";
-    }
+
 
     /**
      * @desc 统计用户数量
@@ -112,14 +100,10 @@ public class UserHandler {
          return pageVO;
      }
 
-    /**
-     * @desc 根据用户id查询
-     * @param userId
-     * @return
-     */
+
      @GetMapping("/findById")
-     public TUser findById(Integer userId){
-         TUser user = userRepository.findById(userId);
+     public UserVO findById(Long userId){
+         UserVO user = userService.findById(userId);
          return user;
      }
 

@@ -1,6 +1,8 @@
 package com.htqyjsw1.entity;
 
-public class TPage {
+import java.io.Serializable;
+
+public class TPage  implements Serializable {
 
     private Long pageId;
 

@@ -1,6 +1,8 @@
 package com.htqyjsw1.entity;
 
-public class TDept {
+import java.io.Serializable;
+
+public class TDept  implements Serializable {
 
     private Integer deptId;
 
@@ -61,5 +63,17 @@ public class TDept {
 
     public void setDeptTel(String deptTel) {
         this.deptTel = deptTel;
+    }
+
+    @Override
+    public String toString() {
+        return "TDept{" +
+                "deptId=" + deptId +
+                ", deptName='" + deptName + '\'' +
+                ", deptIntroduce='" + deptIntroduce + '\'' +
+                ", deptAdd='" + deptAdd + '\'' +
+                ", deptHead='" + deptHead + '\'' +
+                ", deptTel='" + deptTel + '\'' +
+                '}';
     }
 }

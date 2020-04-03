@@ -14,14 +14,15 @@
         <result column="ele_type" property="eleType" jdbcType="INTEGER" />
         <result column="right_id" property="rightId" jdbcType="BIGINT" />
     </resultMap>
-    <insert id="insert" parameterType="com.htqyjsw1.entity.TRole" >
-        insert into t_role (role_name) values  #{roleName,jdbcType=VARCHAR})
+
+    <insert id="insert"  parameterType="com.htqyjsw1.po.RolePO" useGeneratedKeys="true" keyProperty="roleId" >
+        insert into t_role(role_name) values(#{roleName,jdbcType=VARCHAR})
     </insert>
 
-    <insert id="insertRoleRightRel">
-        insert into t_role_right_rel ( role_id, ele_id,ele_type, right_id)
-        <foreach collection="tRoleRightRels" item="emp" separator=",">
-            (#{#{roleId,jdbcType=BIGINT}, #{eleId,jdbcType=BIGINT},#{eleType,jdbcType=INTEGER}, #{rightId,jdbcType=BIGINT})
+    <insert id="insertRoleRightRel"  parameterType="java.util.List">
+        insert into t_role_right_rel(role_id, ele_id ,ele_type, right_id) values
+        <foreach collection="list" item="item"  separator=",">
+            (#{item.roleId},#{item.eleId},#{item.eleType},#{item.rightId})
         </foreach>
     </insert>
 
@@ -33,8 +34,12 @@
         delete from t_role_right_rel where role_id = #{roleId}
     </delete>
 
-    <update id="updateById"  >
-        update t_role set  role_name = #{roleName,jdbcType=VARCHAR} where role_name = #{roleName}
+    <delete id="deleteUserRoleRel">
+        delete from t_user_role_rel where role_id = #{roleId}
+    </delete>
+
+    <update id="update" parameterType="com.htqyjsw1.po.RolePO">
+        update t_role set  role_name = #{roleName,jdbcType=VARCHAR} where role_id = #{roleId}
     </update>
 
 
@@ -42,6 +47,9 @@
         select count(*) from t_role
     </select>
 
+    <select id="findAll" resultMap="BaseResultMap">
+        select * from t_role
+    </select>
     <select id="queryById" resultMap="BaseResultMap">
         select * from t_role where role_id = #{roleId}
     </select>
@@ -55,4 +63,7 @@
         select * from t_role_right_rel where role_id = #{roleId}
     </select>
 
+    <select id="queryRoleByUserId" resultMap="BaseResultMap">
+        select * from t_role r,t_user_role_rel ur where r.role_id = ur.role_id and ur.user_id = #{userId}
+    </select>
 </mapper>

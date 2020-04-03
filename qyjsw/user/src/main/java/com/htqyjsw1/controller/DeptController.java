@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/dept")
 public class DeptController {
 
-    private static Logger logger = LoggerFactory.getLogger(UserHandler.class);
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private DeptRepository deptRepository;
@@ -39,10 +39,11 @@ public class DeptController {
     public String addDept(TDept dept){
         logger.info("【添加部门信息】，" + dept);
         int id = deptRepository.insert(dept);
+        System.out.println("deptId = "+id);
         if(id < 0){
            return "false";
         }else{
-            logger.info("添加部门信息失败"+ dept);
+            logger.info("【添加部门信息成功！】，dept:"+ dept);
             return "success";
         }
     }

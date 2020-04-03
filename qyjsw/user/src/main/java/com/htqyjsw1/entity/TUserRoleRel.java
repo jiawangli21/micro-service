@@ -1,6 +1,8 @@
 package com.htqyjsw1.entity;
 
-public class TUserRoleRel {
+import java.io.Serializable;
+
+public class TUserRoleRel  implements Serializable {
     private Long urId;
 
     private Long userId;

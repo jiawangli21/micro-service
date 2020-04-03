@@ -1,7 +1,7 @@
 package com.htqyjsw1.service.impl;
 
 
-import com.htqyjsw1.controller.UserHandler;
+import com.htqyjsw1.controller.UserController;
 import com.htqyjsw1.entity.TDept;
 import com.htqyjsw1.entity.TDeptUserRel;
 import com.htqyjsw1.entity.TUser;
@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 public class DeptServiceImpl implements DeptService {
 
-    private static Logger logger = LoggerFactory.getLogger(UserHandler.class);
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private DeptRepository deptRepository;
@@ -95,5 +95,10 @@ public class DeptServiceImpl implements DeptService {
     public List<TDept> findAll() {
         List<TDept> tDeptList = deptRepository.findAll();
         return tDeptList;
+    }
+
+    @Override
+    public List<TDept> queryDeptByUserId(Long userId) {
+        return deptRepository.queryDeptByUserId(userId);
     }
 }

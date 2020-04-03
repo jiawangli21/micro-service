@@ -1,6 +1,8 @@
 package com.htqyjsw1.entity;
 
-public class TFunction {
+import java.io.Serializable;
+
+public class TFunction  implements Serializable {
 
     private Long funId;
 

@@ -1,13 +1,9 @@
 package com.htqyjsw1.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
-@Getter
-@Setter
-@ToString
-public class TDeptUserRel {
+import java.io.Serializable;
+
+public class TDeptUserRel  implements Serializable {
 
     private Long duId;
 
@@ -15,4 +11,27 @@ public class TDeptUserRel {
 
     private Long userId;
 
+    public Long getDuId() {
+        return duId;
+    }
+
+    public void setDuId(Long duId) {
+        this.duId = duId;
+    }
+
+    public Long getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Long deptId) {
+        this.deptId = deptId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }

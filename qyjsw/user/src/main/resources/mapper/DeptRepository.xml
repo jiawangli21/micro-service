@@ -27,7 +27,7 @@
         <result column="user_id" property="userId" jdbcType="BIGINT" />
     </resultMap>
 
-    <insert id="insert" parameterType="com.htqyjsw1.entity.TDept" >
+    <insert id="insert" useGeneratedKeys="true" keyProperty="deptId" parameterType="com.htqyjsw1.entity.TDept" >
         insert into t_dept
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="deptName != null" >
@@ -87,6 +87,10 @@
 
     <select id="queryDeptUserRel" resultMap="BaseTDeptUserRel">
         select * from t_dept_user_rel where dept_id = #{deptId}
+    </select>
+
+    <select id="queryDeptByUserId" resultMap="BaseResultMap">
+        select d.* from t_dept d,t_dept_user_rel du where d.dept_id = du.dept_id and du.user_id = #{userId}
     </select>
 
     <delete id="deleteDeptUserRel">

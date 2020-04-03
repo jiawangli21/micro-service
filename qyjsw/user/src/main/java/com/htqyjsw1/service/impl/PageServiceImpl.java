@@ -1,6 +1,6 @@
 package com.htqyjsw1.service.impl;
 
-import com.htqyjsw1.controller.UserHandler;
+import com.htqyjsw1.controller.UserController;
 import com.htqyjsw1.entity.TPage;
 import com.htqyjsw1.repository.PageRepository;
 import com.htqyjsw1.service.PageService;
@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class PageServiceImpl implements PageService {
 
-    private static Logger logger = LoggerFactory.getLogger(UserHandler.class);
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private PageRepository pageRepository;
 
@@ -35,7 +35,7 @@ public class PageServiceImpl implements PageService {
             }
         }catch (Exception e){
             e.printStackTrace();
-            logger.info("【添加页面失败！】，异常："+ e);
+            logger.error("【添加页面失败！】，异常："+ e);
         }
         return result;
     }
@@ -49,7 +49,7 @@ public class PageServiceImpl implements PageService {
             result = "success";
         }catch (Exception e){
             e.printStackTrace();
-            logger.info("【删除页面信息失败！】，异常："+ e);
+            logger.error("【删除页面信息失败！】，异常："+ e);
         }
         return result;
     }
@@ -61,7 +61,7 @@ public class PageServiceImpl implements PageService {
             logger.info("【更新页面信息成功！】" + tPage);
         }catch (Exception e){
             e.printStackTrace();
-            logger.info("【更新页面信息失败！】，异常："+ e);
+            logger.error("【更新页面信息失败！】，异常："+ e);
         }
     }
 

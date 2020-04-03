@@ -4,9 +4,10 @@ import com.htqyjsw1.entity.TMenu;
 import com.htqyjsw1.entity.TPage;
 import com.htqyjsw1.entity.TRight;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class RightMenuVO {
+public class RightMenuVO  implements Serializable {
 
     private List<TRight> tRightList;
 

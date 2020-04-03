@@ -1,6 +1,6 @@
 package com.htqyjsw1.service.impl;
 
-import com.htqyjsw1.controller.UserHandler;
+import com.htqyjsw1.controller.UserController;
 import com.htqyjsw1.entity.TFunction;
 import com.htqyjsw1.repository.FunctionRepository;
 import com.htqyjsw1.service.FunctionService;
@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class FunctionServiceImpl implements FunctionService {
 
-    private static Logger logger = LoggerFactory.getLogger(UserHandler.class);
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private FunctionRepository functionRepository;
@@ -45,7 +45,7 @@ public class FunctionServiceImpl implements FunctionService {
             }
         }catch (Exception e){
             e.printStackTrace();
-            logger.info("【添加功能信息失败！】，异常："+ e);
+            logger.error("【添加功能信息失败！】，异常："+ e);
         }
         return result;
     }
@@ -59,7 +59,7 @@ public class FunctionServiceImpl implements FunctionService {
             result = "success";
         }catch (Exception e){
             e.printStackTrace();
-            logger.info("【删除功能信息失败！】，异常："+ e);
+            logger.error("【删除功能信息失败！】，异常："+ e);
         }
         return result;
     }
@@ -72,7 +72,7 @@ public class FunctionServiceImpl implements FunctionService {
             logger.info("【更新功能信息成功！】" + tFunction);
         }catch (Exception e){
             e.printStackTrace();
-            logger.info("【更新功能信息失败！】，异常："+ e);
+            logger.error("【更新功能信息失败！】，异常："+ e);
         }
     }
 }

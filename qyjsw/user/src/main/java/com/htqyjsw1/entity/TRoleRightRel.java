@@ -1,6 +1,8 @@
 package com.htqyjsw1.entity;
 
-public class TRoleRightRel {
+import java.io.Serializable;
+
+public class TRoleRightRel   implements Serializable {
 
     private Long rrId;
 
@@ -9,6 +11,17 @@ public class TRoleRightRel {
     private Long eleId;
 
     private Integer eleType;
+
+    @Override
+    public String toString() {
+        return "TRoleRightRel{" +
+                "rrId=" + rrId +
+                ", roleId=" + roleId +
+                ", eleId=" + eleId +
+                ", eleType=" + eleType +
+                ", rightId=" + rightId +
+                '}';
+    }
 
     private Long rightId;
 

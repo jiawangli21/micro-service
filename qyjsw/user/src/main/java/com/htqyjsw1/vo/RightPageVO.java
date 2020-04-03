@@ -4,9 +4,10 @@ import com.htqyjsw1.entity.TFunction;
 import com.htqyjsw1.entity.TPage;
 import com.htqyjsw1.entity.TRight;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class RightPageVO {
+public class RightPageVO  implements Serializable {
 
     private List<TRight> tRightList;
 

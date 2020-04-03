@@ -1,6 +1,6 @@
 package com.htqyjsw1.service.impl;
 
-import com.htqyjsw1.controller.UserHandler;
+import com.htqyjsw1.controller.UserController;
 import com.htqyjsw1.entity.TRight;
 import com.htqyjsw1.repository.RightRepository;
 import com.htqyjsw1.service.RightService;
@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class RightServiceImpl implements RightService {
 
-    private static Logger logger = LoggerFactory.getLogger(UserHandler.class);
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private RightRepository rightRepository;
@@ -40,7 +40,7 @@ public class RightServiceImpl implements RightService {
             }
         }catch (Exception e){
             e.printStackTrace();
-            logger.info("【添加权限信息失败！】，异常："+ e);
+            logger.error("【添加权限信息失败！】，异常："+ e);
         }
         return result;
     }
@@ -56,7 +56,7 @@ public class RightServiceImpl implements RightService {
             result = "success";
         }catch (Exception e){
             e.printStackTrace();
-            logger.info("【删除页权限信息失败！】，异常："+ e);
+            logger.error("【删除页权限信息失败！】，异常："+ e);
         }
         return result;
     }
@@ -68,7 +68,7 @@ public class RightServiceImpl implements RightService {
             logger.info("【更新页面信息成功！】" + tRight);
         }catch (Exception e){
             e.printStackTrace();
-            logger.info("【更新页面信息失败！】，异常："+ e);
+            logger.error("【更新页面信息失败！】，异常："+ e);
         }
     }
 }

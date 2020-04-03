@@ -1,6 +1,6 @@
 package com.htqyjsw1.service.impl;
 
-import com.htqyjsw1.controller.UserHandler;
+import com.htqyjsw1.controller.UserController;
 import com.htqyjsw1.entity.*;
 import com.htqyjsw1.po.RolePO;
 import com.htqyjsw1.repository.RoleRepository;
@@ -10,14 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class RoleServiceImpl implements RoleService {
 
-    private static Logger logger = LoggerFactory.getLogger(UserHandler.class);
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private RoleRepository roleRepository;
@@ -34,34 +33,53 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private MenuService menuService;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public String addRole(RolePO role) {
 
         String result = "false";
-        TRole tRole = role.gettRole();
-        List<TRoleRightRel> tRoleRightRels = role.gettRoleRightRelList();
+       try{
+           logger.info("【添加角色信息】，role：" + role);
+           List<TRoleRightRel> roleRightRels = role.gettRoleRightRelList();
+           //插入角色
+           roleRepository.insert(role);
+           Long roleId = role.getRoleId();
+           if (roleRightRels!=null){
+               for (TRoleRightRel tRoleRightRel : roleRightRels) {
+                   tRoleRightRel.setRoleId(roleId);
+               }
+               //添加角色权限关联信息
+               roleRepository.insertRoleRightRel(roleRightRels);
+           }
 
-        int id = roleRepository.insert(tRole);
-        if (tRoleRightRels!=null) {
-            //添加角色权限关联信息
-            roleRepository.insertRoleRightRel(tRoleRightRels);
-        }
-        if(id > 0){
-            logger.info("【添加角色信息成功！】，角色ID："+ id);
-            result = "success";
-        }
+           logger.info("【添加角色信息成功！】，角色Id："+ roleId);
+           result = "success";
+       }catch (Exception e){
+           logger.info("【添加角色信息失败！】，错误信息："+e);
+           e.printStackTrace();
+       }
+
         return result;
     }
 
     @Override
-    public void deleteRole(Integer roleId) {
+    public void deleteRole(Long roleId) {
         logger.info("【删除角色信息】，角色ID："+ roleId);
-        //是否有关联的权限信息
+
          try{
+             //是否有关联的权限信息
              List<TRoleRightRel> tRoleRightRels = roleRepository.queryRoleRightRel(roleId);
              if(tRoleRightRels != null){
                  //删除角色权限关联信息
                  roleRepository.deleteRoleRightRel(roleId);
+             }
+             //是否有有用户拥有该权限
+             List<TUser> tUserList = userService.queryUserByRoleId(roleId);
+             if(tUserList!=null){
+                 //删除用户角色信息
+                 roleRepository.deleteUserRoleRel(roleId);
              }
              //删除角色信息
              roleRepository.deleteRole(roleId);
@@ -108,7 +126,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleVO queryDetail(Integer roleId) {
+    public RoleVO queryDetail(Long roleId) {
         logger.info("【查询角色详细信息】，角色id：" + roleId);
 
         TRole tRole = roleRepository.queryById(roleId);
@@ -150,6 +168,40 @@ public class RoleServiceImpl implements RoleService {
         roleVO.setRoleName(tRole.getRoleName());
         logger.info("【查询角色详细信息】，结果：" + roleVO);
         return roleVO;
+    }
+
+    @Override
+    public List<TRole> queryRoleByUserId(Long userId) {
+        List<TRole> tRoleList = roleRepository.queryRoleByUserId(userId);
+
+        return tRoleList;
+    }
+
+    @Override
+    public List<TRole> findAll() {
+        return roleRepository.findAll();
+    }
+
+    @Override
+    public String updateRole(RolePO rolePO) {
+        String result = "false";
+        try {
+            roleRepository.update(rolePO);
+            List<TRoleRightRel> roleRightRels = rolePO.gettRoleRightRelList();
+            Long roleId = rolePO.getRoleId();
+            if (roleRightRels!=null){
+                for (TRoleRightRel tRoleRightRel : roleRightRels) {
+                    tRoleRightRel.setRoleId(roleId);
+                }
+                //添加角色权限关联信息
+                roleRepository.insertRoleRightRel(roleRightRels);
+            }
+            result = "success";
+        }catch (Exception e){
+            logger.error("【更新角色信息失败！】，错误：" + e);
+            e.printStackTrace();
+        }
+        return result;
     }
 
 
