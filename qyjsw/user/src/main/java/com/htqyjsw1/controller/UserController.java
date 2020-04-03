@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @desc 用户信息管理类
@@ -116,6 +117,11 @@ public class UserController {
     public List<TUser> findByName(String userName){
         List<TUser> list = userRepository.findByName(userName);
         return list;
+    }
+
+    @GetMapping("/findUserRole")
+    public Set<String> findUserRole(Long userId){
+        return userService.findUserRole(userId);
     }
 
 

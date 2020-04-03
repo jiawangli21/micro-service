@@ -4,6 +4,7 @@ package com.htqyjsw1.repository;
 import com.htqyjsw1.entity.TRole;
 import com.htqyjsw1.entity.TRoleRightRel;
 import com.htqyjsw1.po.RolePO;
+import com.htqyjsw1.vo.UserRoleVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -75,4 +76,13 @@ public interface RoleRepository {
      * @param rolePO
      */
     public void update(RolePO rolePO);
+
+
+    /**
+     * @desc 查询角色拥有的权限信息，返回角色-菜单关联信息集合
+     * @param roleId
+     * @param type
+     * @return
+     */
+    public List<UserRoleVO> queryRole(@Param("roleId") Long roleId , @Param("type") int type );
 }

@@ -9,13 +9,15 @@ import com.htqyjsw1.repository.UserRepository;
 import com.htqyjsw1.service.DeptService;
 import com.htqyjsw1.service.RoleService;
 import com.htqyjsw1.service.UserService;
+import com.htqyjsw1.vo.RoleVO;
+import com.htqyjsw1.vo.UserRoleVO;
 import com.htqyjsw1.vo.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -139,6 +141,39 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         }
         return result;
+    }
+
+    @Override
+    public Set<String> findUserRole(Long userId) {
+
+        List<TRole> tRoles = roleService.queryRoleByUserId(userId);
+
+        Set<String> prem = new LinkedHashSet<>();
+        if (tRoles != null){
+            for (TRole tRole : tRoles) {
+                for (int i=1 ; i < 4 ; i++){
+                    List<UserRoleVO> list = roleService.queryRole(tRole.getRoleId(), i);
+                     if(list!=null){
+                        for (UserRoleVO userRoleVO : list) {
+                            String s = userRoleVO.getRoleName()+":"+userRoleVO.getRightType();
+                            if(i==1){
+                                s +=":"+userRoleVO.getFunName();
+                            }
+                            if(i==2){
+                                s +=":"+userRoleVO.getMenuName();
+                            }
+                            if(i==3){
+                                s +=":"+userRoleVO.getPageDesc();
+                            }
+                            s+=":"+userRoleVO.getRightName();
+                            prem.add(s);
+                        }
+                     }
+                }
+            }
+        }
+
+        return prem;
     }
 
     @Override

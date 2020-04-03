@@ -204,5 +204,8 @@ public class RoleServiceImpl implements RoleService {
         return result;
     }
 
-
+    @Override
+    public List<UserRoleVO> queryRole(Long roleId, int type) {
+        return roleRepository.queryRole(roleId,type);
+    }
 }

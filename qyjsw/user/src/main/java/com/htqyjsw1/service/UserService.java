@@ -2,9 +2,11 @@ package com.htqyjsw1.service;
 
 import com.htqyjsw1.entity.TUser;
 import com.htqyjsw1.po.UserPO;
+import com.htqyjsw1.vo.UserRoleVO;
 import com.htqyjsw1.vo.UserVO;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserService {
 
@@ -37,4 +39,11 @@ public interface UserService {
     public List<TUser> queryUserByRoleId(Long roleId);
 
     public String deleteUser(Long userId);
+
+    /**
+     * @desc 根据用户id查询用户拥有的角色-权限信息，对角色权限按规则进行拼接
+     * @param userId
+     * @return
+     */
+    public Set<String> findUserRole(Long userId);
 }

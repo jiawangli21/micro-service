@@ -4,6 +4,7 @@ import com.htqyjsw1.entity.TRole;
 import com.htqyjsw1.po.RolePO;
 import com.htqyjsw1.vo.RoleRelVO;
 import com.htqyjsw1.vo.RoleVO;
+import com.htqyjsw1.vo.UserRoleVO;
 
 import java.util.List;
 
@@ -26,14 +27,14 @@ public interface RoleService {
 
 
     /**
-     * @desc 查询角色关联的权限信息，当添加角色信息时
+     * @desc 查询角色关联的权限信息，按权限类别进行封装，当添加角色信息时
      * @return
      */
     public RoleRelVO queryRoleRel();
 
 
     /**
-     * @desc 根据角色id查询角色详情信息
+     * @desc 根据角色id查询角色详情信息，返回角色所拥有的菜单（menu），页面（page），功能（function）权限集合
      * @param roleId
      * @return
      */
@@ -57,5 +58,13 @@ public interface RoleService {
      * @param rolePO
      */
     public String updateRole(RolePO rolePO);
+
+    /**
+     * @desc 查询角色拥有的权限信息，返回角色-菜单关联信息集合
+     * @param roleId
+     * @param type
+     * @return
+     */
+    public List<UserRoleVO> queryRole(Long roleId, int type );
 
 }

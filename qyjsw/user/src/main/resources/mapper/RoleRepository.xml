@@ -15,6 +15,52 @@
         <result column="right_id" property="rightId" jdbcType="BIGINT" />
     </resultMap>
 
+    <resultMap id="BaseUserRole" type="com.htqyjsw1.vo.UserRoleVO" >
+        <id column="role_id" property="roleId" jdbcType="BIGINT" />
+        <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+
+        <result column="menu_id" property="menuId" jdbcType="BIGINT" />
+        <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+
+        <result column="right_id" property="rightId" jdbcType="BIGINT" />
+        <result column="right_name" property="rightName" jdbcType="VARCHAR" />
+        <result column="right_type" property="rightType" jdbcType="INTEGER" />
+
+        <result column="page_id" jdbcType="BIGINT" property="pageId" />
+        <result column="page_url" jdbcType="VARCHAR" property="pageUrl" />
+        <result column="page_desc" jdbcType="VARCHAR" property="pageDesc" />
+
+        <result column="fun_id" property="funId" jdbcType="BIGINT" />
+        <result column="fun_subsystem_name" property="funSubsystemName" jdbcType="VARCHAR" />
+        <result column="fun_name" property="funName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="queryRole" resultMap="BaseUserRole">
+        select * from t_role ro,t_role_right_rel rr,t_right ri
+                <if test="type == 1" >
+                    ,t_function f
+                </if>
+                <if test="type == 2" >
+                    ,t_menu m
+                </if>
+                <if test="type == 3" >
+                    ,t_page p
+                </if>
+        where  ro.role_id = #{roleId}  and  ri.right_id = rr.right_id and ele_type = #{type}
+                <if test="type == 1" >
+                    and f.fun_id = rr.ele_id
+                </if>
+                <if test="type == 2" >
+                    and m.menu_id = rr.ele_id
+                </if>
+                <if test="type == 3" >
+                    and p.page_id = rr.ele_id
+                </if>
+
+    </select>
+
+
+
     <insert id="insert"  parameterType="com.htqyjsw1.po.RolePO" useGeneratedKeys="true" keyProperty="roleId" >
         insert into t_role(role_name) values(#{roleName,jdbcType=VARCHAR})
     </insert>
@@ -58,7 +104,6 @@
         select * from t_role where role_name like "%"#{roleName}"%"
     </select>
 
-
     <select id="queryRoleRightRel" resultMap="BaseRoleRightRel">
         select * from t_role_right_rel where role_id = #{roleId}
     </select>
@@ -66,4 +111,6 @@
     <select id="queryRoleByUserId" resultMap="BaseResultMap">
         select * from t_role r,t_user_role_rel ur where r.role_id = ur.role_id and ur.user_id = #{userId}
     </select>
+
+
 </mapper>
