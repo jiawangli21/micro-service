@@ -29,6 +29,20 @@ public class DeptServiceImpl implements DeptService {
     private UserRepository userRepository;
 
     @Override
+    public String addDept(TDept dept) {
+        String result = "success";
+        try{
+            deptRepository.insert(dept);
+            logger.info("【添加部门信息失败！】，部门内码："+dept.getDeptId());
+        }catch (Exception e){
+            result = "false";
+            logger.error("【添加部门信息失败！】，错误："+e);
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
     public DeptVO queryDetailById(Integer deptId) {
 
         DeptVO deptVO = deptRepository.queryById(deptId);
@@ -77,17 +91,25 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public void deleteDept(Integer deptId) {
-        logger.info("【删除部门信息】，部门内码："+deptId);
-        //查询是否有该部门关联的用户信息
-        List<TDeptUserRel> tDeptUserRelList = deptRepository.queryDeptUserRel(deptId);
-        if (tDeptUserRelList!=null){
-            //删除关联信息
-            deptRepository.deleteDeptUserRel(deptId);
-            //删除部门信息
-            int id = deptRepository.deleteDept(deptId);
-            logger.info("【完成删除部门信息和部门关联信息】，部门内码：" + id);
-        }
+    public String deleteDept(Integer deptId) {
+        String result = "success";
+         try {
+             logger.info("【删除部门信息】，部门内码："+deptId);
+             //查询是否有该部门关联的用户信息
+             List<TDeptUserRel> tDeptUserRelList = deptRepository.queryDeptUserRel(deptId);
+             if (tDeptUserRelList!=null){
+                 //删除关联信息
+                 deptRepository.deleteDeptUserRel(deptId);
+                 //删除部门信息
+                 int id = deptRepository.deleteDept(deptId);
+                 logger.info("【完成删除部门信息和部门关联信息】，部门内码：" + id);
+             }
+         }catch (Exception e){
+             result = "false";
+             logger.error("【添加部门信息失败！】，错误："+e);
+             e.printStackTrace();
+         }
+        return result;
 
     }
 

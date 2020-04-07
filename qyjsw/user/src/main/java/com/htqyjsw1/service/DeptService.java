@@ -8,6 +8,12 @@ import java.util.List;
 
 public interface DeptService {
 
+    /**
+     * @desc 添加部门信息
+     * @param dept
+     * @return
+     */
+    public String addDept(TDept dept);
 
     /**
      * @desc 根据部门id，查询部门详情信息，包括部门成员的信息
@@ -43,7 +49,7 @@ public interface DeptService {
      * @param deptId
      * @return
      */
-    public void deleteDept(Integer deptId);
+    public String deleteDept(Integer deptId);
 
     /**
      * @desc 查询所有部门信息

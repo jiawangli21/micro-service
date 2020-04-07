@@ -34,41 +34,19 @@ public class DeptController {
     private DeptService deptService;
 
 
-    /**
-     * @desc 添加部门信息
-     * @param dept
-     * @return
-     */
     @ApiOperation(value = "添加部门信息")
     @PutMapping("addDept")
     public String addDept(@RequestBody TDept dept){
-        logger.info("【添加部门信息】，" + dept);
-        int id = deptRepository.insert(dept);
-        System.out.println("deptId = "+id);
-        if(id < 0){
-           return "false";
-        }else{
-            logger.info("【添加部门信息成功！】，dept:"+ dept);
-            return "success";
-        }
+       return  deptService.addDept(dept);
     }
 
-    /**
-     * @desc 根据部门id 删除部门信息
-     * @param deptId
-     * @return
-     */
+
     @DeleteMapping("/deleteDept")
     @ApiOperation(value = "删除部门信息")
     public String deleteDept(@ApiParam("部门编号") Integer deptId){
-        deptService.deleteDept(deptId);
-        return "success";
+        return  deptService.deleteDept(deptId);
     }
 
-    /**
-     * @desc 统计部门数量
-     * @return
-     */
     @GetMapping("/count")
     @ApiOperation(value = "统计部门数量")
     public int count(){
@@ -92,10 +70,6 @@ public class DeptController {
     }
 
 
-    /**
-     * @desc 分页查询
-     * @return
-     */
     @GetMapping("/findByPage")
     @ApiOperation(value = "分页查询部门信息")
     public PageVO queryByPage(@ApiParam("当前页数") int page,@ApiParam("每页显示的数据条数") int pageSize){
@@ -108,9 +82,7 @@ public class DeptController {
     @PostMapping("/updateDept")
     @ApiOperation(value = "更新部门信息")
     public String updateDept(@RequestBody TDept dept){
-
        deptService.updateById(dept);
-
         return "success";
     }
 

@@ -14,7 +14,7 @@ public interface DeptRepository {
      * @param dept
      * @return 返回部门内码
      */
-    public int insert(TDept dept);
+    public int insert(TDept dept) throws Exception;
 
     /**
      * @desc  根据部门id 删除部门信息
