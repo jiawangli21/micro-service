@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @FeignClient(value="menu")
+//声明调用的服务名称
 public interface MenuFeign {
 
     @GetMapping("/menu/findAllVV")

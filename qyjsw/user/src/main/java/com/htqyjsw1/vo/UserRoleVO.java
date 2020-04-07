@@ -1,7 +1,5 @@
 package com.htqyjsw1.vo;
 
-import java.util.List;
-
 public class UserRoleVO {
 
     private Long roleId;

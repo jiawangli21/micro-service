@@ -5,6 +5,9 @@ import com.htqyjsw1.repository.DeptRepository;
 import com.htqyjsw1.service.DeptService;
 import com.htqyjsw1.vo.DeptVO;
 import com.htqyjsw1.vo.PageVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/dept")
+@Api(value="部门管理",tags={"部门信息操作接口"})
 public class DeptController {
 
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -35,8 +39,9 @@ public class DeptController {
      * @param dept
      * @return
      */
+    @ApiOperation(value = "添加部门信息")
     @PutMapping("addDept")
-    public String addDept(TDept dept){
+    public String addDept(@RequestBody TDept dept){
         logger.info("【添加部门信息】，" + dept);
         int id = deptRepository.insert(dept);
         System.out.println("deptId = "+id);
@@ -54,7 +59,8 @@ public class DeptController {
      * @return
      */
     @DeleteMapping("/deleteDept")
-    public String deleteDept(Integer deptId){
+    @ApiOperation(value = "删除部门信息")
+    public String deleteDept(@ApiParam("部门编号") Integer deptId){
         deptService.deleteDept(deptId);
         return "success";
     }
@@ -64,6 +70,7 @@ public class DeptController {
      * @return
      */
     @GetMapping("/count")
+    @ApiOperation(value = "统计部门数量")
     public int count(){
         int count = deptRepository.count();
         logger.info("【统计部门数量】，数量 ：" + count);
@@ -71,13 +78,15 @@ public class DeptController {
     }
 
     @GetMapping("/queryDetail")
-    public DeptVO queryDetailById(Integer deptId){
+    @ApiOperation(value = "查看部门详情")
+    public DeptVO queryDetailById(@ApiParam("部门编号") Integer deptId){
         DeptVO deptVO = deptService.queryDetailById(deptId);
         return deptVO;
     }
 
     @GetMapping("/queryByName")
-    public List<TDept> queryByName(String deptName){
+    @ApiOperation(value = "根据部门名称查询")
+    public List<TDept> queryByName(@ApiParam("部门名称") String deptName){
         List<TDept>  dept = deptService.queryByName(deptName);
         return dept;
     }
@@ -88,15 +97,17 @@ public class DeptController {
      * @return
      */
     @GetMapping("/findByPage")
-    public PageVO queryByPage(int page, int pageSize){
+    @ApiOperation(value = "分页查询部门信息")
+    public PageVO queryByPage(@ApiParam("当前页数") int page,@ApiParam("每页显示的数据条数") int pageSize){
 
         PageVO pageVO = deptService.findByPage(page, pageSize);
 
         return pageVO;
     }
 
-    @PostMapping("/findByPage")
-    public String updateDept(TDept dept){
+    @PostMapping("/updateDept")
+    @ApiOperation(value = "更新部门信息")
+    public String updateDept(@RequestBody TDept dept){
 
        deptService.updateById(dept);
 
@@ -104,6 +115,7 @@ public class DeptController {
     }
 
     @GetMapping("/findAll")
+    @ApiOperation(value = "查询所有部门信息")
     public List<TDept> findAll(){
         List<TDept> tDeptList = deptService.findAll();
         return tDeptList;

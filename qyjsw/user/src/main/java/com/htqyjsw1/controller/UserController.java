@@ -6,6 +6,9 @@ import com.htqyjsw1.repository.UserRepository;
 import com.htqyjsw1.service.UserService;
 import com.htqyjsw1.vo.PageVO;
 import com.htqyjsw1.vo.UserVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/user")
+@Api(value="用户信息管理",tags={"用户信息管理操作接口"})
 public class UserController {
 
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -37,13 +41,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/index")
+    @GetMapping("/address")
+    @ApiOperation(value = "获取主机地址")
     public String index() {
         logger.info("当前正在访问的主机地址是："+address);
         return this.address;
     }
 
     @PutMapping("/addUser")
+    @ApiOperation(value = "添加用户信息")
     public String addUser(@RequestBody UserPO user){
         String result = userService.addUser(user);
         return result;
@@ -51,13 +57,15 @@ public class UserController {
 
 
     @PostMapping("/updateUser")
+    @ApiOperation(value = "更新用户信息")
     public String updateUser(@RequestBody UserPO user){
         String result = userService.updateUser(user);
         return result;
     }
 
     @DeleteMapping("/delete")
-    public String deleteUser(Long userId){
+    @ApiOperation(value = "删除用户信息")
+    public String deleteUser(@ApiParam("用户编号") Long userId){
         userService.deleteUser(userId);
         return "success";
     }
@@ -69,10 +77,12 @@ public class UserController {
      * @return
      */
     @GetMapping("/count")
+    @ApiOperation(value = "统计用户数量")
     public int count(){
       return userRepository.count();}
 
      @GetMapping("/findAll")
+     @ApiOperation(value = "查询所有")
      public List<TUser> findAll(){
        return userRepository.findAll();
      }
@@ -83,7 +93,8 @@ public class UserController {
      * @return
      */
     @GetMapping("/findByPage")
-     public PageVO queryByPage(int page,int pageSize){
+    @ApiOperation(value = "分页查询")
+     public PageVO queryByPage(@ApiParam("当前页数") int page,@ApiParam("每页显示的数据条数") int pageSize){
          PageVO pageVO = new PageVO();
          //统计用户数量
          int count = userRepository.count();
@@ -103,7 +114,8 @@ public class UserController {
 
 
      @GetMapping("/findById")
-     public UserVO findById(Long userId){
+     @ApiOperation(value = "根据用户编号查询")
+     public UserVO findById(@ApiParam("用户编号") Long userId){
          UserVO user = userService.findById(userId);
          return user;
      }
@@ -114,13 +126,15 @@ public class UserController {
      * @return
      */
     @GetMapping("/findByName")
-    public List<TUser> findByName(String userName){
+    @ApiOperation(value = "根据用户名称查询")
+    public List<TUser> findByName(@ApiParam("用户名称") String userName){
         List<TUser> list = userRepository.findByName(userName);
         return list;
     }
 
     @GetMapping("/findUserRole")
-    public Set<String> findUserRole(Long userId){
+    @ApiOperation(value = "获取用户所拥有的角色信息")
+    public Set<String> findUserRole(@ApiParam("部门编号") Long userId){
         return userService.findUserRole(userId);
     }
 
