@@ -177,6 +177,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<TUser> findByName(String userName) {
+        return userRepository.findByName(userName);
+    }
+
+    @Override
+    public TUser findByUserAcc(String userAcc) {
+
+        return userRepository.findByUserAcc(userAcc);
+    }
+
+    @Override
     public List<TUser> queryUserByRoleId(Long roleId) {
         return userRepository.queryUserByRoleId(roleId);
     }

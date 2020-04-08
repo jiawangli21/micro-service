@@ -4,6 +4,7 @@ import com.htqyjsw1.entity.TUser;
 import com.htqyjsw1.po.UserPO;
 import com.htqyjsw1.vo.UserRoleVO;
 import com.htqyjsw1.vo.UserVO;
+import io.swagger.annotations.ApiParam;
 
 import java.util.List;
 import java.util.Set;
@@ -46,4 +47,18 @@ public interface UserService {
      * @return
      */
     public Set<String> findUserRole(Long userId);
+
+    /**
+     * @desc 根据用户名称查询
+     * @param userName
+     * @return
+     */
+    public List<TUser> findByName(String userName);
+
+    /**
+     * @desc 根据账号查询
+     * @param userAcc
+     * @return
+     */
+    public TUser findByUserAcc(String userAcc);
 }

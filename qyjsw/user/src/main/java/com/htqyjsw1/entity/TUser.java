@@ -1,13 +1,10 @@
 package com.htqyjsw1.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 import java.io.Serializable;
 
 public class TUser implements Serializable {
 
-    private Integer userId;
+    private Long userId;
 
     private String userAcc;
 
@@ -31,11 +28,11 @@ public class TUser implements Serializable {
 
     private String userNote;
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -125,5 +122,23 @@ public class TUser implements Serializable {
 
     public void setUserNote(String userNote) {
         this.userNote = userNote;
+    }
+
+    @Override
+    public String toString() {
+        return "TUser{" +
+                "userId=" + userId +
+                ", userAcc='" + userAcc + '\'' +
+                ", userPwd='" + userPwd + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userNickname='" + userNickname + '\'' +
+                ", userAge=" + userAge +
+                ", userGender='" + userGender + '\'' +
+                ", userTel='" + userTel + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", userAdd='" + userAdd + '\'' +
+                ", userPosition='" + userPosition + '\'' +
+                ", userNote='" + userNote + '\'' +
+                '}';
     }
 }

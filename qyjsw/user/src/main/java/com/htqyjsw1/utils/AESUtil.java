@@ -18,7 +18,6 @@ public class AESUtil {
      * @Description: 加密
      * @Param:
      * @returns: java.lang.String
-     * @Author: zhuenbang
      * @Date: 2018/12/3 11:33
      */
     public static String encryptByDefaultKey(String content) throws Exception {
@@ -30,7 +29,6 @@ public class AESUtil {
      * @Description: 解密
      * @Param:
      * @returns: java.lang.String
-     * @Author: zhuenbang
      * @Date: 2018/12/3 11:30
      */
     public static String decryptByDefaultKey(String encryptStr) throws Exception {

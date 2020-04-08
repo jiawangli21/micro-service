@@ -1,6 +1,10 @@
 package com.htqyjsw1.controller;
 
+import com.htqyjsw1.entity.TUser;
+import com.htqyjsw1.service.UserService;
+import com.htqyjsw1.utils.AESUtil;
 import com.htqyjsw1.utils.RedisUtils;
+import com.htqyjsw1.utils.TokenUtil;
 import com.htqyjsw1.utils.ValidateCodeUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/login")
@@ -22,17 +27,49 @@ public class LoginController {
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private RedisUtils redisUtils ;
 
     @PostMapping("/login")
     @ApiOperation("登录校验")
-    public String login(@ApiParam("用户名") String userName,@ApiParam("密码") String password, HttpServletRequest request){
-         String  token ="token";
-        System.out.println(userName+"--"+password);
-        HttpSession session = request.getSession();
-        session.setAttribute("userName:password",userName+":"+password);
-        redisUtils.set("userName",userName);
+    public String login(@ApiParam("账号") String userAcc,@ApiParam("密码") String password,HttpServletRequest request) {
+        String token = null;
+        try {
+            if(userAcc != null && password != null){
+                TUser user = userService.findByUserAcc(userAcc);
+                if (user != null) {
+                    if(password.equals(user.getUserPwd())){
+                        String key = userAcc+":"+user.getUserId();
+                        //生成token
+                        token = TokenUtil.createJwtToken(key);
+                        logger.info("【用户登录的令牌 token】："+token);
+
+                        //将token存入redis，两小时失效
+
+                        redisUtils.set(key,token,60*2, TimeUnit.MINUTES);
+                    }else{
+                        throw new Exception("密码错误！");
+                    }
+                }else{
+                    throw new Exception("用户不存在！");
+                }
+            }else{
+                throw new Exception("账号密码不能为空！");
+            }
+        }catch(Exception e){
+            logger.error("【登录失败】，错误："+ e);
+            e.printStackTrace();
+        }
         return token;
+    }
+
+    @RequestMapping("/outLogin")
+    @ApiOperation(value = "退出登录")
+    public String outLogin(String userId){
+
+        return null;
     }
 
 
@@ -70,7 +107,7 @@ public class LoginController {
                 return false;
             }
         }catch (Exception e){
-            logger.error("验证码校验失败", e);
+            logger.error("验证码校验失败>>>   ", e);
             return false;
         }
     }

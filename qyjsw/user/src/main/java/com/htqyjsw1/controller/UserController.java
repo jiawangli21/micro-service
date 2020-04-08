@@ -120,15 +120,11 @@ public class UserController {
          return user;
      }
 
-    /**
-     * @desc 根据用户名称查询
-     * @param userName
-     * @return
-     */
+
     @GetMapping("/findByName")
     @ApiOperation(value = "根据用户名称查询")
     public List<TUser> findByName(@ApiParam("用户名称") String userName){
-        List<TUser> list = userRepository.findByName(userName);
+        List<TUser> list = userService.findByName(userName);
         return list;
     }
 

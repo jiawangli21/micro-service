@@ -97,4 +97,11 @@ public interface UserRepository {
      * @param user
      */
     public void update(UserPO user);
+
+    /**
+     * @desc 根据账号查询
+     * @param userAcc
+     * @return
+     */
+    public TUser findByUserAcc(@Param("userAcc") String userAcc);
 }

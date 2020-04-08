@@ -135,6 +135,10 @@
 		select * from t_user where user_name like "%"#{userName}"%"
 	</select>
 
+	<select id="findByUserAcc"  resultMap="BaseResultMap">
+		select * from t_user where user_acc = #{userAcc}
+	</select>
+
 	<select id="queryUserByDeptId" resultMap="BaseResultMap" >
          select u.* from t_user u,t_dept_user_rel du where u.user_id = du.user_id and du.dept_id =  #{deptId}
     </select>
