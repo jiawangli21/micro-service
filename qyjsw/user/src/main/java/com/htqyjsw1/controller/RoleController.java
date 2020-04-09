@@ -1,5 +1,6 @@
 package com.htqyjsw1.controller;
 
+import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.po.RolePO;
 import com.htqyjsw1.service.RoleService;
 import com.htqyjsw1.vo.RoleVO;
@@ -25,45 +26,40 @@ public class RoleController {
 
     @PutMapping("/addRole")
     @ApiOperation(value = "添加角色信息")
-    public String addRole(@RequestBody  RolePO role){
-
-        String s = roleService.addRole(role);
-        return s;
+    public Result addRole(@RequestBody  RolePO role){
+        Result result = roleService.addRole(role);
+        return result;
     }
 
     @DeleteMapping("/deleteRole")
     @ApiOperation(value = "删除角色信息")
-    public String deleteRole(@ApiParam("角色编号") Long roleId){
-
-        roleService.deleteRole(roleId);
-        return "success";
+    public Result deleteRole(@ApiParam("角色编号") Long roleId){
+        Result result = roleService.deleteRole(roleId);
+        return result;
     }
 
     @PostMapping("/updateRole")
     @ApiOperation(value = "修改角色信息")
-    public String updateRole(@RequestBody RolePO role){
-        String result = roleService.updateRole(role);
+    public Result updateRole(@RequestBody RolePO role){
+        Result result = roleService.updateRole(role);
         return result;
     }
 
 
     @GetMapping("/queryDetail")
     @ApiOperation(value = "查看详情")
-    public RoleVO queryDetail(@ApiParam("角色编号") Long roleId){
-
-        RoleVO roleVO = roleService.queryDetail(roleId);
-        return roleVO;
+    public Result queryDetail(@ApiParam("角色编号") Long roleId){
+        Result result = roleService.queryDetail(roleId);
+        return result;
     }
 
 
     @GetMapping("/queryRoleRel")
     @ApiOperation(value = "获取角色关联信息" )
-    public RoleRelVO queryRoleRel(){
-
-        RoleRelVO roleRelVO = roleService.queryRoleRel();
-        return roleRelVO;
+    public Result queryRoleRel(){
+        Result result = roleService.queryRoleRel();
+        return result;
     }
-
 
 
 }

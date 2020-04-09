@@ -1,5 +1,6 @@
 package com.htqyjsw1.service;
 
+import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.entity.TRole;
 import com.htqyjsw1.po.RolePO;
 import com.htqyjsw1.vo.RoleRelVO;
@@ -16,21 +17,21 @@ public interface RoleService {
      * @param role
      * @return
      */
-    public String addRole(RolePO role);
+    public Result addRole(RolePO role);
 
     /**
      * @ 删除角色信息
      * @param roleId
      * @return
      */
-    public void deleteRole(Long roleId);
+    public Result deleteRole(Long roleId);
 
 
     /**
      * @desc 查询角色关联的权限信息，按权限类别进行封装，当添加角色信息时
      * @return
      */
-    public RoleRelVO queryRoleRel();
+    public Result queryRoleRel();
 
 
     /**
@@ -38,7 +39,7 @@ public interface RoleService {
      * @param roleId
      * @return
      */
-    public RoleVO queryDetail(Long roleId);
+    public Result queryDetail(Long roleId);
 
     /**
      * @desc 根据用户id查询用户所拥有的角色信息，返回角色集合list
@@ -57,7 +58,7 @@ public interface RoleService {
      * @desc 更新角色
      * @param rolePO
      */
-    public String updateRole(RolePO rolePO);
+    public Result updateRole(RolePO rolePO);
 
     /**
      * @desc 查询角色拥有的权限信息，返回(type=1 -> 角色-功能，type=2 -> 角色-菜单，type=3 -> 角色-页面，) 关联信息集合

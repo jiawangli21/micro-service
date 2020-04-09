@@ -1,5 +1,7 @@
 package com.htqyjsw1.controller;
 
+import com.htqyjsw1.entity.Result;
+import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TPage;
 import com.htqyjsw1.service.PageService;
 import io.swagger.annotations.Api;
@@ -25,31 +27,32 @@ public class PageController {
 
     @GetMapping("/findAll")
     @ApiOperation(value = "查询所有")
-    public List<TPage> findAll(){
-
-        List<TPage> tPageList = pageService.findAll();
-
-        return tPageList;
+    public Result findAll(){
+        Result result = new Result(ResultStatusCode.OK);
+        List<TPage> list = pageService.findAll();
+        result.setData(list);
+        return result;
     }
+
     @PutMapping("/addPage")
     @ApiOperation(value = "添加页面信息")
-    public String addPage(@RequestBody TPage tPage){
-        String result = pageService.addPage(tPage);
+    public Result addPage(@RequestBody TPage tPage){
+        Result result = pageService.addPage(tPage);
         return result;
     }
 
     @DeleteMapping("/deletePage")
     @ApiOperation(value = "删除页面信息")
-    public String deletePage(@ApiParam("页面编号") Long pageId){
-        String result = pageService.deletePage(pageId);
+    public Result deletePage(@ApiParam("页面编号") Long pageId){
+        Result result = pageService.deletePage(pageId);
         return result;
     }
 
     @PostMapping("/updatePage")
     @ApiOperation(value = "更新页面信息")
-    public String updatePage(@RequestBody TPage tPage){
-        pageService.updatePage(tPage);
-        return "success";
+    public Result updatePage(@RequestBody TPage tPage){
+        Result result = pageService.updatePage(tPage);
+        return result;
     }
 
 

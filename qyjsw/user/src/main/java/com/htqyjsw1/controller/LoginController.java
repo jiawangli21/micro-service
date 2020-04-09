@@ -7,6 +7,7 @@ import com.htqyjsw1.service.UserService;
 import com.htqyjsw1.utils.RedisUtils;
 import com.htqyjsw1.utils.TokenUtil;
 import com.htqyjsw1.utils.ValidateCodeUtil;
+import com.htqyjsw1.vo.LoginVO;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,14 +43,17 @@ public class LoginController {
             if(userAcc != null && password != null){
                 TUser user = userService.findByUserAcc(userAcc);
                 if (user != null) {
+                    LoginVO loginVO = new LoginVO();
+                    loginVO.settUser(user);
                     if(password.equals(user.getUserPwd())){
-                        String key = userAcc+":"+user.getUserId();
+                        String key ="token_"+user.getUserId();
                         //生成token
                         String token = TokenUtil.createJwtToken(key);
                         logger.info("【用户登录的令牌 token】："+token);
-                        result.setData(token);
+                        loginVO.setToken(token);
                         //将token存入redis，两小时失效
                         redisUtils.set(key,token,60*2, TimeUnit.MINUTES);
+                        result.setData(loginVO);
                     }else{
                         result = new Result(ResultStatusCode.ERROR_PWD);
                     }
@@ -60,7 +64,8 @@ public class LoginController {
                 result = new Result(ResultStatusCode.NOT_PARAM_USER_OR_ERROR_PWD);
             }
         }catch(Exception e){
-            logger.error("【登录失败】，错误："+ e);
+            result = new Result(ResultStatusCode.SHIRO_ERROR);
+            logger.error("【登录异常】，错误："+ e);
             e.printStackTrace();
         }
         return result;
@@ -68,16 +73,23 @@ public class LoginController {
 
     @GetMapping("/outLogin")
     @ApiOperation(value = "退出登录")
-    public String outLogin(HttpServletRequest request){
-        String token = request.getHeader("Authorization");
-        if (token!=null){
-            Claims claims = TokenUtil.parseJWT(token);
-            String tokenKey = claims.get("jti").toString();
-            //删除redis中的 token
-            redisUtils.del(tokenKey);
+    public Result outLogin(HttpServletRequest request){
+        Result result = new Result(ResultStatusCode.OK);
+        try {
+            String token = request.getHeader("Authorization");
+            if (token!=null){
+                Claims claims = TokenUtil.parseJWT(token);
+                String tokenKey = claims.get("jti").toString();
+                //删除redis中的 token
+
+                redisUtils.del(tokenKey);
+            }
+        }catch (Exception e){
+            result = new Result(ResultStatusCode.HTTP_ERROR_300);
+            e.printStackTrace();
         }
 
-        return "success";
+        return result;
     }
 
 

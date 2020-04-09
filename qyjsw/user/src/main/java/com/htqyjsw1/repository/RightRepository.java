@@ -35,4 +35,5 @@ public interface RightRepository {
     public void update(TRight tRight);
 
 
+    public TRight findById(Long rightId);
 }

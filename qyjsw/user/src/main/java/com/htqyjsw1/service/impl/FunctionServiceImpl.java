@@ -1,6 +1,8 @@
 package com.htqyjsw1.service.impl;
 
 import com.htqyjsw1.controller.UserController;
+import com.htqyjsw1.entity.Result;
+import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TFunction;
 import com.htqyjsw1.repository.FunctionRepository;
 import com.htqyjsw1.service.FunctionService;
@@ -23,7 +25,9 @@ public class FunctionServiceImpl implements FunctionService {
 
     @Override
     public List<TFunction> findAll() {
+        Result result = new Result(ResultStatusCode.OK);
         List<TFunction> tFunctionList = functionRepository.findAll();
+
         return tFunctionList;
     }
 
@@ -35,13 +39,12 @@ public class FunctionServiceImpl implements FunctionService {
     }
 
     @Override
-    public String addFunction(TFunction tFunction) {
-        String result = "false";
+    public Result addFunction(TFunction tFunction) {
+        Result result = new Result(ResultStatusCode.OK);
         try {
             int id = functionRepository.insert(tFunction);
             if(id > 0){
                 logger.info("【添加功能信息成功！】，功能id："+id);
-                result = "success";
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -51,12 +54,11 @@ public class FunctionServiceImpl implements FunctionService {
     }
 
     @Override
-    public String deleteFunction(Long funId) {
-        String result = "false";
+    public Result deleteFunction(Long funId) {
+        Result result = new Result(ResultStatusCode.OK);
         try {
             int id = functionRepository.delete(funId);
             logger.info("【删除功能信息成功！】，功能id："+id);
-            result = "success";
         }catch (Exception e){
             e.printStackTrace();
             logger.error("【删除功能信息失败！】，异常："+ e);
@@ -65,14 +67,16 @@ public class FunctionServiceImpl implements FunctionService {
     }
 
     @Override
-    public void updateFunction(TFunction tFunction) {
+    public Result updateFunction(TFunction tFunction) {
+        Result result = new Result(ResultStatusCode.OK);
         try {
-            System.out.println(tFunction);
             functionRepository.update(tFunction);
             logger.info("【更新功能信息成功！】" + tFunction);
         }catch (Exception e){
+            result = new Result(400,"更新功能信息失败！");
             e.printStackTrace();
             logger.error("【更新功能信息失败！】，异常："+ e);
         }
+        return result;
     }
 }

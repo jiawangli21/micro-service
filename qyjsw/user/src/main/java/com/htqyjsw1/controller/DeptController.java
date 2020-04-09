@@ -12,8 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @desc 部门信息管理
@@ -35,7 +36,7 @@ public class DeptController {
 
 
     @ApiOperation(value = "添加部门信息")
-    @PutMapping("addDept")
+    @PutMapping("/addDept")
     public Result addDept(@RequestBody TDept dept){
 
         Result result = deptService.addDept(dept);
@@ -51,10 +52,14 @@ public class DeptController {
 
     @GetMapping("/count")
     @ApiOperation(value = "统计部门数量")
-    public int count(){
-        int count = deptRepository.count();
-        logger.info("【统计部门数量】，数量 ：" + count);
-        return count;
+    public Result count(){
+        Result result = new Result(ResultStatusCode.OK);
+        int totalSize = deptRepository.count();
+        logger.info("【统计部门数量】，数量 ：" + totalSize);
+        Map<String,Integer> map = new HashMap<>();
+        map.put("totalSize",totalSize);
+        result.setData(map);
+        return result;
     }
 
 
@@ -65,9 +70,9 @@ public class DeptController {
         return result;
     }
 
-    @GetMapping("/queryByName")
+    @GetMapping("/findByName")
     @ApiOperation(value = "根据部门名称查询")
-    public Result queryByName(@ApiParam("部门名称") String deptName){
+    public Result findByName(@ApiParam("部门名称") String deptName){
         Result  result = deptService.queryByName(deptName);
         return result;
     }

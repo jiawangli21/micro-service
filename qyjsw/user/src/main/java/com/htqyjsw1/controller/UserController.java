@@ -90,15 +90,11 @@ public class UserController {
        return result;
      }
 
-
-
     @GetMapping("/findByPage")
     @ApiOperation(value = "分页查询")
      public Result queryByPage(@ApiParam("当前页数") int page,@ApiParam("每页显示的数据条数") int pageSize){
         return userService.queryByPage(page,pageSize);
-
      }
-
 
      @GetMapping("/findById")
      @ApiOperation(value = "根据用户编号查询")
@@ -106,7 +102,6 @@ public class UserController {
          Result result = userService.findById(userId);
          return result;
      }
-
 
     @GetMapping("/findByName")
     @ApiOperation(value = "根据用户名称查询")

@@ -1,6 +1,8 @@
 package com.htqyjsw1.service.impl;
 
 import com.htqyjsw1.controller.UserController;
+import com.htqyjsw1.entity.Result;
+import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TRight;
 import com.htqyjsw1.repository.RightRepository;
 import com.htqyjsw1.service.RightService;
@@ -20,25 +22,22 @@ public class RightServiceImpl implements RightService {
     @Autowired
     private RightRepository rightRepository;
 
-
     @Override
     public List<TRight> queryByType(int type) {
-
         List<TRight> tRightList = rightRepository.queryByType(type);
-
         return tRightList;
     }
 
     @Override
-    public String addRight(TRight tRight) {
-        String result = "false";
+    public Result addRight(TRight tRight) {
+        Result result = new Result(ResultStatusCode.OK);
         try {
             int id = rightRepository.insert(tRight);
             if(id > 0){
                 logger.info("【添加权限信息成功！】，权限id："+id);
-                result = "success";
             }
         }catch (Exception e){
+            result = new Result(400,"添加权限信息失败！");
             e.printStackTrace();
             logger.error("【添加权限信息失败！】，异常："+ e);
         }
@@ -46,14 +45,14 @@ public class RightServiceImpl implements RightService {
     }
 
     @Override
-    public String deleteRight(Long rightId) {
-        String result = "false";
+    public Result deleteRight(Long rightId) {
+        Result result = new Result(ResultStatusCode.OK);
         try {
             //查看是否有权限角色关联的信息
 
             int id = rightRepository.delete(rightId);
             logger.info("【删除权限信息成功！】，权限id："+id);
-            result = "success";
+
         }catch (Exception e){
             e.printStackTrace();
             logger.error("【删除页权限信息失败！】，异常："+ e);
@@ -62,13 +61,24 @@ public class RightServiceImpl implements RightService {
     }
 
     @Override
-    public void updateRight(TRight tRight) {
+    public Result updateRight(TRight tRight) {
+        Result result = new Result(ResultStatusCode.OK);
         try {
             rightRepository.update(tRight);
-            logger.info("【更新页面信息成功！】" + tRight);
+            logger.info("【更新权限信息成功！】" + tRight);
         }catch (Exception e){
+            result = new Result(400,"更新权限信息失败！");
             e.printStackTrace();
-            logger.error("【更新页面信息失败！】，异常："+ e);
+            logger.error("【更新权限信息失败！】，异常："+ e);
         }
+        return result;
+    }
+
+    @Override
+    public Result findById(Long rightId) {
+        Result result = new Result(ResultStatusCode.OK);
+        TRight tRight = rightRepository.findById(rightId);
+        result.setData(tRight);
+        return result;
     }
 }

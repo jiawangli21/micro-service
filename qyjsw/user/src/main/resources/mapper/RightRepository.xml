@@ -17,6 +17,10 @@
         select * from t_right where right_type = #{type}
     </select>
 
+    <select id="findById" resultMap="BaseResultMap">
+        select * from t_right where right_id = #{rightId}
+    </select>
+
 
     <update id="update" parameterType="com.htqyjsw1.entity.TRight" >
         update t_right

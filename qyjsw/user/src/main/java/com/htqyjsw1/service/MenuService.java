@@ -1,6 +1,7 @@
 package com.htqyjsw1.service;
 
 
+import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.entity.TMenu;
 import java.util.List;
 
@@ -11,21 +12,21 @@ public interface MenuService {
      * @param tMenu
      * @return
      */
-    public String addMenu(TMenu tMenu);
+    public Result addMenu(TMenu tMenu);
 
     /**
      * @desc 删除菜单信息
      * @param menuId
      * @return
      */
-    public String deleteMenu(Long menuId);
+    public Result deleteMenu(Long menuId);
 
     /**
      * @desc 更新菜单信息
      * @param tMenu
      * @return
      */
-    public void updateMenu(TMenu tMenu);
+    public Result updateMenu(TMenu tMenu);
 
     /**
      * @desc 查询所有菜单信息

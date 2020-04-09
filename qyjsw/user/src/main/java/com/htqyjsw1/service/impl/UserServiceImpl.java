@@ -325,6 +325,7 @@ public class UserServiceImpl implements UserService {
         int start = (p-1)*pageSize;
 
         List<TUser> list = userRepository.findByPage(start,pageSize);
+
         pageVO.setUserlist(list);
         result.setData(pageVO);
         return result;

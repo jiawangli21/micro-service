@@ -1,6 +1,7 @@
 package com.htqyjsw1.service;
 
 
+import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.entity.TRight;
 
 import java.util.List;
@@ -20,19 +21,26 @@ public interface RightService {
      * @param tRight
      * @return
      */
-    public String addRight(TRight tRight);
+    public Result addRight(TRight tRight);
 
     /**
      * @desc 删除权限信息
      * @param rightId
      * @return
      */
-    public String deleteRight(Long rightId);
+    public Result deleteRight(Long rightId);
 
     /**
      * @desc 更新权限信息
      * @param tRight
      * @return
      */
-    public void updateRight(TRight tRight);
+    public Result updateRight(TRight tRight);
+
+    /**
+     * @desc 通过id查询权限
+     * @param rightId
+     * @return
+     */
+    public Result findById(Long rightId);
 }

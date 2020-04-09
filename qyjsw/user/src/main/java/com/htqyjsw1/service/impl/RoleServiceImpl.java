@@ -37,9 +37,8 @@ public class RoleServiceImpl implements RoleService {
     private UserService userService;
 
     @Override
-    public String addRole(RolePO role) {
-
-        String result = "false";
+    public Result addRole(RolePO role) {
+        Result result = new Result(ResultStatusCode.OK);
        try{
            logger.info("【添加角色信息】，role：" + role);
            List<TRoleRightRel> roleRightRels = role.gettRoleRightRelList();
@@ -53,21 +52,20 @@ public class RoleServiceImpl implements RoleService {
                //添加角色权限关联信息
                roleRepository.insertRoleRightRel(roleRightRels);
            }
-
            logger.info("【添加角色信息成功！】，角色Id："+ roleId);
-           result = "success";
+
        }catch (Exception e){
+           result = new Result(400,"添加角色信息失败！");
            logger.info("【添加角色信息失败！】，错误信息："+e);
            e.printStackTrace();
        }
-
         return result;
     }
 
     @Override
-    public void deleteRole(Long roleId) {
+    public Result deleteRole(Long roleId) {
+        Result result = new Result(ResultStatusCode.OK);
         logger.info("【删除角色信息】，角色ID："+ roleId);
-
          try{
              //是否有关联的权限信息
              List<TRoleRightRel> tRoleRightRels = roleRepository.queryRoleRightRel(roleId);
@@ -84,15 +82,17 @@ public class RoleServiceImpl implements RoleService {
              //删除角色信息
              roleRepository.deleteRole(roleId);
              logger.info("【删除角色信息成功！】，角色ID："+ roleId);
-         }catch (Exception e){
+         }catch (Exception e) {
+             result = new Result(400,"删除角色信息失败！");
              e.printStackTrace();
-             logger.error("【删除角色信息失败！】，角色ID："+ roleId+" 【异常】"+ e);
+             logger.error("【删除角色信息失败！】，角色ID：" + roleId + " 【异常】" + e);
          }
-
+       return result;
     }
 
     @Override
-    public RoleRelVO queryRoleRel() {
+    public Result queryRoleRel() {
+        Result result = new Result(ResultStatusCode.OK);
         logger.info("【查询添加角色时关联的权限信息】");
 
         RoleRelVO roleRelVO = new RoleRelVO();
@@ -121,12 +121,13 @@ public class RoleServiceImpl implements RoleService {
         roleRelVO.setRightFunctionVO(rightFunctionVO);
         roleRelVO.setRightMenuVO(rightMenuVO);
         roleRelVO.setRightPageVO(rightPageVO);
-
-        return roleRelVO;
+        result.setData(roleRelVO);
+        return result;
     }
 
     @Override
-    public RoleVO queryDetail(Long roleId) {
+    public Result queryDetail(Long roleId) {
+        Result result = new Result(ResultStatusCode.OK);
         logger.info("【查询角色详细信息】，角色id：" + roleId);
 
         TRole tRole = roleRepository.queryById(roleId);
@@ -166,8 +167,9 @@ public class RoleServiceImpl implements RoleService {
         }
         roleVO.setRoleId(tRole.getRoleId());
         roleVO.setRoleName(tRole.getRoleName());
+        result.setData(roleVO);
         logger.info("【查询角色详细信息】，结果：" + roleVO);
-        return roleVO;
+        return result;
     }
 
     @Override
@@ -183,8 +185,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public String updateRole(RolePO rolePO) {
-        String result = "false";
+    public Result updateRole(RolePO rolePO) {
+        Result result = new Result(ResultStatusCode.OK);
         try {
             roleRepository.update(rolePO);
             List<TRoleRightRel> roleRightRels = rolePO.gettRoleRightRelList();
@@ -196,8 +198,8 @@ public class RoleServiceImpl implements RoleService {
                 //添加角色权限关联信息
                 roleRepository.insertRoleRightRel(roleRightRels);
             }
-            result = "success";
         }catch (Exception e){
+            result = new Result(400,"更新角色信息失败！");
             logger.error("【更新角色信息失败！】，错误：" + e);
             e.printStackTrace();
         }

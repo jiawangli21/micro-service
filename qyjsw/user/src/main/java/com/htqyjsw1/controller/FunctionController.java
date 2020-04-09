@@ -1,6 +1,8 @@
 package com.htqyjsw1.controller;
 
 
+import com.htqyjsw1.entity.Result;
+import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TFunction;
 import com.htqyjsw1.service.FunctionService;
 import io.swagger.annotations.Api;
@@ -27,32 +29,35 @@ public class FunctionController {
 
     @GetMapping("/findAll")
     @ApiOperation(value = "查询所有")
-    public List<TFunction> findAll(){
+    public Result findAll(){
+        Result result = new Result(ResultStatusCode.OK);
         List<TFunction> tFunctionList = functionService.findAll();
-        return tFunctionList;
+        result.setData(tFunctionList);
+        return result;
     }
 
 
     @ApiOperation(value = "添加功能信息")
     @PutMapping("/addFunction")
-    public String addFunction(@RequestBody TFunction tFunction){
-        String result = functionService.addFunction(tFunction);
+    public Result addFunction(@RequestBody TFunction tFunction){
+        Result result = functionService.addFunction(tFunction);
         return result;
     }
 
 
     @ApiOperation(value = "删除功能信息")
     @DeleteMapping("/deleteFunction")
-    public String deleteFunction(@ApiParam("功能编号") Long funId){
-        String result = functionService.deleteFunction(funId);
+    public Result deleteFunction(@ApiParam("功能编号") Long funId){
+        Result result = functionService.deleteFunction(funId);
         return result;
     }
 
     @PostMapping("/updateFunction")
     @ApiOperation(value = "更新功能信息")
-    public String updateFunction(@RequestBody TFunction tFunction){
-         functionService.updateFunction(tFunction);
-        return "success";
+    public Result updateFunction(@RequestBody TFunction tFunction){
+
+        Result result = functionService.updateFunction(tFunction);
+        return result;
     }
 
 }

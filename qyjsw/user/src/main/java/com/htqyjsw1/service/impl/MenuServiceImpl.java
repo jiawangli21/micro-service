@@ -1,6 +1,8 @@
 package com.htqyjsw1.service.impl;
 
 import com.htqyjsw1.controller.UserController;
+import com.htqyjsw1.entity.Result;
+import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TMenu;
 import com.htqyjsw1.repository.MenuRepository;
 import com.htqyjsw1.service.MenuService;
@@ -22,14 +24,11 @@ public class MenuServiceImpl implements MenuService {
 
 
     @Override
-    public String addMenu(TMenu tMenu) {
-         String result = "false";
+    public Result addMenu(TMenu tMenu) {
+        Result result = new Result(ResultStatusCode.OK);
          try {
-             int id = menuRepository.insert(tMenu);
-             if(id>0){
-                 logger.info("【添加菜单成功！】，菜单id："+id);
-                 result = "success";
-             }
+             menuRepository.insert(tMenu);
+             logger.info("【添加菜单成功！】，菜单："+tMenu);
          }catch (Exception e){
              e.printStackTrace();
              logger.info("【添加菜单失败！】，异常："+ e);
@@ -38,8 +37,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public String deleteMenu(Long menuId) {
-        String result = "false";
+    public Result deleteMenu(Long menuId) {
+        Result result = new Result(ResultStatusCode.OK);
         try {
             //判断是否有父级菜单
             List<TMenu> tMenuList = menuRepository.querySecondMenu(menuId);
@@ -49,7 +48,6 @@ public class MenuServiceImpl implements MenuService {
             }
             int id = menuRepository.delete(menuId);
             logger.info("【删除菜单成功！】，菜单id："+id);
-            result = "success";
         }catch (Exception e){
             e.printStackTrace();
             logger.info("【删除菜单失败！】，异常："+ e);
@@ -58,14 +56,18 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public void updateMenu(TMenu tMenu) {
+    public Result updateMenu(TMenu tMenu) {
+        Result result = new Result(ResultStatusCode.OK);
         try {
             menuRepository.update(tMenu);
             logger.info("【更新菜单成功！】" + tMenu);
         }catch (Exception e){
+            result =new Result(400,"更新菜单失败！");
             e.printStackTrace();
             logger.info("【更新菜单失败！】，异常："+ e);
         }
+
+        return result;
     }
 
     @Override

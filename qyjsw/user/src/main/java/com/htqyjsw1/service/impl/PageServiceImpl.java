@@ -1,6 +1,8 @@
 package com.htqyjsw1.service.impl;
 
 import com.htqyjsw1.controller.UserController;
+import com.htqyjsw1.entity.Result;
+import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TPage;
 import com.htqyjsw1.repository.PageRepository;
 import com.htqyjsw1.service.PageService;
@@ -25,13 +27,12 @@ public class PageServiceImpl implements PageService {
 
 
     @Override
-    public String addPage(TPage tPage) {
-        String result = "false";
+    public Result addPage(TPage tPage) {
+        Result result = new Result(ResultStatusCode.OK);
         try {
             int id = pageRepository.insert(tPage);
             if(id > 0){
                 logger.info("【添加页面成功！】，页面id："+id);
-                result = "success";
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -41,12 +42,11 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
-    public String deletePage(Long pageId) {
-        String result = "false";
+    public Result deletePage(Long pageId) {
+        Result result = new Result(ResultStatusCode.OK);
         try {
             int id = pageRepository.delete(pageId);
             logger.info("【删除页面信息成功！】，页面id："+id);
-            result = "success";
         }catch (Exception e){
             e.printStackTrace();
             logger.error("【删除页面信息失败！】，异常："+ e);
@@ -55,7 +55,8 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
-    public void updatePage(TPage tPage) {
+    public Result updatePage(TPage tPage) {
+        Result result = new Result(ResultStatusCode.OK);
         try {
             pageRepository.update(tPage);
             logger.info("【更新页面信息成功！】" + tPage);
@@ -63,13 +64,12 @@ public class PageServiceImpl implements PageService {
             e.printStackTrace();
             logger.error("【更新页面信息失败！】，异常："+ e);
         }
+        return result;
     }
 
     @Override
-    public List<TPage> findAll() {
-
+    public  List<TPage> findAll() {
         List<TPage> tPageList = pageRepository.findAll();
-
         return tPageList;
     }
 
