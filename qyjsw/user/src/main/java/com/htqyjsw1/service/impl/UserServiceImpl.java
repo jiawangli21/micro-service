@@ -289,8 +289,6 @@ public class UserServiceImpl implements UserService {
         return list;
     }
 
-
-
     @Override
     public Result findByName(String userName) {
         Result result = new Result(ResultStatusCode.OK);
@@ -323,10 +321,18 @@ public class UserServiceImpl implements UserService {
         pageVO.setPage(p);
         pageVO.setPageSize(pageSize);
         int start = (p-1)*pageSize;
-
+        List<TUser> tUsers = new ArrayList<>();
         List<TUser> list = userRepository.findByPage(start,pageSize);
 
-        pageVO.setUserlist(list);
+        for (TUser tUser : list) {
+            List<TRole> tRoles = roleService.queryRoleByUserId(tUser.getUserId());
+            tUser.setRoles(tRoles);
+            List<TDept> tDepts = deptService.queryDeptByUserId(tUser.getUserId());
+            tUser.setDepts(tDepts);
+            tUsers.add(tUser);
+        }
+
+        pageVO.setUserlist(tUsers);
         result.setData(pageVO);
         return result;
     }

@@ -6,6 +6,7 @@ import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TRight;
 import com.htqyjsw1.repository.RightRepository;
 import com.htqyjsw1.service.RightService;
+import com.htqyjsw1.vo.PageVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,31 @@ public class RightServiceImpl implements RightService {
         Result result = new Result(ResultStatusCode.OK);
         TRight tRight = rightRepository.findById(rightId);
         result.setData(tRight);
+        return result;
+    }
+
+    @Override
+    public Result findByPage(int page, int pageSize) {
+        Result result = new Result(ResultStatusCode.OK);
+        logger.info("【分页查询权限信息】，正在查找第 "+page+" 页权限信息");
+        PageVO pageVO = new PageVO();
+        //统计用户数量
+        int count = rightRepository.count();
+        //计算最大页数
+        int maxPage = pageVO.countMaxPage(count, pageSize);
+        int p = pageVO.countPage(page,maxPage);
+
+        pageVO.setMaxPage(maxPage);
+        pageVO.setPage(p);
+        pageVO.setPageSize(pageSize);
+        //开始位置
+        int start = (p-1) * pageSize;
+        logger.info("【分页查询权限，开始位置】："+start+" 【结束位置】："+(start+pageSize));
+
+        List<TRight> list = rightRepository.findByPage(start,pageSize);
+
+        pageVO.setRightList(list);
+        result.setData(pageVO);
         return result;
     }
 }

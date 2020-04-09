@@ -1,6 +1,7 @@
 package com.htqyjsw1.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class TUser implements Serializable {
 
@@ -27,6 +28,26 @@ public class TUser implements Serializable {
     private String userPosition;
 
     private String userNote;
+
+    private List<TRole> roles;
+
+    private  List<TDept> depts;
+
+    public List<TDept> getDepts() {
+        return depts;
+    }
+
+    public void setDepts(List<TDept> depts) {
+        this.depts = depts;
+    }
+
+    public List<TRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<TRole> roles) {
+        this.roles = roles;
+    }
 
     public Long getUserId() {
         return userId;

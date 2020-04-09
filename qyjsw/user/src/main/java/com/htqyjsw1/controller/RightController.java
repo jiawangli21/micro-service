@@ -60,9 +60,9 @@ public class RightController {
 
     @GetMapping("/findByPage")
     @ApiOperation(value = "分页查询权限信息")
-    public List<TRight> findByPage(){
-
-        return null;
+    public Result findByPage(@ApiParam("当前页数") int page,@ApiParam("每页显示的数据条数") int pageSize){
+        Result result = rightService.findByPage(page,pageSize);
+        return result;
     }
     @GetMapping("/findById")
     @ApiOperation(value = "通过id查询权限")

@@ -1,6 +1,7 @@
 package com.htqyjsw1.repository;
 
 import com.htqyjsw1.entity.TRight;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -36,4 +37,18 @@ public interface RightRepository {
 
 
     public TRight findById(Long rightId);
+
+    /**
+     * @desc 分页查询权限信息
+     * @param start
+     * @param pageSize
+     * @return
+     */
+    public List<TRight> findByPage(@Param("start") int start, @Param("pageSize") int pageSize);
+
+    /**
+     * @desc 统计权限数量
+     * @return
+     */
+    public int count();
 }

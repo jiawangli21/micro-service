@@ -1,6 +1,8 @@
 package com.htqyjsw1.vo;
 
 import com.htqyjsw1.entity.TDept;
+import com.htqyjsw1.entity.TRight;
+import com.htqyjsw1.entity.TRole;
 import com.htqyjsw1.entity.TUser;
 
 import java.io.Serializable;
@@ -18,6 +20,26 @@ public class PageVO implements Serializable {
     private List<TUser> userlist;
 
     private List<TDept> deptList;
+
+    private List<TRole> roleList;
+
+    private List<TRight> rightList;
+
+    public List<TRight> getRightList() {
+        return rightList;
+    }
+
+    public void setRightList(List<TRight> rightList) {
+        this.rightList = rightList;
+    }
+
+    public List<TRole> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<TRole> roleList) {
+        this.roleList = roleList;
+    }
 
     public int getPage() {
         return page;

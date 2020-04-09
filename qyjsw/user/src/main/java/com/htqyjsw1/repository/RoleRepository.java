@@ -1,12 +1,10 @@
 package com.htqyjsw1.repository;
 
-
 import com.htqyjsw1.entity.TRole;
 import com.htqyjsw1.entity.TRoleRightRel;
 import com.htqyjsw1.po.RolePO;
 import com.htqyjsw1.vo.UserRoleVO;
 import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
 
 public interface RoleRepository {
@@ -85,4 +83,18 @@ public interface RoleRepository {
      * @return
      */
     public UserRoleVO queryRole(@Param("roleId") Long roleId , @Param("type") int type ) throws  Exception ;
+
+    /**
+     * @desc 统计角色数量
+     * @return
+     */
+    public int count();
+
+    /**
+     * @desc 分页查询角色信息
+     * @param start
+     * @param pageSize
+     * @return
+     */
+    public List<TRole> findByPage(@Param("start") int start,@Param("pageSize") int pageSize);
 }

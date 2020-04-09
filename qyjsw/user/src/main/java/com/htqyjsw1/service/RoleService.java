@@ -68,4 +68,13 @@ public interface RoleService {
      */
     public UserRoleVO queryRole(Long roleId, int type ) throws Exception;
 
+
+    /**
+     * @desc 分页查询角色信息
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    public Result findByPage(int page,int pageSize);
+
 }

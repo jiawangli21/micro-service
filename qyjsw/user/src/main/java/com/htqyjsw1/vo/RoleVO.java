@@ -5,6 +5,7 @@ import com.htqyjsw1.entity.TMenu;
 import com.htqyjsw1.entity.TPage;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 
 public class RoleVO  implements Serializable {
@@ -13,11 +14,31 @@ public class RoleVO  implements Serializable {
 
     private String roleName;
 
+    private String roleCreater;
+
+    private Date createTime;
+
     private List<TFunction> tFunctionList;
 
     private List<TMenu> tMenuList;
 
     private List<TPage> tPageList;
+
+    public String getRoleCreater() {
+        return roleCreater;
+    }
+
+    public void setRoleCreater(String roleCreater) {
+        this.roleCreater = roleCreater;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
     public Long getRoleId() {
         return roleId;

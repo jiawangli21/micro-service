@@ -61,5 +61,12 @@ public class RoleController {
         return result;
     }
 
+    @GetMapping("/findByPage")
+    @ApiOperation(value = "分页查询角色信息" )
+    public Result findByPage(@ApiParam("当前页数") int page,@ApiParam("每页显示的数据条数") int pageSize){
+        Result result = roleService.findByPage(page, pageSize);
+        return result;
+    }
+
 
 }

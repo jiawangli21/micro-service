@@ -2,6 +2,7 @@ package com.htqyjsw1.po;
 
 import com.htqyjsw1.entity.TRoleRightRel;
 
+import java.util.Date;
 import java.util.List;
 
 public class RolePO {
@@ -10,7 +11,28 @@ public class RolePO {
 
     private String roleName;
 
+
+    private String roleCreater;
+
+    private Date createTime;
+
     private List<TRoleRightRel> tRoleRightRelList;
+
+    public String getRoleCreater() {
+        return roleCreater;
+    }
+
+    public void setRoleCreater(String roleCreater) {
+        this.roleCreater = roleCreater;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
     public Long getRoleId() {
         return roleId;

@@ -1,12 +1,33 @@
 package com.htqyjsw1.entity;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class TRole implements Serializable {
 
     private Long roleId;
 
     private String roleName;
+
+    private String roleCreater;
+
+    private Date createTime;
+
+    public String getRoleCreater() {
+        return roleCreater;
+    }
+
+    public void setRoleCreater(String roleCreater) {
+        this.roleCreater = roleCreater;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
     public Long getRoleId() {
         return roleId;

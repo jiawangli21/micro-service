@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -41,6 +42,7 @@ public class RoleServiceImpl implements RoleService {
         Result result = new Result(ResultStatusCode.OK);
        try{
            logger.info("【添加角色信息】，role：" + role);
+           role.setCreateTime(new Date());
            List<TRoleRightRel> roleRightRels = role.gettRoleRightRelList();
            //插入角色
            roleRepository.insert(role);
@@ -167,6 +169,8 @@ public class RoleServiceImpl implements RoleService {
         }
         roleVO.setRoleId(tRole.getRoleId());
         roleVO.setRoleName(tRole.getRoleName());
+        roleVO.setRoleCreater(tRole.getRoleCreater());
+        roleVO.setCreateTime(tRole.getCreateTime());
         result.setData(roleVO);
         logger.info("【查询角色详细信息】，结果：" + roleVO);
         return result;
@@ -209,5 +213,31 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public UserRoleVO queryRole(Long roleId, int type) throws  Exception {
         return roleRepository.queryRole(roleId,type);
+    }
+
+
+    @Override
+    public Result findByPage(int page,int pageSize) {
+        Result result = new Result(ResultStatusCode.OK);
+        logger.info("【分页查询角色信息】，正在查找第 "+page+" 页角色信息");
+        PageVO pageVO = new PageVO();
+        //统计用户数量
+        int count = roleRepository.count();
+        //计算最大页数
+        int maxPage = pageVO.countMaxPage(count, pageSize);
+        int p = pageVO.countPage(page,maxPage);
+
+        pageVO.setMaxPage(maxPage);
+        pageVO.setPage(p);
+        pageVO.setPageSize(pageSize);
+        //开始位置
+        int start = (p-1) * pageSize;
+        logger.info("【分页查询角色，开始位置】："+start+" 【结束位置】："+(start+pageSize));
+
+        List<TRole> list = roleRepository.findByPage(start,pageSize);
+
+        pageVO.setRoleList(list);
+        result.setData(pageVO);
+        return result;
     }
 }

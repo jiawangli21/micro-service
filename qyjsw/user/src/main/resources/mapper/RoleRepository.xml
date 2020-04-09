@@ -6,6 +6,8 @@
     <resultMap id="BaseResultMap" type="com.htqyjsw1.entity.TRole" >
         <id column="role_id" property="roleId" jdbcType="BIGINT" />
         <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+        <result column="role_creater" property="roleCreater" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     </resultMap>
     <resultMap id="BaseRoleRightRel" type="com.htqyjsw1.entity.TRoleRightRel" >
         <id column="rr_id" property="rrId" jdbcType="BIGINT" />
@@ -64,10 +66,9 @@
                 </if>
     </select>
 
-
-
     <insert id="insert"  parameterType="com.htqyjsw1.po.RolePO" useGeneratedKeys="true" keyProperty="roleId" >
-        insert into t_role(role_name) values(#{roleName,jdbcType=VARCHAR})
+        insert into t_role(role_name,role_creater,create_time)
+                values(#{roleName,jdbcType=VARCHAR},#{roleCreater,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR})
     </insert>
 
     <insert id="insertRoleRightRel"  parameterType="java.util.List">
@@ -93,6 +94,9 @@
         update t_role set  role_name = #{roleName,jdbcType=VARCHAR} where role_id = #{roleId}
     </update>
 
+    <select id="findByPage"  resultMap="BaseResultMap">
+		select * from t_role limit #{start}, #{pageSize}
+	</select>
 
     <select id="count" resultType="int" >
         select count(*) from t_role
