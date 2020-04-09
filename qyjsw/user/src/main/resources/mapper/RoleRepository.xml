@@ -19,20 +19,26 @@
         <id column="role_id" property="roleId" jdbcType="BIGINT" />
         <result column="role_name" property="roleName" jdbcType="VARCHAR" />
 
-        <result column="menu_id" property="menuId" jdbcType="BIGINT" />
-        <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+      <collection property="tMenus" ofType="com.htqyjsw1.entity.TMenu">
+            <id column="menu_id" property="menuId" jdbcType="BIGINT" />
+            <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+            <result column="right_name" property="rightName" jdbcType="VARCHAR" />
+        </collection>
 
-        <result column="right_id" property="rightId" jdbcType="BIGINT" />
-        <result column="right_name" property="rightName" jdbcType="VARCHAR" />
-        <result column="right_type" property="rightType" jdbcType="INTEGER" />
+        <collection property="tPages" ofType="com.htqyjsw1.entity.TPage">
+            <id column="page_id" jdbcType="BIGINT" property="pageId" />
+            <result column="page_url" jdbcType="VARCHAR" property="pageUrl" />
+            <result column="page_desc" jdbcType="VARCHAR" property="pageDesc" />
+            <result column="right_name" property="rightName" jdbcType="VARCHAR" />
+        </collection>
 
-        <result column="page_id" jdbcType="BIGINT" property="pageId" />
-        <result column="page_url" jdbcType="VARCHAR" property="pageUrl" />
-        <result column="page_desc" jdbcType="VARCHAR" property="pageDesc" />
+       <collection property="tFunctions" ofType="com.htqyjsw1.entity.TFunction">
+            <id column="fun_id" property="funId" jdbcType="BIGINT" />
+            <result column="fun_subsystem_name" property="funSubsystemName" jdbcType="VARCHAR" />
+            <result column="fun_name" property="funName" jdbcType="VARCHAR" />
+            <result column="right_name" property="rightName" jdbcType="VARCHAR" />
+        </collection>
 
-        <result column="fun_id" property="funId" jdbcType="BIGINT" />
-        <result column="fun_subsystem_name" property="funSubsystemName" jdbcType="VARCHAR" />
-        <result column="fun_name" property="funName" jdbcType="VARCHAR" />
     </resultMap>
 
     <select id="queryRole" resultMap="BaseUserRole">
@@ -46,7 +52,7 @@
                 <if test="type == 3" >
                     ,t_page p
                 </if>
-        where  ro.role_id = #{roleId}  and  ri.right_id = rr.right_id and ele_type = #{type}
+        where  rr.role_id = #{roleId}  and  rr.ele_type = #{type}  and rr.role_id = ro.role_id and  ri.right_id = rr.right_id
                 <if test="type == 1" >
                     and f.fun_id = rr.ele_id
                 </if>
@@ -56,7 +62,6 @@
                 <if test="type == 3" >
                     and p.page_id = rr.ele_id
                 </if>
-
     </select>
 
 

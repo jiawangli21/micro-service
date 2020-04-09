@@ -1,10 +1,10 @@
 package com.htqyjsw1.controller;
 
+import com.htqyjsw1.entity.Result;
+import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TDept;
 import com.htqyjsw1.repository.DeptRepository;
 import com.htqyjsw1.service.DeptService;
-import com.htqyjsw1.vo.DeptVO;
-import com.htqyjsw1.vo.PageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -36,14 +36,16 @@ public class DeptController {
 
     @ApiOperation(value = "添加部门信息")
     @PutMapping("addDept")
-    public String addDept(@RequestBody TDept dept){
-       return  deptService.addDept(dept);
+    public Result addDept(@RequestBody TDept dept){
+
+        Result result = deptService.addDept(dept);
+        return  result;
     }
 
 
     @DeleteMapping("/deleteDept")
     @ApiOperation(value = "删除部门信息")
-    public String deleteDept(@ApiParam("部门编号") Integer deptId){
+    public Result deleteDept(@ApiParam("部门编号") Integer deptId){
         return  deptService.deleteDept(deptId);
     }
 
@@ -55,41 +57,44 @@ public class DeptController {
         return count;
     }
 
+
     @GetMapping("/queryDetail")
     @ApiOperation(value = "查看部门详情")
-    public DeptVO queryDetailById(@ApiParam("部门编号") Integer deptId){
-        DeptVO deptVO = deptService.queryDetailById(deptId);
-        return deptVO;
+    public Result queryDetailById(@ApiParam("部门编号") Integer deptId){
+        Result result = deptService.queryDetailById(deptId);
+        return result;
     }
 
     @GetMapping("/queryByName")
     @ApiOperation(value = "根据部门名称查询")
-    public List<TDept> queryByName(@ApiParam("部门名称") String deptName){
-        List<TDept>  dept = deptService.queryByName(deptName);
-        return dept;
+    public Result queryByName(@ApiParam("部门名称") String deptName){
+        Result  result = deptService.queryByName(deptName);
+        return result;
     }
 
 
     @GetMapping("/findByPage")
     @ApiOperation(value = "分页查询部门信息")
-    public PageVO queryByPage(@ApiParam("当前页数") int page,@ApiParam("每页显示的数据条数") int pageSize){
+    public Result queryByPage(@ApiParam("当前页数") int page,@ApiParam("每页显示的数据条数") int pageSize){
 
-        PageVO pageVO = deptService.findByPage(page, pageSize);
+        Result result = deptService.findByPage(page, pageSize);
 
-        return pageVO;
+        return result;
     }
 
     @PostMapping("/updateDept")
     @ApiOperation(value = "更新部门信息")
-    public String updateDept(@RequestBody TDept dept){
-       deptService.updateById(dept);
-        return "success";
+    public Result updateDept(@RequestBody TDept dept){
+        Result result =  deptService.updateById(dept);
+        return result;
     }
 
     @GetMapping("/findAll")
     @ApiOperation(value = "查询所有部门信息")
-    public List<TDept> findAll(){
+    public Result findAll(){
+        Result result = new Result(ResultStatusCode.OK);
         List<TDept> tDeptList = deptService.findAll();
-        return tDeptList;
+        result.setData(tDeptList);
+        return result;
     }
 }

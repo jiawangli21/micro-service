@@ -10,6 +10,16 @@ public class TFunction  implements Serializable {
 
     private String funName;
 
+    private String rightName;
+
+    public String getRightName() {
+        return rightName;
+    }
+
+    public void setRightName(String rightName) {
+        this.rightName = rightName;
+    }
+
     public Long getFunId() {
         return funId;
     }
@@ -41,5 +51,28 @@ public class TFunction  implements Serializable {
                 ", funSubsystemName='" + funSubsystemName + '\'' +
                 ", funName='" + funName + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj==null){
+            return false;
+        }
+        if(this == obj){
+            return true;
+        }
+        if(obj instanceof TFunction){
+            TFunction tFunction = (TFunction)obj;
+            if(tFunction.funName.equals(this.funName)
+                    && tFunction.rightName.equals(this.rightName)
+                    && tFunction.funId.equals(this.funId)
+                    && tFunction.funSubsystemName.equals(this.funSubsystemName)
+            ){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
     }
 }

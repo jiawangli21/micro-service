@@ -60,11 +60,11 @@ public interface RoleService {
     public String updateRole(RolePO rolePO);
 
     /**
-     * @desc 查询角色拥有的权限信息，返回角色-菜单关联信息集合
+     * @desc 查询角色拥有的权限信息，返回(type=1 -> 角色-功能，type=2 -> 角色-菜单，type=3 -> 角色-页面，) 关联信息集合
      * @param roleId
      * @param type
      * @return
      */
-    public List<UserRoleVO> queryRole(Long roleId, int type );
+    public UserRoleVO queryRole(Long roleId, int type ) throws Exception;
 
 }

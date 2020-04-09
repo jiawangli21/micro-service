@@ -63,7 +63,7 @@ public interface RoleRepository {
      * @param userId
      * @return
      */
-    public List<TRole> queryRoleByUserId(Long userId);
+    public List<TRole> queryRoleByUserId(@Param("userId") Long userId);
 
     /**
      * @desc 查询所有角色信息
@@ -79,10 +79,10 @@ public interface RoleRepository {
 
 
     /**
-     * @desc 查询角色拥有的权限信息，返回角色-菜单关联信息集合
+     * @desc 查询角色拥有的权限信息，返回(type=1 -> 角色-功能，type=2 -> 角色-菜单，type=3 -> 角色-页面，) 关联信息集合
      * @param roleId
      * @param type
      * @return
      */
-    public List<UserRoleVO> queryRole(@Param("roleId") Long roleId , @Param("type") int type );
+    public UserRoleVO queryRole(@Param("roleId") Long roleId , @Param("type") int type ) throws  Exception ;
 }

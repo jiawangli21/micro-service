@@ -10,6 +10,8 @@ public class TPage  implements Serializable {
 
     private String pageDesc;
 
+    private String rightName;
+
     public Long getPageId() {
         return pageId;
     }
@@ -33,4 +35,35 @@ public class TPage  implements Serializable {
     public void setPageDesc(String pageDesc) {
         this.pageDesc = pageDesc == null ? null : pageDesc.trim();
     }
+
+    public String getRightName() {
+        return rightName;
+    }
+
+    public void setRightName(String rightName) {
+        this.rightName = rightName;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if(obj==null){
+            return false;
+        }
+        if(this == obj){
+            return true;
+        }
+        if(obj instanceof TPage){
+            TPage tPage = (TPage)obj;
+            if(tPage.pageDesc.equals(this.pageDesc)
+                    && tPage.rightName.equals(this.rightName)
+                    && tPage.pageId.equals(this.pageId)
+                    && tPage.pageUrl.equals(this.pageUrl)
+            ){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
+    }
+
 }

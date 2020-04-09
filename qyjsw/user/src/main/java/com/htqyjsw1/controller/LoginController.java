@@ -1,11 +1,13 @@
 package com.htqyjsw1.controller;
 
+import com.htqyjsw1.entity.Result;
+import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TUser;
 import com.htqyjsw1.service.UserService;
-import com.htqyjsw1.utils.AESUtil;
 import com.htqyjsw1.utils.RedisUtils;
 import com.htqyjsw1.utils.TokenUtil;
 import com.htqyjsw1.utils.ValidateCodeUtil;
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -34,8 +36,8 @@ public class LoginController {
 
     @PostMapping("/login")
     @ApiOperation("登录校验")
-    public String login(@ApiParam("账号") String userAcc,@ApiParam("密码") String password,HttpServletRequest request) {
-        String token = null;
+    public Result login(@ApiParam("账号") String userAcc,@ApiParam("密码") String password,HttpServletRequest request) {
+        Result result = new Result(ResultStatusCode.OK);
         try {
             if(userAcc != null && password != null){
                 TUser user = userService.findByUserAcc(userAcc);
@@ -43,33 +45,39 @@ public class LoginController {
                     if(password.equals(user.getUserPwd())){
                         String key = userAcc+":"+user.getUserId();
                         //生成token
-                        token = TokenUtil.createJwtToken(key);
+                        String token = TokenUtil.createJwtToken(key);
                         logger.info("【用户登录的令牌 token】："+token);
-
+                        result.setData(token);
                         //将token存入redis，两小时失效
-
                         redisUtils.set(key,token,60*2, TimeUnit.MINUTES);
                     }else{
-                        throw new Exception("密码错误！");
+                        result = new Result(ResultStatusCode.ERROR_PWD);
                     }
                 }else{
-                    throw new Exception("用户不存在！");
+                    result = new Result(ResultStatusCode.NOT_EXIST_USER);
                 }
             }else{
-                throw new Exception("账号密码不能为空！");
+                result = new Result(ResultStatusCode.NOT_PARAM_USER_OR_ERROR_PWD);
             }
         }catch(Exception e){
             logger.error("【登录失败】，错误："+ e);
             e.printStackTrace();
         }
-        return token;
+        return result;
     }
 
-    @RequestMapping("/outLogin")
+    @GetMapping("/outLogin")
     @ApiOperation(value = "退出登录")
-    public String outLogin(String userId){
+    public String outLogin(HttpServletRequest request){
+        String token = request.getHeader("Authorization");
+        if (token!=null){
+            Claims claims = TokenUtil.parseJWT(token);
+            String tokenKey = claims.get("jti").toString();
+            //删除redis中的 token
+            redisUtils.del(tokenKey);
+        }
 
-        return null;
+        return "success";
     }
 
 
@@ -93,23 +101,23 @@ public class LoginController {
 
     @RequestMapping(value = "/checkVerify", method = RequestMethod.POST, headers = "Accept=application/json")
     @ApiOperation(value = "校验验证码")
-    public boolean checkVerify(@RequestBody Map<String, Object> requestMap, HttpSession session) {
+    public Result checkVerify(@RequestBody Map<String, Object> requestMap, HttpSession session) {
+        Result result = new Result(ResultStatusCode.OK);
         try{
             //从session中获取随机数
             String inputStr = requestMap.get("inputStr").toString();
             String random = (String) session.getAttribute("RANDOMVALIDATECODEKEY");
             if (random == null) {
-                return false;
+                result = new Result(ResultStatusCode.INVALID_CAPTCHA);
             }
-            if (random.equals(inputStr)) {
-                return true;
-            } else {
-                return false;
+            if (!random.equals(inputStr)) {
+                return result = new Result(ResultStatusCode.INVALID_ERROR);
             }
         }catch (Exception e){
-            logger.error("验证码校验失败>>>   ", e);
-            return false;
+            logger.error("验证码校验失败>>>  错误：", e);
+            e.printStackTrace();
         }
+        return result;
     }
 
 }

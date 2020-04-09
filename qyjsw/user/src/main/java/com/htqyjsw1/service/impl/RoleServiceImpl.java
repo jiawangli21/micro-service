@@ -205,7 +205,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<UserRoleVO> queryRole(Long roleId, int type) {
+    public UserRoleVO queryRole(Long roleId, int type) throws  Exception {
         return roleRepository.queryRole(roleId,type);
     }
 }

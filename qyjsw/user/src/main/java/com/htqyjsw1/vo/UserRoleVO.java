@@ -1,34 +1,34 @@
 package com.htqyjsw1.vo;
 
-public class UserRoleVO {
+import com.htqyjsw1.entity.TFunction;
+import com.htqyjsw1.entity.TMenu;
+import com.htqyjsw1.entity.TPage;
+import com.htqyjsw1.entity.TRole;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class UserRoleVO implements Serializable {
 
     private Long roleId;
 
     private String roleName;
 
-    private Long menuId;
+    private List<TRole> tRoles;
 
-    private String menuName;
+    private List<TMenu> tMenus;
 
-    private Long menuParent;
+    private List<TFunction> tFunctions;
 
-    private Long rightId;
+    private List<TPage> tPages;
 
-    private String rightName;
+    public List<TRole> gettRoles() {
+        return tRoles;
+    }
 
-    private Integer rightType;
-
-    private Long funId;
-
-    private String funSubsystemName;
-
-    private String funName;
-
-    private Long pageId;
-
-    private String pageUrl;
-
-    private String pageDesc;
+    public void settRoles(List<TRole> tRoles) {
+        this.tRoles = tRoles;
+    }
 
     public Long getRoleId() {
         return roleId;
@@ -46,102 +46,27 @@ public class UserRoleVO {
         this.roleName = roleName;
     }
 
-    public Long getMenuId() {
-        return menuId;
+    public List<TMenu> gettMenus() {
+        return tMenus;
     }
 
-    public void setMenuId(Long menuId) {
-        this.menuId = menuId;
+    public void settMenus(List<TMenu> tMenus) {
+        this.tMenus = tMenus;
     }
 
-    public String getMenuName() {
-        return menuName;
+    public List<TFunction> gettFunctions() {
+        return tFunctions;
     }
 
-    public void setMenuName(String menuName) {
-        this.menuName = menuName;
+    public void settFunctions(List<TFunction> tFunctions) {
+        this.tFunctions = tFunctions;
     }
 
-    public Long getMenuParent() {
-        return menuParent;
+    public List<TPage> gettPages() {
+        return tPages;
     }
 
-    public void setMenuParent(Long menuParent) {
-        this.menuParent = menuParent;
+    public void settPages(List<TPage> tPages) {
+        this.tPages = tPages;
     }
-
-    public Long getRightId() {
-        return rightId;
-    }
-
-    public void setRightId(Long rightId) {
-        this.rightId = rightId;
-    }
-
-    public String getRightName() {
-        return rightName;
-    }
-
-    public void setRightName(String rightName) {
-        this.rightName = rightName;
-    }
-
-    public Integer getRightType() {
-        return rightType;
-    }
-
-    public void setRightType(Integer rightType) {
-        this.rightType = rightType;
-    }
-
-    public Long getFunId() {
-        return funId;
-    }
-
-    public void setFunId(Long funId) {
-        this.funId = funId;
-    }
-
-    public String getFunSubsystemName() {
-        return funSubsystemName;
-    }
-
-    public void setFunSubsystemName(String funSubsystemName) {
-        this.funSubsystemName = funSubsystemName;
-    }
-
-    public String getFunName() {
-        return funName;
-    }
-
-    public void setFunName(String funName) {
-        this.funName = funName;
-    }
-
-    public Long getPageId() {
-        return pageId;
-    }
-
-    public void setPageId(Long pageId) {
-        this.pageId = pageId;
-    }
-
-    public String getPageUrl() {
-        return pageUrl;
-    }
-
-    public void setPageUrl(String pageUrl) {
-        this.pageUrl = pageUrl;
-    }
-
-    public String getPageDesc() {
-        return pageDesc;
-    }
-
-    public void setPageDesc(String pageDesc) {
-        this.pageDesc = pageDesc;
-    }
-
-
-
 }

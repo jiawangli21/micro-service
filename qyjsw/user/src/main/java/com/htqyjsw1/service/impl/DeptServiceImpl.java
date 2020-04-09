@@ -2,14 +2,13 @@ package com.htqyjsw1.service.impl;
 
 
 import com.htqyjsw1.controller.UserController;
-import com.htqyjsw1.entity.TDept;
-import com.htqyjsw1.entity.TDeptUserRel;
-import com.htqyjsw1.entity.TUser;
+import com.htqyjsw1.entity.*;
 import com.htqyjsw1.repository.DeptRepository;
 import com.htqyjsw1.repository.UserRepository;
 import com.htqyjsw1.service.DeptService;
 import com.htqyjsw1.vo.DeptVO;
 import com.htqyjsw1.vo.PageVO;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,41 +28,63 @@ public class DeptServiceImpl implements DeptService {
     private UserRepository userRepository;
 
     @Override
-    public String addDept(TDept dept) {
-        String result = "success";
+    public Result addDept(TDept dept) {
+        Result result = new Result(ResultStatusCode.OK);
         try{
-            deptRepository.insert(dept);
-            logger.info("【添加部门信息失败！】，部门内码："+dept.getDeptId());
+            //校验字段是否为空
+            if (StringUtils.isNotEmpty(dept.getDeptName()) && StringUtils.isNotEmpty(dept.getDeptHead()) &&
+                    StringUtils.isNotEmpty(dept.getDeptAdd())){
+
+                TDept tDept = deptRepository.findByName(dept.getDeptName());
+                if(tDept != null){
+                    result = new Result(400,"部门名称已存在！");
+                }else{
+                    deptRepository.insert(dept);
+                    logger.info("【添加部门信息成功！】，部门内码："+dept.getDeptId());
+                }
+            }else{
+                result = new Result(400,"部门名称或负责人或地址不能为空");
+            }
         }catch (Exception e){
-            result = "false";
+            result = new Result(400,"添加部门信息失败！");
             logger.error("【添加部门信息失败！】，错误："+e);
+            e.printStackTrace();
+        }
+        return  result;
+    }
+
+    @Override
+    public Result queryDetailById(Integer deptId) {
+        Result result = new Result(ResultStatusCode.OK);
+        try {
+            DeptVO deptVO = deptRepository.queryById(deptId);
+
+            if(deptVO != null){
+                List<TUser> userList = userRepository.queryUserByDeptId(deptId);
+                deptVO.setUserList(userList);
+            }
+            result.setData(deptVO);
+            logger.info("【查询部门详细信息】：部门内码 ："+deptId+",查询结果为：{}"+deptVO);
+        }catch (Exception e){
+            result = new Result(400,"查询部门详细信息失败！");
+            logger.error("【查询部门详细信息失败！】，错误："+e);
             e.printStackTrace();
         }
         return result;
     }
 
     @Override
-    public DeptVO queryDetailById(Integer deptId) {
-
-        DeptVO deptVO = deptRepository.queryById(deptId);
-
-        if(deptVO != null){
-            List<TUser> userList = userRepository.queryUserByDeptId(deptId);
-            deptVO.setUserList(userList);
-        }
-        logger.info("【查询部门详细信息】：部门内码 ："+deptId+",查询结果为："+deptVO);
-        return deptVO;
-    }
-
-    @Override
-    public List<TDept> queryByName(String deptName) {
+    public Result queryByName(String deptName) {
+        Result result = new Result(ResultStatusCode.OK);
         List<TDept> deptList = deptRepository.queryByName(deptName);
+        result.setData(deptList);
         logger.info("【根据部门名称查询部门信息】：部门名称 ："+deptName+",查询结果为："+deptList);
-        return deptList;
+        return result;
     }
 
     @Override
-    public PageVO findByPage(int page,int pageSize) {
+    public Result findByPage(int page,int pageSize) {
+        Result result = new Result(ResultStatusCode.OK);
         logger.info("【分页查询部门信息】，正在查找第 "+page+" 页部门信息");
         PageVO pageVO = new PageVO();
         //统计用户数量
@@ -81,18 +102,39 @@ public class DeptServiceImpl implements DeptService {
 
         List<TDept> list = deptRepository.findByPage(start,pageSize);
         pageVO.setDeptList(list);
-
-        return pageVO;
+        result.setData(pageVO);
+        return result;
     }
 
     @Override
-    public void updateById(TDept dept) {
-        deptRepository.updateById(dept);
+    public Result updateById(TDept dept) {
+        Result result = new Result(ResultStatusCode.OK);
+       try{
+           //校验字段是否为空
+           if (StringUtils.isNotEmpty(dept.getDeptName()) && StringUtils.isNotEmpty(dept.getDeptHead()) &&
+                   StringUtils.isNotEmpty(dept.getDeptAdd())) {
+
+               TDept tDept = deptRepository.findByName(dept.getDeptName());
+               if (tDept != null) {
+                   result = new Result(400, "部门名称已存在！");
+               } else {
+                   logger.info("【更新部门信息成功！】，部门信息："+dept);
+                   deptRepository.updateById(dept);
+               }
+           }else{
+               result = new Result(400,"部门名称或负责人或地址不能为空");
+           }
+       }catch (Exception e){
+           logger.error("【更新部门信息失败】，部门信息："+dept);
+           e.printStackTrace();
+       }
+
+        return result;
     }
 
     @Override
-    public String deleteDept(Integer deptId) {
-        String result = "success";
+    public Result deleteDept(Integer deptId) {
+        Result result = new Result(ResultStatusCode.OK);
          try {
              logger.info("【删除部门信息】，部门内码："+deptId);
              //查询是否有该部门关联的用户信息
@@ -105,7 +147,7 @@ public class DeptServiceImpl implements DeptService {
                  logger.info("【完成删除部门信息和部门关联信息】，部门内码：" + id);
              }
          }catch (Exception e){
-             result = "false";
+             result =  new Result(400,"添加部门信息失败！");
              logger.error("【添加部门信息失败！】，错误："+e);
              e.printStackTrace();
          }

@@ -21,13 +21,13 @@ public interface DeptRepository {
      * @param deptId
      * @return 返回部门内码
      */
-    public int deleteDept(Integer deptId);
+    public int deleteDept(Integer deptId)  throws Exception;
 
     /**
      * @desc 删除部门用户关联信息
      * @param deptId
      */
-    public void deleteDeptUserRel(Integer deptId);
+    public void deleteDeptUserRel(Integer deptId) throws Exception;
     /**
      * @desc 统计部门数量
      * @return
@@ -39,9 +39,22 @@ public interface DeptRepository {
      * @param deptId
      * @return DeptVO
      */
-    public DeptVO queryById(Integer deptId);
+    public DeptVO queryById(Integer deptId)  ;
 
+    /**
+     * @desc 通过部门名称查询，返回部门信息集合list
+     * @param deptName
+     * @return
+     */
     public List<TDept> queryByName(String deptName);
+
+    /**
+     * @desc 通过部门名称查询，返回单个部门信息
+     * @param deptName
+     * @return
+     */
+    public TDept findByName(String deptName);
+
 
     /**
      * @desc 分页查询
@@ -49,7 +62,7 @@ public interface DeptRepository {
      * @param pageSize
      * @return
      */
-     public List<TDept> findByPage(@Param("start") int start, @Param("pageSize") int pageSize);
+     public List<TDept> findByPage(@Param("start") int start, @Param("pageSize") int pageSize) ;
 
     /**
      * @desc 更新部门信息
@@ -61,7 +74,7 @@ public interface DeptRepository {
      * @desc 查询与部门关联的用户关系表
      * @param deptId
      */
-     public List<TDeptUserRel> queryDeptUserRel(Integer deptId);
+     public List<TDeptUserRel> queryDeptUserRel(Integer deptId) ;
     /**
      * @desc 查询所有部门信息
      * @return List<TDept>

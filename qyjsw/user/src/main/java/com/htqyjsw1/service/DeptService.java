@@ -1,5 +1,6 @@
 package com.htqyjsw1.service;
 
+import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.entity.TDept;
 import com.htqyjsw1.vo.DeptVO;
 import com.htqyjsw1.vo.PageVO;
@@ -13,14 +14,14 @@ public interface DeptService {
      * @param dept
      * @return
      */
-    public String addDept(TDept dept);
+    public Result addDept(TDept dept);
 
     /**
      * @desc 根据部门id，查询部门详情信息，包括部门成员的信息
      * @param deptId
      * @return DeptVO
      */
-    public DeptVO queryDetailById(Integer deptId);
+    public Result queryDetailById(Integer deptId);
 
 
     /**
@@ -28,7 +29,7 @@ public interface DeptService {
      * @param deptName
      * @return Dept
      */
-    public List<TDept> queryByName(String deptName);
+    public Result queryByName(String deptName);
 
     /**
      * @desc 分页查询
@@ -36,20 +37,20 @@ public interface DeptService {
      * @param pageSize
      * @return
      */
-    public PageVO findByPage(int page, int pageSize);
+    public Result findByPage(int page, int pageSize);
 
     /**
      * @desc 更新部门信息
      * @param dept
      */
-    public void updateById(TDept dept);
+    public Result updateById(TDept dept);
 
     /**
      * @desc  根据部门id 删除部门信息
      * @param deptId
      * @return
      */
-    public String deleteDept(Integer deptId);
+    public Result deleteDept(Integer deptId);
 
     /**
      * @desc 查询所有部门信息

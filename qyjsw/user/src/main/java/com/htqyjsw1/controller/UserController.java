@@ -1,5 +1,7 @@
 package com.htqyjsw1.controller;
 
+import com.htqyjsw1.entity.Result;
+import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TUser;
 import com.htqyjsw1.po.UserPO;
 import com.htqyjsw1.repository.UserRepository;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
 
@@ -50,27 +53,25 @@ public class UserController {
 
     @PutMapping("/addUser")
     @ApiOperation(value = "添加用户信息")
-    public String addUser(@RequestBody UserPO user){
-        String result = userService.addUser(user);
+    public Result addUser(@RequestBody UserPO user){
+        Result result = userService.addUser(user);
         return result;
     }
 
 
     @PostMapping("/updateUser")
     @ApiOperation(value = "更新用户信息")
-    public String updateUser(@RequestBody UserPO user){
-        String result = userService.updateUser(user);
+    public Result updateUser(@RequestBody UserPO user){
+        Result result = userService.updateUser(user);
         return result;
     }
 
     @DeleteMapping("/delete")
     @ApiOperation(value = "删除用户信息")
-    public String deleteUser(@ApiParam("用户编号") Long userId){
-        userService.deleteUser(userId);
-        return "success";
+    public Result deleteUser(@ApiParam("用户编号") Long userId){
+        Result result = userService.deleteUser(userId);
+        return result;
     }
-
-
 
     /**
      * @desc 统计用户数量
@@ -83,54 +84,41 @@ public class UserController {
 
      @GetMapping("/findAll")
      @ApiOperation(value = "查询所有")
-     public List<TUser> findAll(){
-       return userRepository.findAll();
+     public Result findAll(){
+        Result result = new Result(ResultStatusCode.OK);
+        result.setData( userRepository.findAll());
+       return result;
      }
 
 
-    /**
-     * @desc 分页查询
-     * @return
-     */
+
     @GetMapping("/findByPage")
     @ApiOperation(value = "分页查询")
-     public PageVO queryByPage(@ApiParam("当前页数") int page,@ApiParam("每页显示的数据条数") int pageSize){
-         PageVO pageVO = new PageVO();
-         //统计用户数量
-         int count = userRepository.count();
-         int maxPage = pageVO.countMaxPage(count, pageSize);
-         int p = pageVO.countPage(page,maxPage);
+     public Result queryByPage(@ApiParam("当前页数") int page,@ApiParam("每页显示的数据条数") int pageSize){
+        return userService.queryByPage(page,pageSize);
 
-         pageVO.setMaxPage(maxPage);
-         pageVO.setPage(p);
-         pageVO.setPageSize(pageSize);
-         int start = (p-1)*pageSize;
-
-         List<TUser> list = userRepository.findByPage(start,pageSize);
-         pageVO.setUserlist(list);
-
-         return pageVO;
      }
 
 
      @GetMapping("/findById")
      @ApiOperation(value = "根据用户编号查询")
-     public UserVO findById(@ApiParam("用户编号") Long userId){
-         UserVO user = userService.findById(userId);
-         return user;
+     public Result findById(@ApiParam("用户编号") Long userId){
+         Result result = userService.findById(userId);
+         return result;
      }
 
 
     @GetMapping("/findByName")
     @ApiOperation(value = "根据用户名称查询")
-    public List<TUser> findByName(@ApiParam("用户名称") String userName){
-        List<TUser> list = userService.findByName(userName);
-        return list;
+    public Result findByName(@ApiParam("用户名称") String userName){
+        Result result = userService.findByName(userName);
+        return result;
     }
 
     @GetMapping("/findUserRole")
     @ApiOperation(value = "获取用户所拥有的角色信息")
-    public Set<String> findUserRole(@ApiParam("部门编号") Long userId){
+    public Result findUserRole(@ApiParam("部门编号") Long userId){
+
         return userService.findUserRole(userId);
     }
 

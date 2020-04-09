@@ -74,7 +74,7 @@ public interface UserRepository {
      * @param deptId
      * @return list
      */
-    public List<TUser> queryUserByDeptId(Integer deptId);
+    public List<TUser> queryUserByDeptId(Integer deptId) throws Exception;
 
     public List<TUser> queryUserByRoleId(Long roleId);
 

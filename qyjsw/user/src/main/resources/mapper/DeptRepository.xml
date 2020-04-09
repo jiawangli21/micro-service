@@ -81,6 +81,10 @@
         select * from t_dept where dept_name like "%"#{deptName}"%"
     </select>
 
+    <select id="findByName" resultMap="BaseResultMap">
+        select * from t_dept where dept_name = #{deptName}
+    </select>
+
     <select id="findByPage"  resultMap="BaseResultMap">
 		select * from t_dept limit #{start}, #{pageSize}
 	</select>

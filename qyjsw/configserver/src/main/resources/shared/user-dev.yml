@@ -25,3 +25,8 @@ eureka:
 mybatis:
   mapper-locations: mapper/*.xml
   type-aliases-package: com.htqyjsw1.entity
+
+#登录页面跳转地址和端口配置
+login:
+  port: 8090
+  host: 192.168.100.17
