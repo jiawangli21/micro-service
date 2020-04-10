@@ -2,6 +2,7 @@ package com.htqyjsw1.config;
 
 import com.htqyjsw1.interceptor.LoginInterceptor;
 import com.htqyjsw1.interceptor.RightInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -11,25 +12,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
-    /**
-     * 解决跨域请求问题
-     *
-     * @param registry
-     */
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowCredentials(true)
-                .allowedMethods("GET", "POST", "DELETE", "PUT")
-                .maxAge(3600);
-    }
 
     /**
      * @desc 确保拦截器执行前，RedisUtil注入到spring容器中
      * @return
      */
-
     @Bean
     public LoginInterceptor getLoginInterceptor(){
         return new LoginInterceptor();
@@ -42,7 +29,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-
 //        InterceptorRegistration regist1 = registry.addInterceptor(getLoginInterceptor());
 //        //所要拦截的请求路径
 //        regist1.addPathPatterns("/**/*");

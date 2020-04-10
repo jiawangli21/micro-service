@@ -112,7 +112,7 @@ public class UserController {
 
     @GetMapping("/findUserRole")
     @ApiOperation(value = "获取用户所拥有的角色信息")
-    public Result findUserRole(@ApiParam("部门编号") Long userId){
+    public Result findUserRole(@ApiParam("用户编号") Long userId){
 
         return userService.findUserRole(userId);
     }
