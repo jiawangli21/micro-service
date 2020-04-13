@@ -17,6 +17,7 @@
         <module>client</module>
         <module>searchpage</module>
         <module>searchpagefeign</module>
+        <module>zuul-gateway</module>
     </modules>
 
     <parent>

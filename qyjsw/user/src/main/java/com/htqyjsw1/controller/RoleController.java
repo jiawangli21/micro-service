@@ -1,6 +1,7 @@
 package com.htqyjsw1.controller;
 
 import com.htqyjsw1.entity.Result;
+import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.po.RolePO;
 import com.htqyjsw1.service.RoleService;
 import com.htqyjsw1.vo.RoleVO;
@@ -68,5 +69,11 @@ public class RoleController {
         return result;
     }
 
-
+    @GetMapping("/findAll")
+    @ApiOperation(value = "查询所有")
+    public Result findAll(){
+        Result result = new Result(ResultStatusCode.OK);
+        result.setData( roleService.findAll());
+        return result;
+    }
 }
