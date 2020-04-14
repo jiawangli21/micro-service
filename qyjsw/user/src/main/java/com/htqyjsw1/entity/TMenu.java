@@ -17,6 +17,8 @@ public class TMenu  implements Serializable {
 
     private String menuUrl;
 
+    private String menuIcon ;
+
     private List<TMenu> childrenMenus;
 
 
@@ -34,6 +36,15 @@ public class TMenu  implements Serializable {
 
     public void setMenuUrl(String menuUrl) {
         this.menuUrl = menuUrl;
+    }
+
+
+    public String getMenuIcon() {
+        return menuIcon;
+    }
+
+    public void setMenuIcon(String menuIcon) {
+        this.menuIcon = menuIcon;
     }
 
     public List<TMenu> getChildrenMenus() {

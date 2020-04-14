@@ -27,6 +27,7 @@
           <result column="menu_parent" property="menuParent" jdbcType="BIGINT" />
           <result column="menu_level" property="menuLevel" jdbcType="INTEGER" />
           <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
+          <result column="menu_icon" property="menuIcon" jdbcType="VARCHAR" />
           <result column="right_name" property="rightName" jdbcType="VARCHAR" />
         </collection>
 
