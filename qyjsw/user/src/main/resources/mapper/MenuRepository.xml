@@ -7,7 +7,10 @@
         <id column="menu_id" property="menuId" jdbcType="BIGINT" />
         <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
         <result column="menu_parent" property="menuParent" jdbcType="BIGINT" />
+        <result column="menu_level" property="menuLevel" jdbcType="INTEGER" />
+        <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
     </resultMap>
+
     <insert id="insert" parameterType="com.htqyjsw1.entity.TMenu" >
         insert into t_menu
         <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -30,6 +33,11 @@
     <select id="findAll" resultMap="BaseResultMap">
         select * from t_menu
     </select>
+
+    <select id="findChildenMenus" resultMap="BaseResultMap">
+        select * from t_menu where menu_parent = #{menuId}
+    </select>
+
 
     <select id="querySecondMenu" resultMap="BaseResultMap">
         select * from t_menu where menu_parent = #{menuId}
@@ -60,6 +68,12 @@
             </if>
             <if test="menuParent != null" >
                 menu_parent = #{menuParent,jdbcType=BIGINT},
+            </if>
+            <if test="menuLevel != null" >
+                menu_level = #{menuLevel,jdbcType=BIGINT},
+            </if>
+            <if test="menuUrl!= null" >
+                menu_url = #{menuUrl,jdbcType=BIGINT},
             </if>
         </set>
         where menu_id = #{menuId,jdbcType=BIGINT}

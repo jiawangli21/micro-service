@@ -69,4 +69,16 @@ public class UserRoleVO implements Serializable {
     public void settPages(List<TPage> tPages) {
         this.tPages = tPages;
     }
+
+    @Override
+    public String toString() {
+        return "UserRoleVO{" +
+                "roleId=" + roleId +
+                ", roleName='" + roleName + '\'' +
+                ", tRoles=" + tRoles +
+                ", tMenus=" + tMenus +
+                ", tFunctions=" + tFunctions +
+                ", tPages=" + tPages +
+                '}';
+    }
 }

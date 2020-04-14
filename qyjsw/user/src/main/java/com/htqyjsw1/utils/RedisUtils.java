@@ -16,7 +16,9 @@ public class RedisUtils {
 
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
+
+
 
     /**
      * @desc 获取key的存活时间为多少

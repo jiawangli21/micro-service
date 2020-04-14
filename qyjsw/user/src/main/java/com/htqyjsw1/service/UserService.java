@@ -49,7 +49,7 @@ public interface UserService {
      * @param userId
      * @return
      */
-    public Result findUserRole(Long userId);
+    public Result findUserRight(Long userId);
 
     /**
      * @desc 根据用户名称查询

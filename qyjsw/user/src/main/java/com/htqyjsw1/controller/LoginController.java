@@ -3,6 +3,7 @@ package com.htqyjsw1.controller;
 import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TUser;
+import com.htqyjsw1.po.LoginPO;
 import com.htqyjsw1.service.UserService;
 import com.htqyjsw1.utils.RedisUtils;
 import com.htqyjsw1.utils.TokenUtil;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -27,7 +27,9 @@ import java.util.concurrent.TimeUnit;
 @Api(value = "用户登录管理", tags = {"登录管理接口"})
 public class LoginController {
 
-    private static Logger logger = LoggerFactory.getLogger(UserController.class);
+    public static final String RANDOMCODEKEY= "RANDOMVALIDATECODEKEY";
+
+    private static Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     private UserService userService;
@@ -37,22 +39,34 @@ public class LoginController {
 
     @PostMapping("/login")
     @ApiOperation("登录校验")
-    public Result login(@ApiParam("账号") String userAcc,@ApiParam("密码") String password,HttpServletRequest request) {
+    public Result login(@RequestBody LoginPO loginPO, HttpSession session) {
         Result result = new Result(ResultStatusCode.OK);
         try {
-            if(userAcc != null && password != null){
-                TUser user = userService.findByUserAcc(userAcc);
+            String random = (String) redisUtils.get(RANDOMCODEKEY);
+            if (random == null) {
+                return result = new Result(ResultStatusCode.INVALID_CAPTCHA);
+            }
+            if (loginPO.getVerificationCode()==null){
+                return result = new Result(ResultStatusCode.INVALID_IS_NULL);
+            }
+            String code1 = random.toLowerCase();
+            String code2 = loginPO.getVerificationCode().toLowerCase();
+            if (!code1.equals(code2)) {
+                return result = new Result(ResultStatusCode.INVALID_ERROR);
+            }
+            if(loginPO.getUserAcc() != null && loginPO.getPassword() != null){
+                TUser user = userService.findByUserAcc(loginPO.getUserAcc());
                 if (user != null) {
                     LoginVO loginVO = new LoginVO();
                     loginVO.settUser(user);
-                    if(password.equals(user.getUserPwd())){
+                    if(loginPO.getPassword().equals(user.getUserPwd())){
                         String key ="token_"+user.getUserId();
                         //生成token
                         String token = TokenUtil.createJwtToken(key);
                         logger.info("【用户登录的令牌 token】："+token);
                         loginVO.setToken(token);
                         //将token存入redis，两小时失效
-                        redisUtils.set(key,token,60*2, TimeUnit.MINUTES);
+                        redisUtils.set(key,token,60*24, TimeUnit.MINUTES);
                         result.setData(loginVO);
                     }else{
                         result = new Result(ResultStatusCode.ERROR_PWD);
@@ -103,33 +117,11 @@ public class LoginController {
             response.setDateHeader("Expire", 0);
             ValidateCodeUtil validateCode = new ValidateCodeUtil();
 
-            validateCode.getRandcode(request,response);   //输出验证码图片方法
+            String randcode = validateCode.getRandcode(request, response);//输出验证码图片方法
+            redisUtils.set(RANDOMCODEKEY,randcode,1,TimeUnit.MINUTES);
         } catch (Exception e) {
             logger.error("获取验证码失败>>>>   ", e);
         }
-    }
-
-
-
-    @RequestMapping(value = "/checkVerify", method = RequestMethod.POST, headers = "Accept=application/json")
-    @ApiOperation(value = "校验验证码")
-    public Result checkVerify(@RequestBody Map<String, Object> requestMap, HttpSession session) {
-        Result result = new Result(ResultStatusCode.OK);
-        try{
-            //从session中获取随机数
-            String inputStr = requestMap.get("inputStr").toString();
-            String random = (String) session.getAttribute("RANDOMVALIDATECODEKEY");
-            if (random == null) {
-                result = new Result(ResultStatusCode.INVALID_CAPTCHA);
-            }
-            if (!random.equals(inputStr)) {
-                return result = new Result(ResultStatusCode.INVALID_ERROR);
-            }
-        }catch (Exception e){
-            logger.error("验证码校验失败>>>  错误：", e);
-            e.printStackTrace();
-        }
-        return result;
     }
 
 }

@@ -4,6 +4,7 @@ package com.htqyjsw1.service;
 import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.entity.TFunction;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface FunctionService {
@@ -41,6 +42,6 @@ public interface FunctionService {
      * @param tFunction
      * @return
      */
-    public Result updateFunction(TFunction tFunction);
+    public Result updateFunction(TFunction tFunction, HttpServletRequest request);
 
 }

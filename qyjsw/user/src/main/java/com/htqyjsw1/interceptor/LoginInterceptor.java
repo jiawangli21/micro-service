@@ -21,7 +21,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     @Value("${login.host}")
     private  String host;
 
-    private static Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
 
 
     @Autowired

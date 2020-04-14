@@ -2,6 +2,8 @@ package com.htqyjsw1.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -10,11 +12,11 @@ import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class ValidateCodeUtil {
 
-
-        public static final String RANDOMCODEKEY= "RANDOMVALIDATECODEKEY";//放到session中的key
+        public static final String RANDOMCODEKEY= "RANDOMVALIDATECODEKEY";//放到redis中的key
 
         private String randString = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";//随机产生数字与字母组合的字符串
         private int width = 95;// 图片宽
@@ -50,7 +52,7 @@ public class ValidateCodeUtil {
         /**
          * 生成随机图片
          */
-        public void getRandcode(HttpServletRequest request, HttpServletResponse response) {
+        public String getRandcode(HttpServletRequest request, HttpServletResponse response) {
             HttpSession session = request.getSession();
             // BufferedImage类是具有缓冲区的Image类,Image类是用于描述图像信息的类
             BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
@@ -69,8 +71,9 @@ public class ValidateCodeUtil {
             }
             logger.info(randomString);
             //将生成的随机字符串保存到session中
-            session.removeAttribute(RANDOMCODEKEY);
-            session.setAttribute(RANDOMCODEKEY, randomString);
+//            session.removeAttribute(RANDOMCODEKEY);
+//            session.setAttribute(RANDOMCODEKEY, randomString);
+
             g.dispose();
             try {
                 // 将内存中的图片通过流动形式输出到客户端
@@ -78,7 +81,7 @@ public class ValidateCodeUtil {
             } catch (Exception e) {
                 logger.error("将内存中的图片通过流动形式输出到客户端失败>>>>   ", e);
             }
-
+          return randomString;
         }
 
         /**

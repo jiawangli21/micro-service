@@ -44,10 +44,10 @@ public interface MenuRepository {
     public List<TMenu> selectByIds(@Param("menuIdList") List<Long> menuIdList);
 
     /**
-     * @desc 查询二级菜单信息
+     * @desc 查询子菜单菜单信息
      * @param menuId
      * @return
      */
-    public List<TMenu> querySecondMenu(Long menuId);
+    public List<TMenu> findChildenMenus(Long menuId);
 
 }

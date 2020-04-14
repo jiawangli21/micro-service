@@ -1,6 +1,5 @@
 package com.htqyjsw1.service.impl;
 
-import com.htqyjsw1.controller.UserController;
 import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TRight;
@@ -18,7 +17,7 @@ import java.util.List;
 @Service
 public class RightServiceImpl implements RightService {
 
-    private static Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static Logger logger = LoggerFactory.getLogger(RightServiceImpl.class);
 
     @Autowired
     private RightRepository rightRepository;

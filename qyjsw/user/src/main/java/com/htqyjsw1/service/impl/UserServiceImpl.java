@@ -1,6 +1,5 @@
 package com.htqyjsw1.service.impl;
 
-import com.htqyjsw1.controller.UserController;
 import com.htqyjsw1.entity.*;
 import com.htqyjsw1.po.UserPO;
 import com.htqyjsw1.repository.UserRepository;
@@ -23,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private static Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -124,46 +123,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result findUserRole(Long userId) {
+    public Result findUserRight(Long userId) {
         Result result = new Result(ResultStatusCode.OK);
-        UserRoleVO  roleVO = null;
         try {
             //获取缓存
-            roleVO = (UserRoleVO) redisUtils.get(userId.toString());
-            if (roleVO == null) {
-                roleVO = new UserRoleVO();
-                logger.info("【查询数据库】，userId:" + userId);
+            List<String> permission  = (List<String>) redisUtils.get("permission_"+userId);
+
+            if (permission == null) {
+                permission = new ArrayList<>();
+                logger.info("【缓存为空，查询数据库】，userId:" + userId);
+
                 //查询用户所拥有的角色
                 List<TRole> tRoles = roleService.queryRoleByUserId(userId);
-                roleVO.settRoles(tRoles);
                 if (tRoles != null) {
                     //分别查询不同的权限信息  1:功能，2:菜单，3:页面
-                    for (int type = 1; type < 4; type++) {
-                        List<UserRoleVO> userRoleVOList = new ArrayList<>();
-                        for (TRole tRole : tRoles) {
-                            UserRoleVO userRoleVO = roleService.queryRole(tRole.getRoleId(), type);
-                            userRoleVOList.add(userRoleVO);
-                        }
-                        //封装数据
-                        if (type == 1) {
-                            List<TFunction> functions = getFunctions(userRoleVOList);
-                            roleVO.settFunctions(functions);
-                        }
-                        if (type == 2) {
-                            List<TMenu> menus = getMenus(userRoleVOList);
-                            roleVO.settMenus(menus);
-                        }
-                        if (type == 3) {
-                            List<TPage> pages = getPages(userRoleVOList);
-                            roleVO.settPages(pages);
+                    List<UserRoleVO> userRoleVOList = new ArrayList<>();
+                    for (TRole tRole : tRoles) {
+                        UserRoleVO userRoleVO = roleService.queryRole(tRole.getRoleId(), 1);
+                        userRoleVOList.add(userRoleVO);
+                    }
+                    if (userRoleVOList.size() > 0) {
+                        List<TFunction> functions = getFunctions(userRoleVOList);
+                        if (functions != null) {
+                            for (TFunction function : functions) {
+                                String perm = function.getFunSubsystemName() + ":" + function.getFunName() + ":" + function.getRightName();
+                                permission.add(perm);
+                            }
                         }
                     }
                 }
                 //放入缓存
-                logger.info("【将用户关联的权限信息放入缓存】，查询结果:" + roleVO);
-                redisUtils.set(userId.toString(), roleVO, 60, TimeUnit.MINUTES);
+                logger.info("【将用户关联的权限信息放入缓存】，查询结果:" + permission);
+                redisUtils.set("permission_" + userId.toString(), permission, 60, TimeUnit.MINUTES);
             }
-            result.setData(roleVO);
+            result.setData(permission);
         }catch (Exception e){
             result = new Result(400,"获取数据失败!");
             logger.error("【获取数据失败!】，错误："+e);
@@ -171,6 +164,7 @@ public class UserServiceImpl implements UserService {
         }
         return result;
     }
+
     /**
      * @desc 对 page 去重
      * @param userRoleVOList
@@ -232,35 +226,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    /**
-     * @desc 对 menu 去重
-     * @param userRoleVOList
-     */
-    public  List<TMenu> getMenus(List<UserRoleVO>  userRoleVOList){
-        List<TMenu> list = null;
-        for (UserRoleVO userRoleVO : userRoleVOList) {
-            if(userRoleVO != null && userRoleVO.gettMenus()!=null) {
-                list = new ArrayList<>();
-                for (TMenu tMenu : userRoleVO.gettMenus()) {
-                    if (list.size() == 0) {
-                        list.add(tMenu);
-                    } else {
-                        boolean bool = false;
-                        for (TMenu menu : list) {
-                            bool = menu.equals(tMenu);
-                            if (bool) {
-                                break;
-                            }
-                        }
-                        if (!bool) {
-                            list.add(tMenu);
-                        }
-                    }
-                }
-            }
-        }
-        return list;
-    }
     @Override
     public Result findById(Long userId) {
         Result result = new Result(ResultStatusCode.OK);

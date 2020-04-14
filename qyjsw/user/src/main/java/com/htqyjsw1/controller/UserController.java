@@ -18,7 +18,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -79,8 +81,14 @@ public class UserController {
      */
     @GetMapping("/count")
     @ApiOperation(value = "统计用户数量")
-    public int count(){
-      return userRepository.count();}
+    public Result count(){
+        Result result = new Result(ResultStatusCode.OK);
+        int totalSize =  userRepository.count();
+        Map<String,Integer> map = new HashMap<>();
+        map.put("totalSize",totalSize);
+        result.setData(map);
+      return result;
+    }
 
      @GetMapping("/findAll")
      @ApiOperation(value = "查询所有")
@@ -110,11 +118,11 @@ public class UserController {
         return result;
     }
 
-    @GetMapping("/findUserRole")
-    @ApiOperation(value = "获取用户所拥有的角色信息")
-    public Result findUserRole(@ApiParam("用户编号") Long userId){
+    @GetMapping("/findUserRight")
+    @ApiOperation(value = "获取用户所拥有的权限信息")
+    public Result findUserRight(@ApiParam("用户编号") Long userId){
 
-        return userService.findUserRole(userId);
+        return userService.findUserRight(userId);
     }
 
 

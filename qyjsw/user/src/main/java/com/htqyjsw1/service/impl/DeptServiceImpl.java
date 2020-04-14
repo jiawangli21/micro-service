@@ -1,7 +1,5 @@
 package com.htqyjsw1.service.impl;
 
-
-import com.htqyjsw1.controller.UserController;
 import com.htqyjsw1.entity.*;
 import com.htqyjsw1.repository.DeptRepository;
 import com.htqyjsw1.repository.UserRepository;
@@ -19,7 +17,7 @@ import java.util.List;
 @Service
 public class DeptServiceImpl implements DeptService {
 
-    private static Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static Logger logger = LoggerFactory.getLogger(DeptServiceImpl.class);
 
     @Autowired
     private DeptRepository deptRepository;

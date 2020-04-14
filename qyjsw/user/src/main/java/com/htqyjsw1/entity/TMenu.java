@@ -1,6 +1,7 @@
 package com.htqyjsw1.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class TMenu  implements Serializable {
 
@@ -11,6 +12,37 @@ public class TMenu  implements Serializable {
     private Long menuParent;
 
     private String rightName;
+
+    private Integer menuLevel;
+
+    private String menuUrl;
+
+    private List<TMenu> childrenMenus;
+
+
+    public Integer getMenuLevel() {
+        return menuLevel;
+    }
+
+    public void setMenuLevel(Integer menuLevel) {
+        this.menuLevel = menuLevel;
+    }
+
+    public String getMenuUrl() {
+        return menuUrl;
+    }
+
+    public void setMenuUrl(String menuUrl) {
+        this.menuUrl = menuUrl;
+    }
+
+    public List<TMenu> getChildrenMenus() {
+        return childrenMenus;
+    }
+
+    public void setChildrenMenus(List<TMenu> childrenMenus) {
+        this.childrenMenus = childrenMenus;
+    }
 
     public Long getMenuId() {
         return menuId;
@@ -57,6 +89,7 @@ public class TMenu  implements Serializable {
             if(tMenu.menuName.equals(this.menuName)
                     && tMenu.rightName.equals(this.rightName)
                     && tMenu.menuId.equals(this.menuId)
+                    && tMenu.menuLevel.equals(this.menuLevel)
             ){
                 return true;
             }else{
@@ -64,5 +97,18 @@ public class TMenu  implements Serializable {
             }
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "TMenu{" +
+                "menuId=" + menuId +
+                ", menuName='" + menuName + '\'' +
+                ", menuParent=" + menuParent +
+                ", rightName='" + rightName + '\'' +
+                ", menuLevel=" + menuLevel +
+                ", menuUrl='" + menuUrl + '\'' +
+                ", childrenMenus=" + childrenMenus +
+                '}';
     }
 }

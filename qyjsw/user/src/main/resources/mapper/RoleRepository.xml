@@ -21,10 +21,13 @@
         <id column="role_id" property="roleId" jdbcType="BIGINT" />
         <result column="role_name" property="roleName" jdbcType="VARCHAR" />
 
-      <collection property="tMenus" ofType="com.htqyjsw1.entity.TMenu">
-            <id column="menu_id" property="menuId" jdbcType="BIGINT" />
-            <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
-            <result column="right_name" property="rightName" jdbcType="VARCHAR" />
+        <collection property="tMenus" ofType="com.htqyjsw1.entity.TMenu">
+          <id column="menu_id" property="menuId" jdbcType="BIGINT" />
+          <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+          <result column="menu_parent" property="menuParent" jdbcType="BIGINT" />
+          <result column="menu_level" property="menuLevel" jdbcType="INTEGER" />
+          <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
+          <result column="right_name" property="rightName" jdbcType="VARCHAR" />
         </collection>
 
         <collection property="tPages" ofType="com.htqyjsw1.entity.TPage">
@@ -35,7 +38,7 @@
         </collection>
 
        <collection property="tFunctions" ofType="com.htqyjsw1.entity.TFunction">
-            <id column="fun_id" property="funId" jdbcType="BIGINT" />
+            <result column="fun_id" property="funId" jdbcType="BIGINT" />
             <result column="fun_subsystem_name" property="funSubsystemName" jdbcType="VARCHAR" />
             <result column="fun_name" property="funName" jdbcType="VARCHAR" />
             <result column="right_name" property="rightName" jdbcType="VARCHAR" />

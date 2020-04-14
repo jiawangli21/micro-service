@@ -1,6 +1,5 @@
 package com.htqyjsw1.service.impl;
 
-import com.htqyjsw1.controller.UserController;
 import com.htqyjsw1.entity.*;
 import com.htqyjsw1.po.RolePO;
 import com.htqyjsw1.repository.RoleRepository;
@@ -17,7 +16,7 @@ import java.util.List;
 @Service
 public class RoleServiceImpl implements RoleService {
 
-    private static Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
 
     @Autowired
     private RoleRepository roleRepository;

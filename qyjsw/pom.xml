@@ -18,6 +18,7 @@
         <module>searchpage</module>
         <module>searchpagefeign</module>
         <module>zuul-gateway</module>
+        <module>service-invoker</module>
     </modules>
 
     <parent>

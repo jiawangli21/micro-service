@@ -1,6 +1,6 @@
-package com.htqyjsw1.entity;
+package htqyjsw1.entity;
 
-public enum  ResultStatusCode {
+public enum ResultStatusCode {
 
     OK(200, "OK"),
     HTTP_ERROR_100(100, "1XX错误"),
@@ -8,7 +8,7 @@ public enum  ResultStatusCode {
     HTTP_ERROR_400(400, "请求失败!"),
     HTTP_ERROR_500(500, "错误"),
     TIME_OUT(130, "访问超时"),
-    KICK_OUT(300, "登录失效，请重新登录！"),
+    KICK_OUT(300, "您已经在其他地方登录，请重新登录！"),
     INVALID_CLIENTID(402, "无效的密钥"),
     REQUEST_NOT_FOUND(404, "访问地址不存在！"),
     METHOD_NOT_ALLOWED(405, "不支持当前请求方法"),
@@ -24,8 +24,7 @@ public enum  ResultStatusCode {
     REDIS_ERROR(10006, "redis异常"),
     REDIS_CONNECT_ERROR(10007, "redis连接异常"),
     INVALID_CAPTCHA(30005, "无效的验证码"),
-    INVALID_ERROR(30006, "验证码错误"),
-    INVALID_IS_NULL(30007, "验证码为空");
+    INVALID_ERROR(30006, "验证码错误");
 
 
     private int code;

@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -54,9 +55,9 @@ public class FunctionController {
 
     @PostMapping("/updateFunction")
     @ApiOperation(value = "更新功能信息")
-    public Result updateFunction(@RequestBody TFunction tFunction){
+    public Result updateFunction(@RequestBody TFunction tFunction, HttpServletRequest request){
 
-        Result result = functionService.updateFunction(tFunction);
+        Result result = functionService.updateFunction(tFunction,request);
         return result;
     }
 

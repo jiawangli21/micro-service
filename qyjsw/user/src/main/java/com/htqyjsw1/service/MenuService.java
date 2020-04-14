@@ -3,6 +3,9 @@ package com.htqyjsw1.service;
 
 import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.entity.TMenu;
+import io.swagger.annotations.ApiParam;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface MenuService {
@@ -26,7 +29,7 @@ public interface MenuService {
      * @param tMenu
      * @return
      */
-    public Result updateMenu(TMenu tMenu);
+    public Result updateMenu(TMenu tMenu, HttpServletRequest request);
 
     /**
      * @desc 查询所有菜单信息
@@ -40,4 +43,13 @@ public interface MenuService {
      * @return
      */
     List<TMenu> selectByIds(List<Long> menuIdList);
+
+    /**
+     * @desc 查询用户关联的菜单信息，返回菜单集合
+     * @param userId
+     * @return
+     */
+    public Result findUserMenu(@ApiParam("用户编号") Long userId);
+
+
 }
