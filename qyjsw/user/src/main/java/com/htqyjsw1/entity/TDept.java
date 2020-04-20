@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class TDept  implements Serializable {
 
-    private Integer deptId;
+    private Long deptId;
 
     private String deptName;
 
@@ -17,11 +17,11 @@ public class TDept  implements Serializable {
     private String  deptTel;
 
 
-    public Integer getDeptId() {
+    public Long getDeptId() {
         return deptId;
     }
 
-    public void setDeptId(Integer deptId) {
+    public void setDeptId(Long deptId) {
         this.deptId = deptId;
     }
 

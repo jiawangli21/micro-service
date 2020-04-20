@@ -52,7 +52,7 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public Result queryDetailById(Integer deptId) {
+    public Result queryDetailById(Long deptId) {
         Result result = new Result(ResultStatusCode.OK);
         try {
             DeptVO deptVO = deptRepository.queryById(deptId);
@@ -74,9 +74,22 @@ public class DeptServiceImpl implements DeptService {
     @Override
     public Result queryByName(String deptName) {
         Result result = new Result(ResultStatusCode.OK);
-        List<TDept> deptList = deptRepository.queryByName(deptName);
+        List<TDept> deptList = null;
+        try{
+            if (StringUtils.isNotEmpty(deptName)) {
+                deptList = deptRepository.queryByName(deptName);
+                if (deptList==null){
+                    result.setMsg("没有找到该部门！");
+                }
+                logger.info("【根据部门名称查询部门信息】：部门名称 ：" + deptName + ",查询结果为：" + deptList);
+            }else{
+                result.setMsg("部门名称为空！");
+            }
+
+        }catch (Exception e){
+
+        }
         result.setData(deptList);
-        logger.info("【根据部门名称查询部门信息】：部门名称 ："+deptName+",查询结果为："+deptList);
         return result;
     }
 
@@ -110,15 +123,9 @@ public class DeptServiceImpl implements DeptService {
        try{
            //校验字段是否为空
            if (StringUtils.isNotEmpty(dept.getDeptName()) && StringUtils.isNotEmpty(dept.getDeptHead()) &&
-                   StringUtils.isNotEmpty(dept.getDeptAdd())) {
-
-               TDept tDept = deptRepository.findByName(dept.getDeptName());
-               if (tDept != null) {
-                   result = new Result(400, "部门名称已存在！");
-               } else {
-                   logger.info("【更新部门信息成功！】，部门信息："+dept);
-                   deptRepository.updateById(dept);
-               }
+               StringUtils.isNotEmpty(dept.getDeptAdd())) {
+               deptRepository.updateById(dept);
+               logger.info("【更新部门信息成功！】，部门信息："+dept);
            }else{
                result = new Result(400,"部门名称或负责人或地址不能为空");
            }
@@ -131,7 +138,7 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public Result deleteDept(Integer deptId) {
+    public Result deleteDept(Long deptId) {
         Result result = new Result(ResultStatusCode.OK);
          try {
              logger.info("【删除部门信息】，部门内码："+deptId);

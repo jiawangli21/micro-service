@@ -5,6 +5,7 @@ import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TDept;
 import com.htqyjsw1.repository.DeptRepository;
 import com.htqyjsw1.service.DeptService;
+import com.htqyjsw1.vo.PageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -46,7 +47,7 @@ public class DeptController {
 
     @DeleteMapping("/deleteDept")
     @ApiOperation(value = "删除部门信息")
-    public Result deleteDept(@ApiParam("部门编号") Integer deptId){
+    public Result deleteDept(@ApiParam("部门编号") Long deptId){
         return  deptService.deleteDept(deptId);
     }
 
@@ -65,7 +66,7 @@ public class DeptController {
 
     @GetMapping("/queryDetail")
     @ApiOperation(value = "查看部门详情")
-    public Result queryDetailById(@ApiParam("部门编号") Integer deptId){
+    public Result queryDetailById(@ApiParam("部门编号") Long deptId){
         Result result = deptService.queryDetailById(deptId);
         return result;
     }
@@ -78,12 +79,10 @@ public class DeptController {
     }
 
 
-    @GetMapping("/findByPage")
+    @GetMapping("/findByPage/{page}/{pageSize}/")
     @ApiOperation(value = "分页查询部门信息")
-    public Result queryByPage(@ApiParam("当前页数") int page,@ApiParam("每页显示的数据条数") int pageSize){
-
-        Result result = deptService.findByPage(page, pageSize);
-
+    public Result queryByPage(@PathVariable @ApiParam("当前页") int page,@PathVariable @ApiParam("每页显示的数据条数") int pageSize ){
+        Result result = deptService.findByPage(page,pageSize);
         return result;
     }
 

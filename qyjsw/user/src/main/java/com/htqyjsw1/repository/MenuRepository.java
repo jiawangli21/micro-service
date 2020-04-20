@@ -50,4 +50,13 @@ public interface MenuRepository {
      */
     public List<TMenu> findChildenMenus(Long menuId);
 
+    public int count();
+
+    /**
+     * @desc 分页查询菜单信息
+     * @param start
+     * @param pageSize
+     * @return
+     */
+    public List<TMenu> findByPage(@Param("start") int start,@Param("pageSize") int pageSize);
 }

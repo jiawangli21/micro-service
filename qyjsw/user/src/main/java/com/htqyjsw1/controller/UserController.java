@@ -3,6 +3,7 @@ package com.htqyjsw1.controller;
 import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TUser;
+import com.htqyjsw1.po.PagePO;
 import com.htqyjsw1.po.UserPO;
 import com.htqyjsw1.repository.UserRepository;
 import com.htqyjsw1.service.UserService;
@@ -98,9 +99,10 @@ public class UserController {
        return result;
      }
 
-    @GetMapping("/findByPage")
-    @ApiOperation(value = "分页查询")
-     public Result queryByPage(@ApiParam("当前页数") int page,@ApiParam("每页显示的数据条数") int pageSize){
+     @GetMapping("/findByPage/{page}/{pageSize}/")
+     @ApiOperation(value = "分页查询")
+     public Result queryByPage(@PathVariable @ApiParam("当前页") int page,@PathVariable @ApiParam("每页显示的数据条数") int pageSize ){
+
         return userService.queryByPage(page,pageSize);
      }
 
@@ -121,7 +123,6 @@ public class UserController {
     @GetMapping("/findUserRight")
     @ApiOperation(value = "获取用户所拥有的权限信息")
     public Result findUserRight(@ApiParam("用户编号") Long userId){
-
         return userService.findUserRight(userId);
     }
 

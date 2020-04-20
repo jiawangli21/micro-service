@@ -66,4 +66,11 @@ public class MenuController {
         return menuService.findUserMenu(userId);
     }
 
+    @GetMapping("/findByPage/{page}/{pageSize}/")
+    @ApiOperation(value = "分页查询菜单信息")
+    public Result findByPage(@PathVariable @ApiParam("当前页数") int page,@PathVariable @ApiParam("每页显示的数据条数") int pageSize){
+        Result result = menuService.findByPage(page,pageSize);
+        return result;
+    }
+
 }

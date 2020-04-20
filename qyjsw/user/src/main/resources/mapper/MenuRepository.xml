@@ -53,6 +53,14 @@
         </trim>
     </select>
 
+    <select id="count" resultType="int" >
+        select count(*) from t_menu
+    </select>
+
+    <select id="findByPage"  resultMap="BaseResultMap">
+		select * from t_menu limit #{start}, #{pageSize}
+	</select>
+
     <delete id="delete" parameterType="java.lang.Long">
         delete from t_menu where menu_id = #{menuId}
     </delete>

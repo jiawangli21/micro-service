@@ -58,12 +58,14 @@ public class RightController {
         return result;
     }
 
-    @GetMapping("/findByPage")
+    @GetMapping("/findByPage/{page}/{pageSize}/")
     @ApiOperation(value = "分页查询权限信息")
-    public Result findByPage(@ApiParam("当前页数") int page,@ApiParam("每页显示的数据条数") int pageSize){
+    public Result findByPage(@PathVariable @ApiParam("当前页数") int page,@PathVariable @ApiParam("每页显示的数据条数") int pageSize){
         Result result = rightService.findByPage(page,pageSize);
         return result;
     }
+
+
     @GetMapping("/findById")
     @ApiOperation(value = "通过id查询权限")
     public Result findById(Long rightId){

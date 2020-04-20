@@ -51,5 +51,13 @@ public interface MenuService {
      */
     public Result findUserMenu(@ApiParam("用户编号") Long userId);
 
+    /**
+     * @desc 分页查询菜单信息
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    public Result findByPage(int page, int pageSize);
+
 
 }

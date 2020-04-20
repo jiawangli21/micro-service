@@ -1,7 +1,6 @@
 package com.htqyjsw1.interceptor;
 
 import com.htqyjsw1.entity.Result;
-import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TPage;
 import com.htqyjsw1.service.UserService;
 import com.htqyjsw1.utils.RedisUtils;

@@ -15,11 +15,11 @@ public class TMenu  implements Serializable {
 
     private Integer menuLevel;
 
-    private String menuUrl;
+    private String menuUrl = "";
 
     private String menuIcon ;
 
-    private List<TMenu> childrenMenus;
+    private List<TMenu> children;
 
 
     public Integer getMenuLevel() {
@@ -38,7 +38,6 @@ public class TMenu  implements Serializable {
         this.menuUrl = menuUrl;
     }
 
-
     public String getMenuIcon() {
         return menuIcon;
     }
@@ -47,12 +46,12 @@ public class TMenu  implements Serializable {
         this.menuIcon = menuIcon;
     }
 
-    public List<TMenu> getChildrenMenus() {
-        return childrenMenus;
+    public List<TMenu> getChildren() {
+        return children;
     }
 
-    public void setChildrenMenus(List<TMenu> childrenMenus) {
-        this.childrenMenus = childrenMenus;
+    public void setChildren(List<TMenu> children) {
+        this.children = children;
     }
 
     public Long getMenuId() {
@@ -119,7 +118,7 @@ public class TMenu  implements Serializable {
                 ", rightName='" + rightName + '\'' +
                 ", menuLevel=" + menuLevel +
                 ", menuUrl='" + menuUrl + '\'' +
-                ", childrenMenus=" + childrenMenus +
+                ", childrenMenus=" + children +
                 '}';
     }
 }

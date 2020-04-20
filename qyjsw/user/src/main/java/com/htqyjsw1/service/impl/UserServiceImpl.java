@@ -73,6 +73,28 @@ public class UserServiceImpl implements UserService {
             userRepository.update(user);
             List<Long> deptIds = user.getDeptIds();
             List<Long> roleIds = user.getRoleIds();
+            //查询原有数据
+            Result result1 = this.findById(user.getUserId());
+            UserVO userVO = (UserVO) result1.getData();
+            List<TDept> hasDeptList = userVO.getHasDeptList();
+            List<TRole> hasRoleList = userVO.getHasRoleList();
+
+            //去重
+            if(hasDeptList!=null) {
+                for (TDept tDept : hasDeptList) {
+                    if (deptIds.contains(tDept.getDeptId())) {
+                        deptIds.remove(tDept.getDeptId());
+                    }
+                }
+            }
+            if (hasRoleList!=null){
+                for (TRole tRole : hasRoleList) {
+                    if (roleIds.contains(tRole.getRoleId())){
+                        roleIds.remove(tRole.getRoleId());
+                    }
+                }
+            }
+
             if(deptIds.size()>0){
                 //插入部门用户关联信息
                 for (Long deptId : deptIds) {
@@ -231,19 +253,22 @@ public class UserServiceImpl implements UserService {
         Result result = new Result(ResultStatusCode.OK);
         try {
             UserVO userVO = userRepository.findById(userId);
-            //查询用户所属部门
-            List<TDept> hasDeptList = deptService.queryDeptByUserId(userId);
-            List<TDept> allDeptList = deptService.findAll();
-            //查询用户拥有的角色
-            List<TRole> hasRoleList = roleService.queryRoleByUserId(userId);
-            List<TRole> allRoleList = roleService.findAll();
+            if (userVO!=null) {
+                //查询用户所属部门
+                List<TDept> hasDeptList = deptService.queryDeptByUserId(userId);
+                List<TDept> allDeptList = deptService.findAll();
+                //查询用户拥有的角色
+                List<TRole> hasRoleList = roleService.queryRoleByUserId(userId);
+                List<TRole> allRoleList = roleService.findAll();
 
-            //数据封装
-            userVO.setHasDeptList(hasDeptList);
-            userVO.settDeptList(allDeptList);
-            userVO.setHasRoleList(hasRoleList);
-            userVO.settRoleList(allRoleList);
-            result.setData(userVO);
+                //数据封装
+                userVO.setHasDeptList(hasDeptList);
+                userVO.settDeptList(allDeptList);
+                userVO.setHasRoleList(hasRoleList);
+                userVO.settRoleList(allRoleList);
+                result.setData(userVO);
+            }
+
         }catch (Exception e){
             result = new Result(ResultStatusCode.HTTP_ERROR_400);
             logger.error("【查询用户信息失败！】，错误："+e);
@@ -256,9 +281,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result findByName(String userName) {
         Result result = new Result(ResultStatusCode.OK);
-        if (StringUtils.isNotEmpty(userName)){
-            List<TUser> tUserList = userRepository.findByName(userName);
-
+        List<TUser> tUserList  = null;
+        try {
+            if (StringUtils.isNotEmpty(userName)){
+                logger.info("【根据用户名称查询用户信息】，userName ="+userName);
+                tUserList = userRepository.findByName(userName);
+            }else{
+                result.setMsg("用户名为空！");
+            }
+            if (tUserList==null){
+                //待修改
+//                tUserList = userRepository.findAll();
+                result.setMsg("没有找到匹配的用户！");
+            }
             if(tUserList!=null){
                 for (TUser tUser : tUserList) {
                     //查询用户所属部门
@@ -269,12 +304,12 @@ public class UserServiceImpl implements UserService {
                     tUser.setDepts(hasDeptList);
                     tUser.setRoles(hasRoleList);
                 }
-            } else{
-                result =new Result(400,"没有找到匹配的用户！");
             }
             result.setData(tUserList);
-        }else{
-            result =new Result(400,"用户名为空！");
+        }catch (Exception e){
+            logger.error("【根据用户名称查询用户信息失败！】，错误："+e);
+            result = new Result(ResultStatusCode.HTTP_ERROR_400);
+            e.printStackTrace();
         }
         return result;
     }
@@ -287,30 +322,39 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result queryByPage(int page, int pageSize) {
+        logger.info("【分页查询用户信息】，page = "+page+"   pageSize = "+pageSize);
+
         Result result = new Result(ResultStatusCode.OK);
-        PageVO pageVO = new PageVO();
-        //统计用户数量
-        int count = userRepository.count();
-        int maxPage = pageVO.countMaxPage(count, pageSize);
-        int p = pageVO.countPage(page,maxPage);
+       try{
+           PageVO pageVO = new PageVO();
+           //统计用户数量
+           int count = userRepository.count();
+           int maxPage = pageVO.countMaxPage(count, pageSize);
+           int p = pageVO.countPage(page,maxPage);
 
-        pageVO.setMaxPage(maxPage);
-        pageVO.setPage(p);
-        pageVO.setPageSize(pageSize);
-        int start = (p-1)*pageSize;
-        List<TUser> tUsers = new ArrayList<>();
-        List<TUser> list = userRepository.findByPage(start,pageSize);
+           pageVO.setMaxPage(maxPage);
+           pageVO.setPage(p);
+           pageVO.setPageSize(pageSize);
+           int start = (p-1)*pageSize;
+           List<TUser> tUsers = new ArrayList<>();
+           List<TUser> list = userRepository.findByPage(start,pageSize);
+           if (list!=null) {
+               for (TUser tUser : list) {
+                   List<TRole> tRoles = roleService.queryRoleByUserId(tUser.getUserId());
+                   tUser.setRoles(tRoles);
+                   List<TDept> tDepts = deptService.queryDeptByUserId(tUser.getUserId());
+                   tUser.setDepts(tDepts);
+                   tUsers.add(tUser);
+               }
+           }
 
-        for (TUser tUser : list) {
-            List<TRole> tRoles = roleService.queryRoleByUserId(tUser.getUserId());
-            tUser.setRoles(tRoles);
-            List<TDept> tDepts = deptService.queryDeptByUserId(tUser.getUserId());
-            tUser.setDepts(tDepts);
-            tUsers.add(tUser);
-        }
-
-        pageVO.setUserlist(tUsers);
-        result.setData(pageVO);
+           pageVO.setUserlist(tUsers);
+           result.setData(pageVO);
+       }catch (Exception e){
+           logger.error("【分页查询用户信息失败】，错误："+ e);
+           result = new Result(ResultStatusCode.HTTP_ERROR_400);
+           e.printStackTrace();
+       }
         return result;
     }
 

@@ -21,13 +21,13 @@ public interface DeptRepository {
      * @param deptId
      * @return 返回部门内码
      */
-    public int deleteDept(Integer deptId)  throws Exception;
+    public int deleteDept(Long deptId)  throws Exception;
 
     /**
      * @desc 删除部门用户关联信息
      * @param deptId
      */
-    public void deleteDeptUserRel(Integer deptId) throws Exception;
+    public void deleteDeptUserRel(Long deptId) throws Exception;
     /**
      * @desc 统计部门数量
      * @return
@@ -39,7 +39,7 @@ public interface DeptRepository {
      * @param deptId
      * @return DeptVO
      */
-    public DeptVO queryById(Integer deptId)  ;
+    public DeptVO queryById(Long deptId)  ;
 
     /**
      * @desc 通过部门名称查询，返回部门信息集合list
@@ -74,7 +74,7 @@ public interface DeptRepository {
      * @desc 查询与部门关联的用户关系表
      * @param deptId
      */
-     public List<TDeptUserRel> queryDeptUserRel(Integer deptId) ;
+     public List<TDeptUserRel> queryDeptUserRel(Long deptId) ;
     /**
      * @desc 查询所有部门信息
      * @return List<TDept>

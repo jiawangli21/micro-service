@@ -1,18 +1,17 @@
 package com.htqyjsw1.vo;
 
-import com.htqyjsw1.entity.TDept;
-import com.htqyjsw1.entity.TRight;
-import com.htqyjsw1.entity.TRole;
-import com.htqyjsw1.entity.TUser;
+import com.htqyjsw1.entity.*;
+import io.swagger.annotations.ApiParam;
 
 import java.io.Serializable;
 import java.util.List;
 
-
 public class PageVO implements Serializable {
 
+    @ApiParam("当前页数")
     private int page;
 
+    @ApiParam("每页显示的数据条数")
     private int pageSize;
 
     private int maxPage;
@@ -24,6 +23,16 @@ public class PageVO implements Serializable {
     private List<TRole> roleList;
 
     private List<TRight> rightList;
+
+    private List<TMenu> menuList;
+
+    public List<TMenu> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(List<TMenu> menuList) {
+        this.menuList = menuList;
+    }
 
     public List<TRight> getRightList() {
         return rightList;
@@ -101,5 +110,16 @@ public class PageVO implements Serializable {
         return page;
     }
 
-
+    @Override
+    public String toString() {
+        return "PageVO{" +
+                "page=" + page +
+                ", pageSize=" + pageSize +
+                ", maxPage=" + maxPage +
+                ", userlist=" + userlist +
+                ", deptList=" + deptList +
+                ", roleList=" + roleList +
+                ", rightList=" + rightList +
+                '}';
+    }
 }

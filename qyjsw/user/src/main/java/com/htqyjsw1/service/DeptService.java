@@ -21,7 +21,7 @@ public interface DeptService {
      * @param deptId
      * @return DeptVO
      */
-    public Result queryDetailById(Integer deptId);
+    public Result queryDetailById(Long deptId);
 
 
     /**
@@ -50,7 +50,7 @@ public interface DeptService {
      * @param deptId
      * @return
      */
-    public Result deleteDept(Integer deptId);
+    public Result deleteDept(Long deptId);
 
     /**
      * @desc 查询所有部门信息

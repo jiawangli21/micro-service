@@ -6,6 +6,7 @@ import com.htqyjsw1.service.MenuService;
 import com.htqyjsw1.service.RoleService;
 import com.htqyjsw1.utils.RedisUtils;
 import com.htqyjsw1.utils.TokenUtil;
+import com.htqyjsw1.vo.PageVO;
 import com.htqyjsw1.vo.UserRoleVO;
 import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
@@ -143,7 +144,7 @@ public class MenuServiceImpl implements MenuService {
                                     }
                                 }
                             }
-                            menu.setChildrenMenus(childen);
+                            menu.setChildren(childen);
                         }
 
                         list.add(menu);
@@ -163,12 +164,28 @@ public class MenuServiceImpl implements MenuService {
         return result;
     }
 
+    @Override
+    public Result findByPage(int page, int pageSize) {
+        Result result = new Result(ResultStatusCode.OK);
+        logger.info("【分页查询部门信息】，正在查找第 "+page+" 页部门信息");
+        PageVO pageVO = new PageVO();
+        //统计用户数量
+        int count = menuRepository.count();
+        //计算最大页数
+        int maxPage = pageVO.countMaxPage(count, pageSize);
+        int p = pageVO.countPage(page,maxPage);
 
-    public TMenu findById(TMenu menu){
+        pageVO.setMaxPage(maxPage);
+        pageVO.setPage(p);
+        pageVO.setPageSize(pageSize);
+        //开始位置
+        int start = (p-1)*pageSize;
+        logger.info("【分页查询开始位置】："+start+" 【结束位置】："+(start+pageSize));
 
-        List<TMenu> childenMenus = menuRepository.findChildenMenus(menu.getMenuId());
-        menu.setChildrenMenus(childenMenus);
-        return menu;
+        List<TMenu> list = menuRepository.findByPage(start,pageSize);
+        pageVO.setMenuList(list);
+        result.setData(pageVO);
+        return result;
     }
 
 
