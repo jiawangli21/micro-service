@@ -48,6 +48,13 @@ public class PageController {
         return result;
     }
 
+
+    @GetMapping("/count")
+    @ApiOperation(value = "统计页面数量")
+    public Result count(){
+        return  pageService.count();
+    }
+
     @PostMapping("/updatePage")
     @ApiOperation(value = "更新页面信息")
     public Result updatePage(@RequestBody TPage tPage){

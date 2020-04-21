@@ -72,4 +72,11 @@ public class RightController {
 
         return rightService.findById(rightId);
     }
+
+
+    @GetMapping("/count")
+    @ApiOperation(value = "统计权限数量")
+    public Result count(){
+        return  rightService.count();
+    }
 }

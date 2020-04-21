@@ -68,4 +68,9 @@ public class FunctionController {
         return functionService.queryByPage(page,pageSize);
     }
 
+    @GetMapping("/count")
+    @ApiOperation(value = "统计功能数量")
+    public Result count(){
+        return  functionService.count();
+    }
 }

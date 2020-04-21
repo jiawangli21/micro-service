@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -95,6 +97,16 @@ public class FunctionServiceImpl implements FunctionService {
             e.printStackTrace();
             logger.error("【更新功能信息失败！】，异常："+ e);
         }
+        return result;
+    }
+
+    @Override
+    public Result count() {
+        Result result = new Result(ResultStatusCode.OK);
+        int totalSize =  functionRepository.count();
+        Map<String,Integer> map = new HashMap<>();
+        map.put("totalSize",totalSize);
+        result.setData(map);
         return result;
     }
 

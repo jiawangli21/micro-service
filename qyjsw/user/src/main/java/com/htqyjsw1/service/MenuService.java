@@ -60,4 +60,6 @@ public interface MenuService {
     public Result findByPage(int page, int pageSize);
 
 
+    public int count();
+
 }

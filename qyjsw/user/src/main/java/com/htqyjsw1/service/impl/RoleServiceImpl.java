@@ -9,9 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+
+import java.util.*;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -214,7 +213,15 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.queryRole(roleId,type);
     }
 
-
+    @Override
+    public Result count() {
+        Result result = new Result(ResultStatusCode.OK);
+        int totalSize =  roleRepository.count();
+        Map<String,Integer> map = new HashMap<>();
+        map.put("totalSize",totalSize);
+        result.setData(map);
+        return result;
+    }
     @Override
     public Result findByPage(int page,int pageSize) {
         Result result = new Result(ResultStatusCode.OK);

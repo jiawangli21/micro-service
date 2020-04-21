@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -79,6 +81,16 @@ public class RightServiceImpl implements RightService {
         Result result = new Result(ResultStatusCode.OK);
         TRight tRight = rightRepository.findById(rightId);
         result.setData(tRight);
+        return result;
+    }
+
+    @Override
+    public Result count() {
+        Result result = new Result(ResultStatusCode.OK);
+        int totalSize =  rightRepository.count();
+        Map<String,Integer> map = new HashMap<>();
+        map.put("totalSize",totalSize);
+        result.setData(map);
         return result;
     }
 

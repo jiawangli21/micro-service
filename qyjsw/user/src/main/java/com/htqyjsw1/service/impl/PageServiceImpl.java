@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @desc 页面业务处理
@@ -77,6 +79,16 @@ public class PageServiceImpl implements PageService {
     public List<TPage> selectByIds(List<Long> pageIdList) {
         List<TPage> tPageList = pageRepository.selectByIds(pageIdList);
         return tPageList;
+    }
+
+    @Override
+    public Result count() {
+        Result result = new Result(ResultStatusCode.OK);
+        int totalSize =  pageRepository.count();
+        Map<String,Integer> map = new HashMap<>();
+        map.put("totalSize",totalSize);
+        result.setData(map);
+        return result;
     }
 
     @Override

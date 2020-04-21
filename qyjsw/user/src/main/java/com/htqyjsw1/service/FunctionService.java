@@ -45,4 +45,7 @@ public interface FunctionService {
     public Result updateFunction(TFunction tFunction, HttpServletRequest request);
 
     public Result queryByPage(int page, int pageSize);
+
+    public Result count();
+
 }

@@ -76,4 +76,10 @@ public class RoleController {
         result.setData( roleService.findAll());
         return result;
     }
+
+    @GetMapping("/count")
+    @ApiOperation(value = "统计角色数量")
+    public Result count(){
+        return  roleService.count();
+    }
 }

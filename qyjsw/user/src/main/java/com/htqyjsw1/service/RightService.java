@@ -45,4 +45,7 @@ public interface RightService {
     public Result findById(Long rightId);
 
     public Result findByPage(int page, int pageSize);
+
+    public Result count();
+
 }

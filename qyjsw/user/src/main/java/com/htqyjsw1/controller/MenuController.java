@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @desc 菜单信息管理
@@ -70,6 +72,21 @@ public class MenuController {
     @ApiOperation(value = "分页查询菜单信息")
     public Result findByPage(@PathVariable @ApiParam("当前页数") int page,@PathVariable @ApiParam("每页显示的数据条数") int pageSize){
         Result result = menuService.findByPage(page,pageSize);
+        return result;
+    }
+
+    /**
+     * @desc 统计菜单数量
+     * @return
+     */
+    @GetMapping("/count")
+    @ApiOperation(value = "统计菜单数量")
+    public Result count(){
+        Result result = new Result(ResultStatusCode.OK);
+        int totalSize =  menuService.count();
+        Map<String,Integer> map = new HashMap<>();
+        map.put("totalSize",totalSize);
+        result.setData(map);
         return result;
     }
 

@@ -232,4 +232,9 @@ public class MenuServiceImpl implements MenuService {
         }
         return list;
     }
+
+    @Override
+    public int count() {
+        return menuRepository.count();
+    }
 }

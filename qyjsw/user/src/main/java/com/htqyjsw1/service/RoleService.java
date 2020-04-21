@@ -77,4 +77,5 @@ public interface RoleService {
      */
     public Result findByPage(int page,int pageSize);
 
+    public Result count();
 }
