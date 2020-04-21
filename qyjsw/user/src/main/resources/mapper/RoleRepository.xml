@@ -29,6 +29,7 @@
           <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
           <result column="menu_icon" property="menuIcon" jdbcType="VARCHAR" />
           <result column="right_name" property="rightName" jdbcType="VARCHAR" />
+          <result column="right_id" property="rightId" jdbcType="BIGINT" />
         </collection>
 
         <collection property="tPages" ofType="com.htqyjsw1.entity.TPage">
@@ -36,6 +37,7 @@
             <result column="page_url" jdbcType="VARCHAR" property="pageUrl" />
             <result column="page_desc" jdbcType="VARCHAR" property="pageDesc" />
             <result column="right_name" property="rightName" jdbcType="VARCHAR" />
+            <result column="right_id" property="rightId" jdbcType="BIGINT" />
         </collection>
 
        <collection property="tFunctions" ofType="com.htqyjsw1.entity.TFunction">
@@ -43,11 +45,12 @@
             <result column="fun_subsystem_name" property="funSubsystemName" jdbcType="VARCHAR" />
             <result column="fun_name" property="funName" jdbcType="VARCHAR" />
             <result column="right_name" property="rightName" jdbcType="VARCHAR" />
+           <result column="right_id" property="rightId" jdbcType="BIGINT" />
         </collection>
 
     </resultMap>
 
-    <select id="queryRole" resultMap="BaseUserRole">
+    <select id="queryRoleRel" resultMap="BaseUserRole">
         select * from t_role ro,t_role_right_rel rr,t_right ri
                 <if test="type == 1" >
                     ,t_function f

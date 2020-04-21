@@ -3,6 +3,7 @@ package com.htqyjsw1.controller;
 import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TMenu;
+import com.htqyjsw1.po.MenuPO;
 import com.htqyjsw1.service.MenuService;
 import com.htqyjsw1.utils.TokenUtil;
 import io.jsonwebtoken.Claims;
@@ -32,8 +33,8 @@ public class MenuController {
 
     @PutMapping("/addMenu")
     @ApiOperation(value = "添加菜单信息")
-    public Result addMenu(@RequestBody TMenu tMenu){
-        Result result = menuService.addMenu(tMenu);
+    public Result addMenu(@RequestBody MenuPO menuPO){
+        Result result = menuService.addMenu(menuPO);
         return result;
     }
 

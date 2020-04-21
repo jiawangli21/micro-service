@@ -13,6 +13,8 @@ public class TMenu  implements Serializable {
 
     private String rightName;
 
+    private String rightId;
+
     private Integer menuLevel;
 
     private String menuUrl = "";
@@ -21,6 +23,13 @@ public class TMenu  implements Serializable {
 
     private List<TMenu> children;
 
+    public String getRightId() {
+        return rightId;
+    }
+
+    public void setRightId(String rightId) {
+        this.rightId = rightId;
+    }
 
     public Integer getMenuLevel() {
         return menuLevel;
@@ -116,6 +125,7 @@ public class TMenu  implements Serializable {
                 ", menuName='" + menuName + '\'' +
                 ", menuParent=" + menuParent +
                 ", rightName='" + rightName + '\'' +
+                ", rightId='" + rightId + '\'' +
                 ", menuLevel=" + menuLevel +
                 ", menuUrl='" + menuUrl + '\'' +
                 ", menuIcon='" + menuIcon + '\'' +

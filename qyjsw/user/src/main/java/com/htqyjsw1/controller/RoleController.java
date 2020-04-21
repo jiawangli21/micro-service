@@ -56,11 +56,20 @@ public class RoleController {
 
 
     @GetMapping("/queryRoleRel")
-    @ApiOperation(value = "获取角色关联信息" )
-    public Result queryRoleRel(){
-        Result result = roleService.queryRoleRel();
+    @ApiOperation(value = "获取所有角色关联信息" )
+    public Result queryAllRoleRel(){
+        Result result = roleService.queryAllRoleRel();
         return result;
     }
+
+    @GetMapping("/queryRoleRelById")
+    @ApiOperation(value = "根据角色ID获取角色关联信息" )
+    public Result queryRoleRelById(@ApiParam("角色编号") Long roleId){
+        Result result = roleService.queryRoleRelById(roleId);
+        return result;
+    }
+
+
 
     @GetMapping("/findByPage/{page}/{pageSize}/")
     @ApiOperation(value = "分页查询角色信息" )

@@ -2,6 +2,7 @@ package com.htqyjsw1.repository;
 
 
 import com.htqyjsw1.entity.TFunction;
+import com.htqyjsw1.po.FunctionPO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -23,10 +24,10 @@ public interface FunctionRepository {
 
     /**
      * @desc 添加功能信息
-     * @param tFunction
+     * @param functionPO
      * @return
      */
-    public int insert(TFunction tFunction);
+    public int insert(FunctionPO functionPO);
 
     /**
      * @desc 删除功能信息

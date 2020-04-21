@@ -4,6 +4,7 @@ package com.htqyjsw1.controller;
 import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TFunction;
+import com.htqyjsw1.po.FunctionPO;
 import com.htqyjsw1.service.FunctionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,8 +41,8 @@ public class FunctionController {
 
     @ApiOperation(value = "添加功能信息")
     @PutMapping("/addFunction")
-    public Result addFunction(@RequestBody TFunction tFunction){
-        Result result = functionService.addFunction(tFunction);
+    public Result addFunction(@RequestBody FunctionPO functionPO){
+        Result result = functionService.addFunction(functionPO);
         return result;
     }
 

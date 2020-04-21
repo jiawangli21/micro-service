@@ -82,7 +82,7 @@ public interface RoleRepository {
      * @param type
      * @return
      */
-    public UserRoleVO queryRole(@Param("roleId") Long roleId , @Param("type") int type ) throws  Exception ;
+    public UserRoleVO queryRoleRel(@Param("roleId") Long roleId , @Param("type") int type ) throws  Exception ;
 
     /**
      * @desc 统计角色数量

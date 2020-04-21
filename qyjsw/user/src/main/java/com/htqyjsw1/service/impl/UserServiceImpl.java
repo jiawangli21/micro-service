@@ -161,7 +161,7 @@ public class UserServiceImpl implements UserService {
                     //分别查询不同的权限信息  1:功能，2:菜单，3:页面
                     List<UserRoleVO> userRoleVOList = new ArrayList<>();
                     for (TRole tRole : tRoles) {
-                        UserRoleVO userRoleVO = roleService.queryRole(tRole.getRoleId(), 1);
+                        UserRoleVO userRoleVO = roleService.queryRoleRel(tRole.getRoleId(), 1);
                         userRoleVOList.add(userRoleVO);
                     }
                     if (userRoleVOList.size() > 0) {

@@ -3,6 +3,7 @@ package com.htqyjsw1.service.impl;
 import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TFunction;
+import com.htqyjsw1.po.FunctionPO;
 import com.htqyjsw1.repository.FunctionRepository;
 import com.htqyjsw1.service.FunctionService;
 import com.htqyjsw1.utils.RedisUtils;
@@ -48,10 +49,10 @@ public class FunctionServiceImpl implements FunctionService {
     }
 
     @Override
-    public Result addFunction(TFunction tFunction) {
+    public Result addFunction(FunctionPO functionPO) {
         Result result = new Result(ResultStatusCode.OK);
         try {
-            int id = functionRepository.insert(tFunction);
+            int id = functionRepository.insert(functionPO);
             if(id > 0){
                 logger.info("【添加功能信息成功！】，功能id："+id);
             }

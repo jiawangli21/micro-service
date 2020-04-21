@@ -3,6 +3,7 @@ package com.htqyjsw1.service;
 
 import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.entity.TFunction;
+import com.htqyjsw1.po.FunctionPO;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -25,10 +26,10 @@ public interface FunctionService {
 
     /**
      * @desc 添加功能信息
-     * @param tFunction
+     * @param functionPO
      * @return
      */
-    public Result addFunction(TFunction tFunction);
+    public Result addFunction(FunctionPO functionPO);
 
     /**
      * @desc 删除功能信息

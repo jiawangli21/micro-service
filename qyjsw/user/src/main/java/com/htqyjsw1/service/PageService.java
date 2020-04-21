@@ -2,6 +2,7 @@ package com.htqyjsw1.service;
 
 import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.entity.TPage;
+import com.htqyjsw1.po.PagePO;
 
 import java.util.List;
 
@@ -9,10 +10,10 @@ public interface PageService {
 
     /**
      * @desc 添加页面信息
-     * @param tPage
+     * @param pagePO
      * @return
      */
-    public Result addPage(TPage tPage);
+    public Result addPage(PagePO pagePO);
 
     /**
      * @desc 删除页面信息

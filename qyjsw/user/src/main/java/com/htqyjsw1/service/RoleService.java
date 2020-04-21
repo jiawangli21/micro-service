@@ -28,10 +28,10 @@ public interface RoleService {
 
 
     /**
-     * @desc 查询角色关联的权限信息，按权限类别进行封装，当添加角色信息时
+     * @desc 查询所有角色关联的权限信息（包括菜单，功能，页面），按权限类别进行封装，当添加角色信息时
      * @return
      */
-    public Result queryRoleRel();
+    public Result queryAllRoleRel();
 
 
     /**
@@ -61,12 +61,12 @@ public interface RoleService {
     public Result updateRole(RolePO rolePO);
 
     /**
-     * @desc 查询角色拥有的权限信息，返回(type=1 -> 角色-功能，type=2 -> 角色-菜单，type=3 -> 角色-页面，) 关联信息集合
+     * @desc 查询角色拥有的权限信息,通过 roleId 和type，返回(type=1 -> 角色-功能，type=2 -> 角色-菜单，type=3 -> 角色-页面，) 关联信息集合
      * @param roleId
      * @param type
      * @return
      */
-    public UserRoleVO queryRole(Long roleId, int type ) throws Exception;
+    public UserRoleVO queryRoleRel(Long roleId, int type ) throws Exception;
 
 
     /**
@@ -78,4 +78,11 @@ public interface RoleService {
     public Result findByPage(int page,int pageSize);
 
     public Result count();
+
+    /**
+     * @desc 查询某个角色的权限关联信息
+     * @param roleId
+     * @return
+     */
+    public Result queryRoleRelById(Long roleId);
 }

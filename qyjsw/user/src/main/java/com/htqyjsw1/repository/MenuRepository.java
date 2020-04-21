@@ -1,6 +1,7 @@
 package com.htqyjsw1.repository;
 
 import com.htqyjsw1.entity.TMenu;
+import com.htqyjsw1.po.MenuPO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -9,10 +10,10 @@ public interface MenuRepository {
 
     /**
      * @desc 添加菜单
-     * @param tMenu
+     * @param menuPO
      * @return
      */
-    public int insert(TMenu tMenu);
+    public int insert(MenuPO menuPO);
 
     /**
      * @desc 删除菜单信息

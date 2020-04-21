@@ -6,33 +6,33 @@ import java.io.Serializable;
 
 public class PagePO implements Serializable {
 
-    @ApiParam("当前页数")
-    private int page;
+    private Long pageId;
 
-    @ApiParam("每页显示的数据条数")
-    private int pageSize;
+    private String pageUrl;
 
-    public int getPage() {
-        return page;
+    private String pageDesc;
+
+    public Long getPageId() {
+        return pageId;
     }
 
-    public void setPage(int page) {
-        this.page = page;
+    public void setPageId(Long pageId) {
+        this.pageId = pageId;
     }
 
-    public int getPageSize() {
-        return pageSize;
+    public String getPageUrl() {
+        return pageUrl;
     }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
+    public void setPageUrl(String pageUrl) {
+        this.pageUrl = pageUrl;
     }
 
-    @Override
-    public String toString() {
-        return "PagePO{" +
-                "page=" + page +
-                ", pageSize=" + pageSize +
-                '}';
+    public String getPageDesc() {
+        return pageDesc;
+    }
+
+    public void setPageDesc(String pageDesc) {
+        this.pageDesc = pageDesc;
     }
 }

@@ -12,6 +12,8 @@ public class TRoleRightRel   implements Serializable {
 
     private Integer eleType;
 
+    private Long rightId;
+
     @Override
     public String toString() {
         return "TRoleRightRel{" +
@@ -22,8 +24,6 @@ public class TRoleRightRel   implements Serializable {
                 ", rightId=" + rightId +
                 '}';
     }
-
-    private Long rightId;
 
     public Long getRrId() {
         return rrId;

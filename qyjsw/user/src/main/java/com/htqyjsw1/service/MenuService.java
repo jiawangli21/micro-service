@@ -3,6 +3,7 @@ package com.htqyjsw1.service;
 
 import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.entity.TMenu;
+import com.htqyjsw1.po.MenuPO;
 import io.swagger.annotations.ApiParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,10 +13,10 @@ public interface MenuService {
 
     /**
      * @desc 添加菜单
-     * @param tMenu
+     * @param menuPO
      * @return
      */
-    public Result addMenu(TMenu tMenu);
+    public Result addMenu(MenuPO menuPO);
 
     /**
      * @desc 删除菜单信息

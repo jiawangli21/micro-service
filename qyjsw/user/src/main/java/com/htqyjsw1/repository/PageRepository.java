@@ -3,6 +3,7 @@ package com.htqyjsw1.repository;
 
 import com.htqyjsw1.entity.TFunction;
 import com.htqyjsw1.entity.TPage;
+import com.htqyjsw1.po.PagePO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,10 +12,10 @@ public interface PageRepository {
 
     /**
      * @desc 添加页面信息
-     * @param tPage
+     * @param pagePO
      * @return
      */
-    public int insert(TPage tPage);
+    public int insert(PagePO pagePO);
 
     /**
      * @desc 删除页面信息

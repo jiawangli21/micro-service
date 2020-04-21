@@ -3,6 +3,7 @@ package com.htqyjsw1.service.impl;
 import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TPage;
+import com.htqyjsw1.po.PagePO;
 import com.htqyjsw1.repository.PageRepository;
 import com.htqyjsw1.service.PageService;
 import com.htqyjsw1.vo.PageVO;
@@ -29,10 +30,10 @@ public class PageServiceImpl implements PageService {
 
 
     @Override
-    public Result addPage(TPage tPage) {
+    public Result addPage(PagePO pagePO) {
         Result result = new Result(ResultStatusCode.OK);
         try {
-            int id = pageRepository.insert(tPage);
+            int id = pageRepository.insert(pagePO);
             if(id > 0){
                 logger.info("【添加页面成功！】，页面id："+id);
             }

@@ -3,6 +3,7 @@ package com.htqyjsw1.controller;
 import com.htqyjsw1.entity.Result;
 import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TPage;
+import com.htqyjsw1.po.PagePO;
 import com.htqyjsw1.service.PageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,8 +37,8 @@ public class PageController {
 
     @PutMapping("/addPage")
     @ApiOperation(value = "添加页面信息")
-    public Result addPage(@RequestBody TPage tPage){
-        Result result = pageService.addPage(tPage);
+    public Result addPage(@RequestBody PagePO pagePO){
+        Result result = pageService.addPage(pagePO);
         return result;
     }
 

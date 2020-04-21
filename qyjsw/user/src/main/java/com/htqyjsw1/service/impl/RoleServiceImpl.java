@@ -91,7 +91,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Result queryRoleRel() {
+    public Result queryAllRoleRel() {
         Result result = new Result(ResultStatusCode.OK);
         logger.info("【查询添加角色时关联的权限信息】");
 
@@ -165,6 +165,7 @@ public class RoleServiceImpl implements RoleService {
                 roleVO.settPageList(tPageList);
             }
         }
+
         roleVO.setRoleId(tRole.getRoleId());
         roleVO.setRoleName(tRole.getRoleName());
         roleVO.setRoleCreater(tRole.getRoleCreater());
@@ -209,8 +210,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public UserRoleVO queryRole(Long roleId, int type) throws  Exception {
-        return roleRepository.queryRole(roleId,type);
+    public UserRoleVO queryRoleRel(Long roleId, int type) throws  Exception {
+        return roleRepository.queryRoleRel(roleId,type);
     }
 
     @Override
@@ -222,6 +223,45 @@ public class RoleServiceImpl implements RoleService {
         result.setData(map);
         return result;
     }
+
+    @Override
+    public Result queryRoleRelById(Long roleId) {
+        Result result = new Result(ResultStatusCode.OK);
+        try{
+
+            RoleVO roleVO = new RoleVO();
+
+            TRole tRole = roleRepository.queryById(roleId);
+            if (tRole!=null) {
+                //查询角色权限关联表
+                UserRoleVO funList = roleRepository.queryRoleRel(roleId, 1);
+                UserRoleVO menuList = roleRepository.queryRoleRel(roleId, 2);
+                UserRoleVO pageList = roleRepository.queryRoleRel(roleId, 3);
+                if (funList != null) {
+                    roleVO.settFunctionList(funList.gettFunctions());
+                }
+                if (menuList != null) {
+                    roleVO.settMenuList(menuList.gettMenus());
+                }
+                if (pageList != null) {
+                    roleVO.settPageList(pageList.gettPages());
+                }
+                roleVO.setRoleId(tRole.getRoleId());
+                roleVO.setRoleName(tRole.getRoleName());
+                roleVO.setRoleCreater(tRole.getRoleCreater());
+                roleVO.setCreateTime(tRole.getCreateTime());
+            }else{
+                result = new Result(400,"该角色不存在！");
+            }
+            result.setData(roleVO);
+        }catch (Exception e){
+            logger.error("【根据id查询角色关联权限信息失败】，异常："+e);
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
     @Override
     public Result findByPage(int page,int pageSize) {
         Result result = new Result(ResultStatusCode.OK);

@@ -12,6 +12,17 @@ public class TPage  implements Serializable {
 
     private String rightName;
 
+    private String rightId;
+
+    public String getRightId() {
+        return rightId;
+    }
+
+    public void setRightId(String rightId) {
+        this.rightId = rightId;
+    }
+
+
     public Long getPageId() {
         return pageId;
     }

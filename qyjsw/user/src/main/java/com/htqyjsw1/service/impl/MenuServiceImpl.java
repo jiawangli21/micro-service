@@ -1,6 +1,7 @@
 package com.htqyjsw1.service.impl;
 
 import com.htqyjsw1.entity.*;
+import com.htqyjsw1.po.MenuPO;
 import com.htqyjsw1.repository.MenuRepository;
 import com.htqyjsw1.service.MenuService;
 import com.htqyjsw1.service.RoleService;
@@ -36,13 +37,13 @@ public class MenuServiceImpl implements MenuService {
     private RedisUtils redisUtils;
 
     @Override
-    public Result addMenu(TMenu tMenu) {
+    public Result addMenu(MenuPO menuPO) {
         Result result = new Result(ResultStatusCode.OK);
          try {
-             if (StringUtils.isNotEmpty(tMenu.getMenuName())){
-                 if (StringUtils.isNotEmpty(tMenu.getMenuLevel().toString())){
-                     menuRepository.insert(tMenu);
-                     logger.info("【添加菜单成功！】，菜单："+tMenu);
+             if (StringUtils.isNotEmpty(menuPO.getMenuName())){
+                 if (StringUtils.isNotEmpty(menuPO.getMenuLevel().toString())){
+                     menuRepository.insert(menuPO);
+                     logger.info("【添加菜单成功！】，菜单："+menuPO);
                  }else {
                      result = new Result(400,"菜单级别为空");
                  }
@@ -132,7 +133,7 @@ public class MenuServiceImpl implements MenuService {
 
                     List<UserRoleVO> userRoleVOList = new ArrayList<>();
                     for (TRole tRole : tRoles) {
-                        UserRoleVO userRoleVO = roleService.queryRole(tRole.getRoleId(), 2);
+                        UserRoleVO userRoleVO = roleService.queryRoleRel(tRole.getRoleId(), 2);
                         userRoleVOList.add(userRoleVO);
                     }
                     //封装数据
