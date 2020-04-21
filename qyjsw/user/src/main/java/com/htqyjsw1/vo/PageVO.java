@@ -26,6 +26,26 @@ public class PageVO implements Serializable {
 
     private List<TMenu> menuList;
 
+    private  List<TPage> pageList;
+
+    private List<TFunction> functionList;
+
+    public List<TPage> getPageList() {
+        return pageList;
+    }
+
+    public void setPageList(List<TPage> pageList) {
+        this.pageList = pageList;
+    }
+
+    public List<TFunction> getFunctionList() {
+        return functionList;
+    }
+
+    public void setFunctionList(List<TFunction> functionList) {
+        this.functionList = functionList;
+    }
+
     public List<TMenu> getMenuList() {
         return menuList;
     }

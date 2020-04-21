@@ -118,7 +118,8 @@ public class TMenu  implements Serializable {
                 ", rightName='" + rightName + '\'' +
                 ", menuLevel=" + menuLevel +
                 ", menuUrl='" + menuUrl + '\'' +
-                ", childrenMenus=" + children +
+                ", menuIcon='" + menuIcon + '\'' +
+                ", children=" + children +
                 '}';
     }
 }

@@ -41,4 +41,6 @@ public interface PageService {
      * @return
      */
     public List<TPage> selectByIds(List<Long> pageIdList);
+
+    public Result queryByPage(int page, int pageSize);
 }

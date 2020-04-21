@@ -7,6 +7,7 @@ import com.htqyjsw1.repository.FunctionRepository;
 import com.htqyjsw1.service.FunctionService;
 import com.htqyjsw1.utils.RedisUtils;
 import com.htqyjsw1.utils.TokenUtil;
+import com.htqyjsw1.vo.PageVO;
 import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,9 +78,9 @@ public class FunctionServiceImpl implements FunctionService {
         Result result = new Result(ResultStatusCode.OK);
         try {
             String token = request.getHeader("Authorization");
+            functionRepository.update(tFunction);
             //删除缓存
             if (token != null){
-                functionRepository.update(tFunction);
                 Claims claims = TokenUtil.parseJWT(token);
                 String tokenKey = claims.get("jti").toString();
                 String[] s = tokenKey.split("_");
@@ -87,14 +88,42 @@ public class FunctionServiceImpl implements FunctionService {
                 redisUtils.del("permission_"+ userId);
                 logger.info("【更新功能信息成功！】" + tFunction);
             }else {
-                result = new Result(ResultStatusCode.KICK_OUT);
+                result = new Result(ResultStatusCode.NOT_LOGIN);
             }
-
-
         }catch (Exception e){
             result = new Result(400,"更新功能信息失败！");
             e.printStackTrace();
             logger.error("【更新功能信息失败！】，异常："+ e);
+        }
+        return result;
+    }
+
+    @Override
+    public Result queryByPage(int page, int pageSize) {
+
+        logger.info("【分页查询页面信息】，page = "+page+"   pageSize = "+pageSize);
+
+        Result result = new Result(ResultStatusCode.OK);
+        try {
+            PageVO pageVO = new PageVO();
+            //统计用户数量
+            int count = functionRepository.count();
+            int maxPage = pageVO.countMaxPage(count, pageSize);
+            int p = pageVO.countPage(page, maxPage);
+
+            pageVO.setMaxPage(maxPage);
+            pageVO.setPage(p);
+            pageVO.setPageSize(pageSize);
+            int start = (p - 1) * pageSize;
+            List<TFunction> tFunctionList= functionRepository.findByPage(start, pageSize);
+
+            pageVO.setFunctionList(tFunctionList);
+
+            result.setData(pageVO);
+        }catch (Exception e){
+            result = new Result(ResultStatusCode.HTTP_ERROR_400);
+            logger.error("【分页查询功能信息失败！】，异常："+ e);
+            e.printStackTrace();
         }
         return result;
     }

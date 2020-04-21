@@ -5,6 +5,7 @@ import com.htqyjsw1.entity.ResultStatusCode;
 import com.htqyjsw1.entity.TPage;
 import com.htqyjsw1.repository.PageRepository;
 import com.htqyjsw1.service.PageService;
+import com.htqyjsw1.vo.PageVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,5 +77,35 @@ public class PageServiceImpl implements PageService {
     public List<TPage> selectByIds(List<Long> pageIdList) {
         List<TPage> tPageList = pageRepository.selectByIds(pageIdList);
         return tPageList;
+    }
+
+    @Override
+    public Result queryByPage(int page, int pageSize) {
+
+        logger.info("【分页查询页面信息】，page = "+page+"   pageSize = "+pageSize);
+
+        Result result = new Result(ResultStatusCode.OK);
+        try {
+            PageVO pageVO = new PageVO();
+            //统计用户数量
+            int count = pageRepository.count();
+            int maxPage = pageVO.countMaxPage(count, pageSize);
+            int p = pageVO.countPage(page, maxPage);
+
+            pageVO.setMaxPage(maxPage);
+            pageVO.setPage(p);
+            pageVO.setPageSize(pageSize);
+            int start = (p - 1) * pageSize;
+            List<TPage> tPageList = pageRepository.findByPage(start, pageSize);
+
+            pageVO.setPageList(tPageList);
+
+            result.setData(pageVO);
+        }catch (Exception e){
+            result = new Result(ResultStatusCode.HTTP_ERROR_400);
+            logger.error("【分页查询页面信息失败！】，异常："+ e);
+            e.printStackTrace();
+        }
+        return result;
     }
 }

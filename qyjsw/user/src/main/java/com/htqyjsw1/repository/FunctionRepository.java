@@ -41,4 +41,14 @@ public interface FunctionRepository {
      * @return
      */
     public void update(TFunction tFunction);
+
+    /**
+     * @desc 分页查询功能信息
+     * @param start
+     * @param pageSize
+     * @return
+     */
+    public List<TFunction> findByPage(@Param("start") int start,@Param("pageSize") int pageSize);
+
+    public int count();
 }

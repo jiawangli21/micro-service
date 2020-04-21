@@ -1,5 +1,6 @@
 package com.htqyjsw1.interceptor;
 
+import com.htqyjsw1.Exception.LoginException;
 import com.htqyjsw1.controller.UserController;
 import com.htqyjsw1.utils.RedisUtils;
 import com.htqyjsw1.utils.TokenUtil;
@@ -36,6 +37,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         String token = request.getHeader("Authorization");
         if (null == token){
             logger.info("-----------------当前用户未登录》》》返回页面到登录页------------------");
+//            throw new LoginException("当前用户未登录，请先登录！");
+
+            //直接跳转登录页
             response.sendRedirect(login_path);
             return false;
         }
@@ -47,6 +51,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         String redisToken = (String) redisUtils.get(tokenKey);
         if(redisToken == null ){
             logger.error("【当前用户token在redis中不存在】,userName:",tokenKey);
+//            throw new LoginException("当前用户登录ID已失效，请重新登录");
             response.sendRedirect(login_path);
             return false;
         }
@@ -54,6 +59,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         if(expire <= 0){
             logger.info("【当前用户token已失效】,currentUser:{}",tokenKey);
             response.sendRedirect(login_path);
+//            throw new LoginException("当前用户登录ID已失效，请重新登录");
             return false;
         }
         //校验当前用户请求的token是否和redis中的token相同
@@ -63,6 +69,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             return true;
         }else{
             logger.info("【当前用户token与redis中的token不符合，请重新登录】,currentUser:{}",tokenKey);
+//            throw new LoginException("当前用户登录ID已失效，请重新登录");
             response.sendRedirect(login_path);
             return false;
         }

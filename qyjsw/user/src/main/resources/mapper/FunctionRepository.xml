@@ -13,6 +13,13 @@
         select * from t_function
     </select>
 
+    <select id="findByPage"  resultMap="BaseResultMap">
+		select * from t_function order by fun_subsystem_name limit #{start}, #{pageSize}
+	</select>
+
+    <select id="count" resultType="int">
+        select count(*) from t_function
+    </select>
 
     <select id="selectByIds" resultMap="BaseResultMap">
         select * from t_function where fun_id in

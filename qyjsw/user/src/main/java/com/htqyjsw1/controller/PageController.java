@@ -56,4 +56,10 @@ public class PageController {
     }
 
 
+    @GetMapping("/findByPage/{page}/{pageSize}/")
+    @ApiOperation(value = "分页查询")
+    public Result queryByPage(@PathVariable @ApiParam("当前页") int page,@PathVariable @ApiParam("每页显示的数据条数") int pageSize ){
+
+        return pageService.queryByPage(page,pageSize);
+    }
 }

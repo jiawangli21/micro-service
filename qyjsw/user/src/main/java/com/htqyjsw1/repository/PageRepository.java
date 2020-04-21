@@ -41,4 +41,14 @@ public interface PageRepository {
      * @return
      */
     List<TPage> selectByIds(@Param("pageIdList") List<Long> pageIdList);
+
+    /**
+     * @desc 分页查询页面信息
+     * @param start
+     * @param pageSize
+     * @return
+     */
+    public List<TPage> findByPage(@Param("start") int start,@Param("pageSize") int pageSize);
+
+    public int count();
 }

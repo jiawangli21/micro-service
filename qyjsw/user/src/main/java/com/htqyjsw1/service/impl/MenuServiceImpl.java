@@ -9,6 +9,7 @@ import com.htqyjsw1.utils.TokenUtil;
 import com.htqyjsw1.vo.PageVO;
 import com.htqyjsw1.vo.UserRoleVO;
 import io.jsonwebtoken.Claims;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +39,21 @@ public class MenuServiceImpl implements MenuService {
     public Result addMenu(TMenu tMenu) {
         Result result = new Result(ResultStatusCode.OK);
          try {
-             menuRepository.insert(tMenu);
-             logger.info("【添加菜单成功！】，菜单："+tMenu);
+             if (StringUtils.isNotEmpty(tMenu.getMenuName())){
+                 if (StringUtils.isNotEmpty(tMenu.getMenuLevel().toString())){
+                     menuRepository.insert(tMenu);
+                     logger.info("【添加菜单成功！】，菜单："+tMenu);
+                 }else {
+                     result = new Result(400,"菜单级别为空");
+                 }
+             }else {
+                 result = new Result(400,"菜单名称为空");
+             }
+
          }catch (Exception e){
-             e.printStackTrace();
+             result = new Result(ResultStatusCode.HTTP_ERROR_400);
              logger.info("【添加菜单失败！】，异常："+ e);
+             e.printStackTrace();
          }
          return result;
     }
@@ -71,16 +82,19 @@ public class MenuServiceImpl implements MenuService {
         Result result = new Result(ResultStatusCode.OK);
         try {
             String token = request.getHeader("Authorization");
+            menuRepository.update(tMenu);
             //删除缓存
             if (token != null){
-                menuRepository.update(tMenu);
                 Claims claims = TokenUtil.parseJWT(token);
                 String tokenKey = claims.get("jti").toString();
                 String[] s = tokenKey.split("_");
                 long userId = Long.valueOf( s[1]);
-                redisUtils.del("menu_"+ userId);
+                if (redisUtils.get("menu_"+ userId)!=null) {
+                    redisUtils.del("menu_" + userId);
+                    logger.info("【删除菜单缓存信息成功！】");
+                }
             }else {
-                result = new Result(ResultStatusCode.KICK_OUT);
+                result = new Result(ResultStatusCode.NOT_LOGIN);
             }
             logger.info("【更新菜单成功！】" + tMenu);
         }catch (Exception e){

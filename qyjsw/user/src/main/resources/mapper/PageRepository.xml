@@ -22,6 +22,15 @@
         </trim>
     </select>
 
+    <select id="findByPage"  resultMap="BaseResultMap">
+		select * from t_page order by page_url limit #{start}, #{pageSize}
+	</select>
+
+    <select id="count" resultType="int">
+        select count(*) from t_page
+    </select>
+
+
     <insert id="insert" parameterType="com.htqyjsw1.entity.TPage">
         insert into t_page
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -55,5 +64,5 @@
     </update>
     <delete id="delete" parameterType="java.lang.Long">
         delete from t_page where page_id = #{pageId,jdbcType=BIGINT}
-      </delete>
+    </delete>
 </mapper>
