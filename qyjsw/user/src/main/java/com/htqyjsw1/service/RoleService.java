@@ -7,6 +7,7 @@ import com.htqyjsw1.vo.RoleRelVO;
 import com.htqyjsw1.vo.RoleVO;
 import com.htqyjsw1.vo.UserRoleVO;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface RoleService {
@@ -58,7 +59,7 @@ public interface RoleService {
      * @desc 更新角色
      * @param rolePO
      */
-    public Result updateRole(RolePO rolePO);
+    public Result updateRole(RolePO rolePO, HttpServletRequest request);
 
     /**
      * @desc 查询角色拥有的权限信息,通过 roleId 和type，返回(type=1 -> 角色-功能，type=2 -> 角色-菜单，type=3 -> 角色-页面，) 关联信息集合

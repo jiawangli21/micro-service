@@ -4,12 +4,16 @@ import com.htqyjsw1.entity.*;
 import com.htqyjsw1.po.RolePO;
 import com.htqyjsw1.repository.RoleRepository;
 import com.htqyjsw1.service.*;
+import com.htqyjsw1.utils.RedisUtils;
+import com.htqyjsw1.utils.TokenUtil;
 import com.htqyjsw1.vo.*;
+import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
@@ -34,6 +38,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
     @Override
     public Result addRole(RolePO role) {
@@ -188,18 +195,44 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Result updateRole(RolePO rolePO) {
+    public Result updateRole(RolePO rolePO, HttpServletRequest request) {
         Result result = new Result(ResultStatusCode.OK);
         try {
-            roleRepository.update(rolePO);
+            if (rolePO.getRoleName()!= null){
+                roleRepository.update(rolePO);
+            }
             List<TRoleRightRel> roleRightRels = rolePO.gettRoleRightRelList();
             Long roleId = rolePO.getRoleId();
-            if (roleRightRels!=null){
+            System.out.println(roleRightRels);
+            //清除角色关联的信息
+            roleRepository.deleteRoleRightRel(roleId);
+            if (roleRightRels != null){
                 for (TRoleRightRel tRoleRightRel : roleRightRels) {
                     tRoleRightRel.setRoleId(roleId);
                 }
                 //添加角色权限关联信息
                 roleRepository.insertRoleRightRel(roleRightRels);
+            }
+
+            String token = request.getHeader("Authorization");
+            //删除缓存
+            if (token != null){
+                Claims claims = TokenUtil.parseJWT(token);
+                String tokenKey = claims.get("jti").toString();
+                String[] s = tokenKey.split("_");
+                long  userId = Long.valueOf( s[1]);
+                if (redisUtils.get("menu_"+ userId)!=null) {
+                    redisUtils.del("menu_" + userId);
+                    logger.info("【删除菜单缓存信息成功！】");
+                }
+                if(redisUtils.get("permission_"+ userId)!=null) {
+                    redisUtils.del("permission_" + userId);
+                }
+                if (redisUtils.get("permissions_"+userId)!=null) {
+                     redisUtils.del("permissions_"+userId);
+                }
+            }else {
+                result = new Result(ResultStatusCode.NOT_LOGIN);
             }
         }catch (Exception e){
             result = new Result(400,"更新角色信息失败！");

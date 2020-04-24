@@ -70,4 +70,12 @@ public interface UserService {
      * @return
      */
     public Result queryByPage(int page, int pageSize);
+
+
+    /**
+     * @desc 查询允许用户访问的路径，返回路径集合
+     * @param userId
+     * @return
+     */
+    public List<String> queryAllowPaths(long userId);
 }

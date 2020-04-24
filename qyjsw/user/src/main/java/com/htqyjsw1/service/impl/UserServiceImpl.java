@@ -187,35 +187,6 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
-    /**
-     * @desc 对 page 去重
-     * @param userRoleVOList
-     */
-    public  List<TPage> getPages(List<UserRoleVO>  userRoleVOList){
-        List<TPage> list = null;
-        for (UserRoleVO userRoleVO : userRoleVOList) {
-            if(userRoleVO != null && userRoleVO.gettPages()!= null) {
-                list = new ArrayList<>();
-                for (TPage tPage : userRoleVO.gettPages()) {
-                    if (list.size() == 0) {
-                        list.add(tPage);
-                    } else {
-                        boolean bool = false;
-                        for (TPage page : list) {
-                            bool = page.equals(tPage);
-                            if (bool) {
-                                break;
-                            }
-                        }
-                        if (!bool) {
-                            list.add(tPage);
-                        }
-                    }
-                }
-            }
-        }
-        return list;
-    }
 
     /**
      * @desc 对 function 去重
@@ -359,7 +330,65 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<String> queryAllowPaths(long userId) {
+        List<String> paths = new LinkedList<>();
+        try{
+            //查询用户所拥有的角色
+            List<TRole> tRoles = roleService.queryRoleByUserId(userId);
+
+            if (tRoles != null) {
+                List<UserRoleVO> userRoleVOList = new ArrayList<>();
+                for (TRole tRole : tRoles) {
+                    UserRoleVO userRoleVO = roleService.queryRoleRel(tRole.getRoleId(), 3);
+                    userRoleVOList.add(userRoleVO);
+                }
+                if (userRoleVOList!=null) {
+                    List<TPage> pages = getPages(userRoleVOList);
+                    for (TPage page : pages) {
+                        paths.add(page.getPageUrl());
+                    }
+                }
+
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return paths;
+    }
+
+    @Override
     public List<TUser> queryUserByRoleId(Long roleId) {
         return userRepository.queryUserByRoleId(roleId);
+    }
+
+    /**
+     * @desc 对 page 去重
+     * @param userRoleVOList
+     */
+    public  List<TPage> getPages(List<UserRoleVO>  userRoleVOList){
+        List<TPage> list = null;
+        for (UserRoleVO userRoleVO : userRoleVOList) {
+            if(userRoleVO != null && userRoleVO.gettPages()!= null) {
+                list = new ArrayList<>();
+                for (TPage tPage : userRoleVO.gettPages()) {
+                    if (list.size() == 0) {
+                        list.add(tPage);
+                    } else {
+                        boolean bool = false;
+                        for (TPage page : list) {
+                            bool = page.equals(tPage);
+                            if (bool) {
+                                break;
+                            }
+                        }
+                        if (!bool) {
+                            list.add(tPage);
+                        }
+                    }
+                }
+            }
+        }
+        return list;
     }
 }

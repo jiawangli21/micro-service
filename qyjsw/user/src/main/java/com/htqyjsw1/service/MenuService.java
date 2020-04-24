@@ -23,7 +23,7 @@ public interface MenuService {
      * @param menuId
      * @return
      */
-    public Result deleteMenu(Long menuId);
+    public Result deleteMenu(Long menuId, HttpServletRequest request);
 
     /**
      * @desc 更新菜单信息

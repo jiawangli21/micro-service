@@ -40,8 +40,8 @@ public class MenuController {
 
     @DeleteMapping("/deleteMenu")
     @ApiOperation(value = "删除菜单信息")
-    public Result deleteMenu(@ApiParam("菜单编号") Long menuId){
-        Result result = menuService.deleteMenu(menuId);
+    public Result deleteMenu(@ApiParam("菜单编号") Long menuId, HttpServletRequest request){
+        Result result = menuService.deleteMenu(menuId,request);
         return result;
     }
 

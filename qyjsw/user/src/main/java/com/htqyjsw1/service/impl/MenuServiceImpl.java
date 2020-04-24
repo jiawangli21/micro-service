@@ -60,11 +60,25 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Result deleteMenu(Long menuId) {
+    public Result deleteMenu(Long menuId, HttpServletRequest request) {
         Result result = new Result(ResultStatusCode.OK);
         try {
             //判断是否有父级菜单
             List<TMenu> tMenuList = menuRepository.findChildenMenus(menuId);
+            String token = request.getHeader("Authorization");
+
+            //删除缓存
+            if (token != null){
+                Claims claims = TokenUtil.parseJWT(token);
+                String tokenKey = claims.get("jti").toString();
+                String[] s = tokenKey.split("_");
+                if (redisUtils.get("menu_"+ Long.valueOf( s[1]))!=null) {
+                    redisUtils.del("menu_" + Long.valueOf( s[1]));
+                    logger.info("【删除菜单缓存信息成功！】");
+                }
+            }else {
+                result = new Result(ResultStatusCode.NOT_LOGIN);
+            }
             if(tMenuList != null){
                 logger.info("删除二级菜单");
                 menuRepository.deleteByParentId(menuId);

@@ -29,32 +29,32 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        InterceptorRegistration regist1 = registry.addInterceptor(getLoginInterceptor());
-//        //所要拦截的请求路径
-//        regist1.addPathPatterns("/**/*");
-//        //不需要拦截的资源
-//        regist1.excludePathPatterns(
-//                "/login/**",
-//                "/**/*.html",            //html静态资源
-//                "/**/*.js",              //js静态资源
-//                "/**/*.css",
-//                "/*.jpg"                 //css静态资源
-//        );
-//        //忽略 swagger-ui.html
-//        regist1.excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
-//
-//
-//        InterceptorRegistration regist2 = registry.addInterceptor(getRightInterceptor());
-//
-//        regist2.addPathPatterns("/**/*");
-//        regist2.excludePathPatterns(
-//                "/login/**",
-//                "/**/*.html",            //html静态资源
-//                "/**/*.js",              //js静态资源
-//                "/**/*.css",
-//                "/*.jpg"                 //css静态资源
-//        );
-//        //忽略 swagger-ui.html
-//        regist2.excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
+        InterceptorRegistration regist1 = registry.addInterceptor(getLoginInterceptor());
+        //所要拦截的请求路径
+        regist1.addPathPatterns("/**/*");
+        //不需要拦截的资源
+        regist1.excludePathPatterns(
+                "/login/**",
+                "/**/*.html",            //html静态资源
+                "/**/*.js",              //js静态资源
+                "/**/*.css",
+                "/*.jpg"                 //css静态资源
+        );
+        //忽略 swagger-ui.html
+        regist1.excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
+
+
+        InterceptorRegistration regist2 = registry.addInterceptor(getRightInterceptor());
+
+        regist2.addPathPatterns("/**/*");
+        regist2.excludePathPatterns(
+                "/login/**",
+                "/**/*.html",            //html静态资源
+                "/**/*.js",              //js静态资源
+                "/**/*.css",
+                "/*.jpg"                 //css静态资源
+        );
+        //忽略 swagger-ui.html
+        regist2.excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
     }
 }

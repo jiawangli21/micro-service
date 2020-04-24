@@ -88,7 +88,9 @@ public class FunctionServiceImpl implements FunctionService {
                 String tokenKey = claims.get("jti").toString();
                 String[] s = tokenKey.split("_");
                 long userId = Long.valueOf( s[1]);
-                redisUtils.del("permission_"+ userId);
+                if(redisUtils.get("permission_"+ userId)!=null) {
+                    redisUtils.del("permission_" + userId);
+                }
                 logger.info("【更新功能信息成功！】" + tFunction);
             }else {
                 result = new Result(ResultStatusCode.NOT_LOGIN);

@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @desc 角色信息管理
  * @author lijiawang
@@ -41,8 +43,8 @@ public class RoleController {
 
     @PostMapping("/updateRole")
     @ApiOperation(value = "修改角色信息")
-    public Result updateRole(@RequestBody RolePO role){
-        Result result = roleService.updateRole(role);
+    public Result updateRole(@RequestBody RolePO role, HttpServletRequest request){
+        Result result = roleService.updateRole(role,request);
         return result;
     }
 

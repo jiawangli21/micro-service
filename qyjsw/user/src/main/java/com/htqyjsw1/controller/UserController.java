@@ -35,11 +35,11 @@ public class UserController {
 
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @Value("${server.port}")
+/*    @Value("${server.port}")
     private String port;
 
     @Value("${server.address}")
-    private String address;
+    private String address;*/
 
     @Autowired
     private UserRepository userRepository;
@@ -47,12 +47,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/address")
+/*    @GetMapping("/address")
     @ApiOperation(value = "获取主机地址")
     public String index() {
         logger.info("当前正在访问的主机地址是："+address);
         return this.address;
-    }
+    }*/
 
     @PutMapping("/addUser")
     @ApiOperation(value = "添加用户信息")

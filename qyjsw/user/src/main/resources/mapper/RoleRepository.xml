@@ -69,7 +69,7 @@
                     and m.menu_id = rr.ele_id
                 </if>
                 <if test="type == 3" >
-                    and p.page_id = rr.ele_id
+                    and p.page_id = rr.ele_id order by p.page_url
                 </if>
     </select>
 

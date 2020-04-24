@@ -30,6 +30,10 @@ public class RightInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String path = request.getServletPath();
+
+        if (path.contains("findByPage")){
+            path = "/"+ path.split("/")[1]+"/"+ path.split("/")[2];
+        }
         //user/findAll
         System.out.println("path = " + path);
         String token = request.getHeader("Authorization");
@@ -37,23 +41,20 @@ public class RightInterceptor extends HandlerInterceptorAdapter {
         Claims claims = TokenUtil.parseJWT(token);
         String tokenKey = claims.get("jti").toString();
 
+
         String[] s = tokenKey.split("_");
         long userId = Long.valueOf( s[1]);
         //查询缓存
         String key  = "permissions_"+userId;
-        List<String> paths = (List<String>) redisUtils.get(key);
-
+        List<String> paths = null;
+        if (redisUtils.get(key)!=null) {
+            paths = (List<String>) redisUtils.get(key);
+        }
         if(paths == null){
             //查询数据库
-            paths = new ArrayList<>();
-            Result userRight = userService.findUserRight(userId);
-            UserRoleVO rightData = (UserRoleVO) userRight.getData();
 
-            List<TPage> pages = rightData.gettPages();
+            paths  = userService.queryAllowPaths(userId);
 
-            for (TPage page : pages) {
-                paths.add(page.getPageUrl());
-            }
             redisUtils.set(key,paths,60*24, TimeUnit.MINUTES);
         }
         if(!paths.contains(path)){

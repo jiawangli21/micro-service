@@ -97,4 +97,6 @@ public interface RoleRepository {
      * @return
      */
     public List<TRole> findByPage(@Param("start") int start,@Param("pageSize") int pageSize);
+
+
 }
