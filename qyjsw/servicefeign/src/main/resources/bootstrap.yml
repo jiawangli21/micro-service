@@ -1,0 +1,21 @@
+spring:
+    application:
+        name: servicefeign
+    cloud:
+        config:
+            fail-fast: false
+            uri: http://localhost:8762
+    profiles:
+        active: dev
+    #允许多个Feignclient 的服务名称相同
+    main:
+      allow-bean-definition-overriding: true
+#配置转发请求头
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+        isolation:
+          strategy: SEMAPHORE

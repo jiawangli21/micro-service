@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.htqyjsw1.repository.MenuRepository">
+<mapper namespace="com.java.repository.MenuRepository">
 
-    <resultMap id="BaseResultMap" type="com.htqyjsw1.entity.TMenu" >
+    <resultMap id="BaseResultMap" type="com.java.entity.TMenu" >
         <id column="menu_id" property="menuId" jdbcType="BIGINT" />
         <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
         <result column="menu_parent" property="menuParent" jdbcType="BIGINT" />
@@ -12,7 +12,7 @@
         <result column="menu_icon" property="menuIcon" jdbcType="VARCHAR" />
     </resultMap>
 
-    <insert id="insert" parameterType="com.htqyjsw1.entity.TMenu" >
+    <insert id="insert" parameterType="com.java.entity.TMenu" >
         insert into t_menu
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="menuName != null" >
@@ -87,7 +87,7 @@
         delete from t_menu where menu_parent = #{menuId}
     </delete>
 
-    <update id="update" parameterType="com.htqyjsw1.entity.TMenu" >
+    <update id="update" parameterType="com.java.entity.TMenu" >
         update t_menu
         <set >
             <if test="menuName != null">

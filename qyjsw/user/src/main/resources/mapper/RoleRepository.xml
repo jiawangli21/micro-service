@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.htqyjsw1.repository.RoleRepository">
+<mapper namespace="com.java.repository.RoleRepository">
 
-    <resultMap id="BaseResultMap" type="com.htqyjsw1.entity.TRole" >
+    <resultMap id="BaseResultMap" type="com.java.entity.TRole" >
         <id column="role_id" property="roleId" jdbcType="BIGINT" />
         <result column="role_name" property="roleName" jdbcType="VARCHAR" />
         <result column="role_creater" property="roleCreater" jdbcType="VARCHAR" />
         <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     </resultMap>
-    <resultMap id="BaseRoleRightRel" type="com.htqyjsw1.entity.TRoleRightRel" >
+    <resultMap id="BaseRoleRightRel" type="com.java.entity.TRoleRightRel" >
         <id column="rr_id" property="rrId" jdbcType="BIGINT" />
         <result column="role_id" property="roleId" jdbcType="BIGINT" />
         <result column="ele_id" property="eleId" jdbcType="BIGINT" />
@@ -17,11 +17,11 @@
         <result column="right_id" property="rightId" jdbcType="BIGINT" />
     </resultMap>
 
-    <resultMap id="BaseUserRole" type="com.htqyjsw1.vo.UserRoleVO" >
+    <resultMap id="BaseUserRole" type="com.java.vo.UserRoleVO" >
         <id column="role_id" property="roleId" jdbcType="BIGINT" />
         <result column="role_name" property="roleName" jdbcType="VARCHAR" />
 
-        <collection property="tMenus" ofType="com.htqyjsw1.entity.TMenu">
+        <collection property="tMenus" ofType="com.java.entity.TMenu">
           <id column="menu_id" property="menuId" jdbcType="BIGINT" />
           <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
           <result column="menu_parent" property="menuParent" jdbcType="BIGINT" />
@@ -32,7 +32,7 @@
           <result column="right_id" property="rightId" jdbcType="BIGINT" />
         </collection>
 
-        <collection property="tPages" ofType="com.htqyjsw1.entity.TPage">
+        <collection property="tPages" ofType="com.java.entity.TPage">
             <id column="page_id" jdbcType="BIGINT" property="pageId" />
             <result column="page_url" jdbcType="VARCHAR" property="pageUrl" />
             <result column="page_desc" jdbcType="VARCHAR" property="pageDesc" />
@@ -40,7 +40,7 @@
             <result column="right_id" property="rightId" jdbcType="BIGINT" />
         </collection>
 
-       <collection property="tFunctions" ofType="com.htqyjsw1.entity.TFunction">
+       <collection property="tFunctions" ofType="com.java.entity.TFunction">
             <result column="fun_id" property="funId" jdbcType="BIGINT" />
             <result column="fun_subsystem_name" property="funSubsystemName" jdbcType="VARCHAR" />
             <result column="fun_name" property="funName" jdbcType="VARCHAR" />
@@ -73,7 +73,7 @@
                 </if>
     </select>
 
-    <insert id="insert"  parameterType="com.htqyjsw1.po.RolePO" useGeneratedKeys="true" keyProperty="roleId" >
+    <insert id="insert" parameterType="com.java.po.RolePO" useGeneratedKeys="true" keyProperty="roleId" >
         insert into t_role(role_name,role_creater,create_time)
                 values(#{roleName,jdbcType=VARCHAR},#{roleCreater,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR})
     </insert>
@@ -97,7 +97,7 @@
         delete from t_user_role_rel where role_id = #{roleId}
     </delete>
 
-    <update id="update" parameterType="com.htqyjsw1.po.RolePO">
+    <update id="update" parameterType="com.java.po.RolePO">
         update t_role set  role_name = #{roleName,jdbcType=VARCHAR} where role_id = #{roleId}
     </update>
 

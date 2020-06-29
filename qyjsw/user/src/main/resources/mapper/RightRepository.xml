@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.htqyjsw1.repository.RightRepository">
+<mapper namespace="com.java.repository.RightRepository">
 
-    <resultMap id="BaseResultMap" type="com.htqyjsw1.entity.TRight" >
+    <resultMap id="BaseResultMap" type="com.java.entity.TRight" >
         <id column="right_id" property="rightId" jdbcType="BIGINT" />
         <result column="right_name" property="rightName" jdbcType="VARCHAR" />
         <result column="right_type" property="rightType" jdbcType="INTEGER" />
     </resultMap>
 
-    <insert id="insert" parameterType="com.htqyjsw1.entity.TRight" >
+    <insert id="insert" parameterType="com.java.entity.TRight" >
         insert into t_right (right_name, right_type ) values (#{rightName,jdbcType=VARCHAR}, #{rightType,jdbcType=INTEGER})
     </insert>
 
@@ -22,7 +22,7 @@
     </select>
 
 
-    <update id="update" parameterType="com.htqyjsw1.entity.TRight" >
+    <update id="update" parameterType="com.java.entity.TRight" >
         update t_right
         <set >
             <if test="rightName != null" >

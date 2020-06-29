@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.htqyjsw1.repository.FunctionRepository">
+<mapper namespace="com.java.repository.FunctionRepository">
 
-    <resultMap id="BaseResultMap" type="com.htqyjsw1.entity.TFunction" >
+    <resultMap id="BaseResultMap" type="com.java.entity.TFunction" >
         <id column="fun_id" property="funId" jdbcType="BIGINT" />
         <result column="fun_subsystem_name" property="funSubsystemName" jdbcType="VARCHAR" />
         <result column="fun_name" property="funName" jdbcType="VARCHAR" />
@@ -29,7 +29,7 @@
             </foreach>
         </trim>
     </select>
-    <insert id="insert" parameterType="com.htqyjsw1.entity.TFunction" >
+    <insert id="insert" parameterType="com.java.entity.TFunction" >
         insert into t_function
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="funSubsystemName != null" >
@@ -52,7 +52,7 @@
      <delete id="delete" parameterType="java.lang.Long" >
           delete from t_function where fun_id = #{funId,jdbcType=BIGINT}
       </delete>
-    <update id="update" parameterType="com.htqyjsw1.entity.TFunction" >
+    <update id="update" parameterType="com.java.entity.TFunction" >
         update t_function
         <set >
             <if test="funSubsystemName != null" >

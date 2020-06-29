@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.htqyjsw1.repository.PageRepository">
+<mapper namespace="com.java.repository.PageRepository">
 
-    <resultMap id="BaseResultMap" type="com.htqyjsw1.entity.TPage">
+    <resultMap id="BaseResultMap" type="com.java.entity.TPage">
         <id column="page_id" jdbcType="BIGINT" property="pageId" />
         <result column="page_url" jdbcType="VARCHAR" property="pageUrl" />
         <result column="page_desc" jdbcType="VARCHAR" property="pageDesc" />
@@ -31,7 +31,7 @@
     </select>
 
 
-    <insert id="insert" parameterType="com.htqyjsw1.entity.TPage">
+    <insert id="insert" parameterType="com.java.entity.TPage">
         insert into t_page
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="pageUrl != null">
@@ -50,7 +50,7 @@
             </if>
         </trim>
     </insert>
-    <update id="update" parameterType="com.htqyjsw1.entity.TPage">
+    <update id="update" parameterType="com.java.entity.TPage">
         update t_page
         <set>
             <if test="pageUrl != null">

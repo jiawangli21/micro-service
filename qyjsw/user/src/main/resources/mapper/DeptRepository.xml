@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.htqyjsw1.repository.DeptRepository">
+<mapper namespace="com.java.repository.DeptRepository">
 
-    <resultMap id="BaseResultMap" type="com.htqyjsw1.entity.TDept" >
+    <resultMap id="BaseResultMap" type="com.java.entity.TDept" >
         <id column="dept_id" property="deptId" jdbcType="INTEGER" />
         <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
         <result column="dept_introduce" property="deptIntroduce" jdbcType="VARCHAR" />
@@ -12,7 +12,7 @@
         <result column="dept_tel" property="deptTel" jdbcType="INTEGER" />
     </resultMap>
 
-    <resultMap id="BaseResultMap2" type="com.htqyjsw1.vo.DeptVO" >
+    <resultMap id="BaseResultMap2" type="com.java.vo.DeptVO" >
         <id column="dept_id" property="deptId" jdbcType="INTEGER" />
         <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
         <result column="dept_introduce" property="deptIntroduce" jdbcType="VARCHAR" />
@@ -21,13 +21,13 @@
         <result column="dept_tel" property="deptTel" jdbcType="INTEGER" />
     </resultMap>
 
-    <resultMap id="BaseTDeptUserRel" type="com.htqyjsw1.entity.TDeptUserRel" >
+    <resultMap id="BaseTDeptUserRel" type="com.java.entity.TDeptUserRel" >
         <id column="du_id" property="duId" jdbcType="BIGINT" />
         <result column="dept_id" property="deptId" jdbcType="BIGINT" />
         <result column="user_id" property="userId" jdbcType="BIGINT" />
     </resultMap>
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="deptId" parameterType="com.htqyjsw1.entity.TDept" >
+    <insert id="insert" useGeneratedKeys="true" keyProperty="deptId" parameterType="com.java.entity.TDept" >
         insert into t_dept
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="deptName != null" >
@@ -105,7 +105,7 @@
         delete from t_dept where dept_id = #{deptId}
     </delete>
 
-    <update id="updateById" parameterType="com.htqyjsw1.entity.TDept" >
+    <update id="updateById" parameterType="com.java.entity.TDept" >
         update t_dept
         <set >
             <if test="deptName != null" >

@@ -11,14 +11,11 @@
     <modules>
         <module>eurekaserver</module>
         <module>configserver</module>
-        <module>order</module>
-        <module>menu</module>
         <module>user</module>
         <module>client</module>
-        <module>searchpage</module>
-        <module>searchpagefeign</module>
         <module>zuul-gateway</module>
         <module>service-invoker</module>
+        <module>servicefeign</module>
     </modules>
 
     <parent>
